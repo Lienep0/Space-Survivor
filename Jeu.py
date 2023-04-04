@@ -18,7 +18,6 @@ class Player:
         if pyxel.btn(pyxel.KEY_UP) and self.y > 0:
             self.y -= 2
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
-            generate()
             self.fireRateCooldown = self.fireRateTimer
             bullet = Bullet(self.x + 1, self.y)
             bullet2 = Bullet(self.x + 6, self.y)
@@ -68,9 +67,10 @@ class Asteroid:
     def update(self):
         self.y += 1
         for bullet in bullet_list:
-            if abs(self.x - bullet.x) < 2 and abs(self.y - bullet.y) < 8:
+            if abs((self.x + 4) - bullet.x) < 8 and abs(self.y - bullet.y) < 8:
+                impact_list.append(Impact(bullet.x, bullet.y))
                 asteroid_list.remove(self)
-
+                break
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 32, 16, 8, 8)
@@ -83,15 +83,13 @@ class Impact:
 
     def update(self):
         self.timer += 1
-        if self.timer == 12:
+        if self.timer == 6:
             impact_list.remove(self)
 
     def draw(self):
-        pyxel.circb(self.x, self.y, 2 * (self.timer // 8), 8 + self.timer % 3)
-
-def generate():
-    global asteroid_list
-    asteroid_list += [Asteroid(randint(0,96))]
+        pyxel.circb(self.x, self.y, self.timer // 2, 8 + self.timer % 3)
+        pyxel.rectb(self.x - 1, self.y - 1, 3, 3, 9)
+        pyxel.pset(self.x, self.y, 9 - self.timer // 3) # C'est un peu moche mais je pensais à un truc comme ça pour les explosions (à modifier)
 
 class App:
     def __init__(self):
@@ -101,14 +99,10 @@ class App:
         global star_list
         global impact_list
 
-        bullet_list = []
-        asteroid_list = []
-        star_list = []
+        bullet_list, asteroid_list, star_list, impact_list = [], [], [], []
         player = Player()
-        impact=Impact(8,8)
-        impact_list = [impact]
         self.framecount = 0
-        self.asteroid_cooldown = 5
+        self.asteroid_cooldown = 10
 
         for _ in range(30):
             star_list+=[Star(randint(2,102),randint(2,138),uniform(1,3))]
@@ -119,7 +113,8 @@ class App:
 
     def update(self):
         self.framecount += 1
-        if self.framecount % self.asteroid_cooldown == 0: generate()
+        if self.framecount % self.asteroid_cooldown == 0:
+            asteroid_list.append(Asteroid(randint(0,96)))
         player.update()
         for bullet in bullet_list:
             bullet.update()
