@@ -59,7 +59,6 @@ class Bullet:
         for asteroid in asteroid_list:
             if abs((asteroid.x + 4) - self.x) < 8 and abs((asteroid.y + 8) - self.y) < 8:
                 global framecount
-                print(self.y, self.x,"collision", framecount)
                 impact_list.append(Impact(self.x, self.y))
                 bullet_list.remove(self)
                 asteroid.hp -= 1
