@@ -1,16 +1,15 @@
 import pyxel
 from random import *
 
-bullet_list, asteroid_list, star_list, impact_list = [], [], [], []
+bullet_list, asteroid_list, star_list, impact_list, pickup_list = [], [], [], [], []
+score = 0
 framecount = 0
-player = None
-in_menu = True
 
 class Player:
     def __init__(self):
-        self.x = 48
-        self.y = 100
-        self.fireRateTimer = 3
+        self.x = 60
+        self.y = 60
+        self.fireRateTimer = 5
         self.fireRateCooldown = 0
 
     def player_controls(self):
@@ -25,8 +24,6 @@ class Player:
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
             self.fireRateCooldown = self.fireRateTimer
             bullet_list.extend([Bullet(self.x + 1, self.y), Bullet(self.x + 6, self.y)])
-        if pyxel.btn(pyxel.KEY_R):
-            reset_game()
 
     def update(self):
         self.fireRateCooldown -= 1
@@ -85,6 +82,21 @@ class Asteroid:
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 32, 16, 8, 8, 0)
 
+class pickup:   #collectible pour augmenter le score
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+    def update(self):
+        self.y += 1
+        if abs(self.x - (game.player.x + 8)) < 4 and abs(self.y - (game.player.y + 8)) < 4:
+            pickup_list.remove(self)
+            score += 50
+
+    def draw(self):
+        pyxel.circb(self.x, self.y, 2, 10)
+
+
 class Impact:
     def __init__(self,x,y):
         self.x = x
@@ -99,27 +111,15 @@ class Impact:
     def draw(self):
         pyxel.circb(self.x, self.y, self.timer // 2, 8 + self.timer % 3) #Probablement à modifier
 
-class Miniboss:
-    def __init__(self):
-        self.x = 40
-        self.y = -8
-        self.hp = 6
-
-    def update(self):
-        if y <= 50: self.y += 1
-
-    def draw(self):
-        pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
-
 class App:
     def __init__(self):
         self.asteroid_cooldown = 10
-        global player
-        player = Player()
+        self.player = Player()
 
-        generate_stars()
+        for _ in range(30):
+            star_list.append(Star(randint(2,102),randint(2,138),uniform(2,4)))
 
-        pyxel.init(104,140, title="Space Survivor")
+        pyxel.init(104, 140, title="Space Survivor")
         pyxel.load("Jeu.pyxres")
         pyxel.run(self.update, self.draw)
 
@@ -129,40 +129,22 @@ class App:
         if framecount % self.asteroid_cooldown == 0: #Génère un astéroide toutes les "asteroid_cooldown" frames
             asteroid_list.append(Asteroid(randint(0,96)))
 
-        player.update()
-        for element in star_list + asteroid_list + impact_list + bullet_list: #Evil python hack
+        self.player.update()
+        for element in star_list + asteroid_list + impact_list + bullet_list + pickup_list:
             element.update()
 
     def draw(self):
         pyxel.cls(0)
-        for element in star_list + asteroid_list + impact_list + bullet_list:
-            element.draw()
-        player.draw()
-
-def generate_stars():
-    for _ in range(30):
-        star_list.append(Star(randint(2,102),randint(2,138),uniform(2,4)))
-
-def reset_game():
-    star_list.clear()
-    asteroid_list.clear()
-    asteroid_list.clear()
-    bullet_list.clear()
-    framecount = 0
-    player.x = 48
-    player.y = 100
-
-    generate_stars()
-
-class Menu:
-    def __init__(self):
-        pass
-
-    def update():
-        pass
-
-    def draw():
-        pass
+        for star in star_list:
+            star.draw()
+        for asteroid in asteroid_list:
+            asteroid.draw()
+        for bullet in bullet_list:
+            bullet.draw()
+        for impact in impact_list + pickup_list:
+            impact.draw()
+        pyxel.text(0,0, 'SCORE:'+ int(score), 7)
+        self.player.draw()
 
 if __name__ == "__main__":
     game = App()
