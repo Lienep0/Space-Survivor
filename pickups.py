@@ -1,5 +1,7 @@
 import pyxel
 
+from constants import GAME_HEIGHT
+
 pickup_list = []
 
 class Pickup:   #collectible pour augmenter le score
@@ -9,11 +11,8 @@ class Pickup:   #collectible pour augmenter le score
 
     def update(self):
         self.y += 1
-        # if abs(self.x - (player.x + 8)) < 4 and abs(self.y - (player.y + 8)) < 4:
-        #    pickup_list.remove(self)
-        #    score += 50
-        
-        #On va la faire dans player la collision
+        if self.y > GAME_HEIGHT + 2:
+            pickup_list.remove(self)
 
     def draw(self):
-        pyxel.circb(self.x, self.y, 2, 10)
+        pyxel.circ(self.x, self.y, 2, 10)

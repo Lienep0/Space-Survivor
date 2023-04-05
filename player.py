@@ -1,6 +1,9 @@
 import pyxel
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y
+
 from bullets import *
+from pickups import pickup_list
+from asteroids import asteroid_list
+from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y
 
 class Player:
     def __init__(self):
@@ -22,9 +25,23 @@ class Player:
             self.fireRateCooldown = self.fireRateTimer
             bullet_list.extend([Bullet(self.x + 1, self.y), Bullet(self.x + 6, self.y)])
 
+    def check_pickups(self):
+        for pickup in pickup_list:
+            dx = (pickup.x - self.x)
+            dy = (pickup.y - self.y)
+            if -3 < dx and dx < 10 and -4 < dy and dy < 10:
+                pickup_list.remove(pickup)
+
+    def check_asteroids(self):
+        for asteroid in asteroid_list:
+            if abs(asteroid.x - self.x) < 8 and abs(asteroid.y - self.y) < 8:
+                asteroid_list.remove(asteroid)
+
     def update(self):
         self.fireRateCooldown -= 1
         self.player_controls()
+        self.check_pickups()
+        self.check_asteroids()
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8, 0)
