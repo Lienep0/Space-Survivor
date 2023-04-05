@@ -13,13 +13,13 @@ class Menu:
         self.in_menu = True
         generate_stars()
 
-        pyxel.init(GAME_WIDTH, GAME_HEIGHT, title="Space Survivor")
+        pyxel.init(GAME_WIDTH, GAME_HEIGHT, title=TITLE, fps=FPS)
         pyxel.load("game.pyxres")
         pyxel.run(self.update, self.draw)
 
     def update(self):
         if pyxel.btn(pyxel.KEY_R):
-            reset_game()
+            reset_game(self)
         for star in star_list:
             star.update()        
         if self.in_menu:
@@ -33,26 +33,29 @@ class Menu:
         for star in star_list:
             star.draw()
         if self.in_menu:
-            pyxel.blt(24, 50, 0, 8, 64, 40, 8) #SPACE
-            pyxel.blt(16, 58, 0, 0, 72, 64, 8) #SURVIVOR
+            pyxel.blt(32, 20, 0, 8, 64, 40, 8, 0) #SPACE
+            pyxel.blt(23, 28, 0, 0, 72, 64, 8, 0) #SURVIVOR
+            pyxel.text(27, 48, "High scores :", 7)
+            pyxel.text(30, 60, "XXX  000000", 7)
+            pyxel.text(30, 70, "XXX  000000", 7)
+            pyxel.text(30, 80, "XXX  000000", 7)
+            pyxel.text(10, 100, "Press SPACE to Start !", 7)
             pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 0, 8, 8, 8, 0) #PLAYER
         else: 
             self.app.draw()
 
-def reset_game():
+def reset_game(menu):
     global framecount
-    global game
 
     framecount = 0
-    game.in_menu = False
+    menu.in_menu = True
     star_list.clear()
     asteroid_list.clear()
     asteroid_list.clear()
     bullet_list.clear()
     pickup_list.clear()
-    player.x = PLAYER_STARTING_X
-    player.y = PLAYER_STARTING_Y
 
     generate_stars()
 
+menu = Menu()
 game = Menu()
