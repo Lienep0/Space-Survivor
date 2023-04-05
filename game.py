@@ -5,15 +5,12 @@ from player import *
 from asteroids import *
 from stars import *
 from pickups import *
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y
 
 framecount = 0
 
 class App:
     def __init__(self):
         self.asteroid_cooldown = 10
-        global player
-        player = Player()
 
     def update(self):
         global framecount
@@ -30,17 +27,3 @@ class App:
         for element in star_list + asteroid_list + impact_list + bullet_list:
             element.draw()
         player.draw()
-
-def reset_game():
-    global framecount
-
-    star_list.clear()
-    asteroid_list.clear()
-    asteroid_list.clear()
-    bullet_list.clear()
-    pickup_list.clear()
-    framecount = 0
-    player.x = PLAYER_STARTING_X
-    player.y = PLAYER_STARTING_Y
-
-    generate_stars()

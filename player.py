@@ -28,3 +28,5 @@ class Player:
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8, 0)
+    
+player = Player()

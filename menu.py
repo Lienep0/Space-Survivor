@@ -1,7 +1,10 @@
 import pyxel
 
 from game import App, generate_stars
-from stars import star_list
+from player import *
+from asteroids import *
+from stars import *
+from pickups import *
 from constants import *
 
 class Menu:
@@ -15,6 +18,8 @@ class Menu:
         pyxel.run(self.update, self.draw)
 
     def update(self):
+        if pyxel.btn(pyxel.KEY_R):
+            reset_game()
         for star in star_list:
             star.update()        
         if self.in_menu:
@@ -33,5 +38,21 @@ class Menu:
             pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 0, 8, 8, 8, 0) #PLAYER
         else: 
             self.app.draw()
+
+def reset_game():
+    global framecount
+    global game
+
+    framecount = 0
+    game.in_menu = False
+    star_list.clear()
+    asteroid_list.clear()
+    asteroid_list.clear()
+    bullet_list.clear()
+    pickup_list.clear()
+    player.x = PLAYER_STARTING_X
+    player.y = PLAYER_STARTING_Y
+
+    generate_stars()
 
 game = Menu()
