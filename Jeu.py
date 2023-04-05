@@ -4,7 +4,6 @@ from random import *
 bullet_list, asteroid_list, star_list, impact_list, pickup_list = [], [], [], [], []
 framecount = 0
 player = None
-in_menu = True
 
 class Player:
     def __init__(self):
@@ -92,7 +91,7 @@ class pickup:   #collectible pour augmenter le score
 
     def update(self):
         self.y += 1
-        if abs(self.x - (game.player.x + 8)) < 4 and abs(self.y - (game.player.y + 8)) < 4:
+        if abs(self.x - (player.x + 8)) < 4 and abs(self.y - (player.y + 8)) < 4:
             pickup_list.remove(self)
             score += 50
 
@@ -120,7 +119,7 @@ class Miniboss:
         self.hp = 6
 
     def update(self):
-        if y <= 50: self.y += 1
+        if self.y <= 50: self.y += 1
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
@@ -130,12 +129,7 @@ class App:
         self.asteroid_cooldown = 10
         global player
         player = Player()
-
         generate_stars()
-
-        pyxel.init(104,140, title="Space Survivor")
-        pyxel.load("Jeu.pyxres")
-        pyxel.run(self.update, self.draw)
 
     def update(self):
         global framecount
@@ -172,13 +166,26 @@ def reset_game():
 
 class Menu:
     def __init__(self):
-        pass
+        self.app = App()
+        self.in_menu = True
 
-    def update():
-        pass
+        pyxel.init(104,140, title="Space Survivor")
+        pyxel.mouse(True)
+        pyxel.load("Jeu.pyxres")
+        pyxel.run(self.update, self.draw)
 
-    def draw():
-        pass
+    def update(self):
+        if self.in_menu:
+            if abs(52 - pyxel.mouse_x) < 20 and abs(75 - pyxel.mouse_y) < 5 and pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
+                self.in_menu = False
+        else: self.app.update()
+
+    def draw(self):
+        if self.in_menu:
+            pyxel.cls(0)
+            pyxel.text(24, 50, "SPACE SURVIVOR", 1)
+            pyxel.rect(32, 70, 40, 10, 1)
+        else: self.app.draw()
 
 if __name__ == "__main__":
-    game = App()
+    game = Menu()
