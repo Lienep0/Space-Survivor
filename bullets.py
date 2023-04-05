@@ -16,7 +16,7 @@ class Bullet:
             dx = asteroid.x - self.x
             dy = asteroid.y - self.y
             if -8 < dx and dx < 1 and -8 < dy and dy < 6:
-                impact_list.append(Impact(self.x, self.y + 3))
+                particle_list.append(Impact(self.x, self.y + 3))
                 asteroid.hp -= 1
                 if asteroid.hp == 0:
                     pickup_list.append(Pickup(asteroid.x + 3, asteroid.y + 3))

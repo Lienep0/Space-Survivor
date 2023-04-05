@@ -1,6 +1,6 @@
 import pyxel
 
-impact_list = []
+particle_list = []
 
 class Impact:
     def __init__(self,x,y):
@@ -11,7 +11,7 @@ class Impact:
     def update(self):
         self.timer += 1
         if self.timer == 6:
-            impact_list.remove(self)
+            particle_list.remove(self)
 
     def draw(self):
         pyxel.circb(self.x, self.y, self.timer // 2, 8 + self.timer % 3) #Probablement à modifier

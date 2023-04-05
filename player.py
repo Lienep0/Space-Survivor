@@ -32,16 +32,10 @@ class Player:
             if -3 < dx and dx < 10 and -4 < dy and dy < 10:
                 pickup_list.remove(pickup)
 
-    def check_asteroids(self):
-        for asteroid in asteroid_list:
-            if abs(asteroid.x - self.x) < 8 and abs(asteroid.y - self.y) < 8:
-                asteroid_list.remove(asteroid)
-
     def update(self):
         self.fireRateCooldown -= 1
         self.player_controls()
         self.check_pickups()
-        self.check_asteroids()
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8, 0)
