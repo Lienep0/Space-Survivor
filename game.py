@@ -10,14 +10,15 @@ framecount = 0
 
 class App:
     def __init__(self):
-        self.asteroid_cooldown = 10
+        self.asteroid_cooldown = 5
 
     def update(self):
         global framecount
         framecount += 1
 
         if framecount % self.asteroid_cooldown == 0: #Génère un astéroide toutes les "asteroid_cooldown" frames
-            asteroid_list.append(Asteroid(randint(0,96)))
+            # asteroid_list.append(Asteroid(randint(0,96)))
+            asteroid_list.append(Asteroid(40))
 
         player.update()
         for element in asteroid_list + impact_list + bullet_list + pickup_list: #Evil python hack
@@ -27,4 +28,3 @@ class App:
         pyxel.cls(0)
         for element in star_list + asteroid_list + impact_list + bullet_list + pickup_list:
             element.draw()
-        player.draw()
