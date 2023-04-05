@@ -1,6 +1,8 @@
 import pyxel
+
 from game import App, generate_stars
-from globals import star_list
+from stars import star_list
+from constants import *
 
 class Menu:
     def __init__(self):
@@ -8,7 +10,7 @@ class Menu:
         self.in_menu = True
         generate_stars()
 
-        pyxel.init(104,140, title="Space Survivor")
+        pyxel.init(GAME_WIDTH, GAME_HEIGHT, title="Space Survivor")
         pyxel.load("game.pyxres")
         pyxel.run(self.update, self.draw)
 
@@ -28,7 +30,7 @@ class Menu:
         if self.in_menu:
             pyxel.blt(24, 50, 0, 8, 64, 40, 8) #SPACE
             pyxel.blt(16, 58, 0, 0, 72, 64, 8) #SURVIVOR
-            pyxel.blt(48, 100, 0, 0, 8, 8, 8, 0) #PLAYER
+            pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 0, 8, 8, 8, 0) #PLAYER
         else: 
             self.app.draw()
 
