@@ -1,18 +1,19 @@
 import pyxel
+from random import randint
 
-from game import App
-from stars import *
 from constants import *
 from player import player
-from particles import particle_list
+from asteroids import *
 from bullets import bullet_list
-from asteroids import asteroid_list
 from pickups import pickup_list
+from particles import particle_list
+from stars import generate_stars, star_list
 
-class Menu:
+class Main:
     def __init__(self):
-        self.app = App()
         self.state = "MAIN_MENU"
+        self.framecount = 0
+
         generate_stars()
 
         pyxel.init(GAME_WIDTH, GAME_HEIGHT, title=TITLE, fps=FPS)
@@ -30,11 +31,19 @@ class Menu:
         elif self.state == "GAME_OVER":
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "MAIN_MENU"
-        else: 
+        else:
+            self.framecount += 1
+
+            if self.framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
+                asteroid_list.append(Asteroid(randint(0,GAME_WIDTH - 8)))
+
+            player.update()
+            for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
+                element.update()
+
             for asteroid in asteroid_list:
                 if abs(asteroid.x - player.x) < 8 and abs(asteroid.y - player.y) < 8:
                     reset_game(self)
-            self.app.update()
 
     def draw(self):
         pyxel.cls(0)
@@ -52,26 +61,29 @@ class Menu:
         elif self.state == "GAME_OVER":
             pyxel.blt(20, 20, 1, 0, 0, 64, 16) #GAME
             pyxel.blt(20, 36, 1, 0, 16, 64, 16) #OVER
-            pyxel.text(24, 42, ":/", 7)
             pyxel.text(24, 90, "Press SPACE to", 7)
             pyxel.text(22, 100, "go back to MENU", 7)
         else: 
-            self.app.draw()
+            pyxel.cls(0)
+            player.draw()
+            for element in star_list + asteroid_list + particle_list + bullet_list + pickup_list:
+                element.draw()
 
 def reset_game(game):
-    global framecount
 
-    framecount = 0
+    game.framecount = 0
     game.state = "GAME_OVER"
+
     star_list.clear()
     asteroid_list.clear()
     asteroid_list.clear()
     bullet_list.clear()
     pickup_list.clear()
     particle_list.clear()
+    
     player.x = PLAYER_STARTING_X
     player.y = PLAYER_STARTING_Y
 
     generate_stars()
 
-game = Menu()
+game = Main()

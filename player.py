@@ -2,7 +2,6 @@ import pyxel
 
 from bullets import *
 from pickups import pickup_list
-from asteroids import asteroid_list
 from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y
 
 class Player:
