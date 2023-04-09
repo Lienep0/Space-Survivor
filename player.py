@@ -2,7 +2,7 @@ import pyxel
 
 from bullets import *
 from pickups import pickup_list
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, BULLET_SOUND, CHANNEL_1, PICKUP_SOUND, CHANNEL_3, MAGNET_RANGE, BULLET_COOLDOWN
+from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, BULLET_SOUND, CHANNEL_1, PICKUP_SOUND, CHANNEL_3, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES
 from movetowards import move_towards
 
 class Player:
@@ -11,6 +11,10 @@ class Player:
         self.y = PLAYER_STARTING_Y
         self.size = 8
         self.fireRateCooldown = 0
+        self.iFramesCooldown = 0
+        self.xp = 0
+        self.hp = PLAYER_HP
+        self.visible = True
 
     def player_controls(self):
         if pyxel.btn(pyxel.KEY_RIGHT) and self.x < 96:
@@ -40,18 +44,36 @@ class Player:
             dy = (pickup.y - self.y)
             if -3 < dx and dx < 10 and -4 < dy and dy < 10:
                 pyxel.play(PICKUP_SOUND, CHANNEL_3)
+                self.xp += 1
                 pickup_list.remove(pickup)
 
-    def update(self):
-        self.fireRateCooldown -= 1
-        self.player_controls()
-        self.check_pickups_activate()
+    def check_asteroids(self):
+        for asteroid in asteroid_list:            
+            dx = asteroid.x - self.x
+            dy = asteroid.y - self.y
+            if -asteroid.size < dx and dx < self.size and -asteroid.size < dy and dy < self.size:
+                self.hp -=1
+                self.iFramesCooldown = PLAYER_IFRAMES
+
+    def attract_pickups(self):
         for pickup in pickup_list:
             if pickup.activated:
                 pickup.x, pickup.y = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed)
+
+    def update(self):
+        self.fireRateCooldown -= 1
+        self.iFramesCooldown -= 1
+        if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0:
+            self.visible = not self.visible
+        self.player_controls()
+        if self.iFramesCooldown <= 0:
+            self.check_asteroids()
+        self.check_pickups_activate()
         self.check_pickups_collect()
 
-    def draw(self):
-        pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8, 0)
+    def draw(self):   
+        if self.visible: 
+            pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8, 0) # Player Ship
+                
     
 player = Player()

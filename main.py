@@ -8,11 +8,11 @@ from bullets import bullet_list
 from pickups import pickup_list
 from particles import particle_list
 from stars import generate_stars, star_list
+from ui import *
 
 class Main:
     def __init__(self):
         self.state = "MAIN_MENU"
-        self.framecount = 0
         self.asteroid_toggle = True
 
         generate_stars()
@@ -35,11 +35,12 @@ class Main:
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "MAIN_MENU"
         else:
-            self.framecount += 1
+            global framecount
+            framecount += 1
 
             if self.asteroid_toggle:
-                if self.framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
-                    asteroid_list.append(Asteroid(randint(0, GAME_WIDTH - ASTEROID_TYPE_1_SIZE), ASTEROID_TYPE_1))
+                if framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
+                    asteroid_list.append(Asteroid(randint(0, GAME_WIDTH - ASTEROID_TYPE_2_SIZE), ASTEROID_TYPE_2))
 
             if pyxel.btnp(pyxel.KEY_1):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_1_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_1))
             if pyxel.btnp(pyxel.KEY_2):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_2_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_2))
@@ -48,12 +49,11 @@ class Main:
             player.update()
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
                 element.update()
+            ui.update()
 
-            for asteroid in asteroid_list:            
-                dx = asteroid.x - player.x
-                dy = asteroid.y - player.y
-                if -asteroid.size < dx and dx < player.size and -asteroid.size < dy and dy < player.size:
-                    reset_game(self)
+            if player.hp <= 0:
+                reset_game(self)
+
 
     def draw(self):
         pyxel.cls(0)
@@ -82,13 +82,15 @@ class Main:
             pyxel.text(22, 100, "go back to MENU", 7)
         else: 
             pyxel.cls(0)
-            player.draw()
             for element in star_list + asteroid_list + particle_list + bullet_list + pickup_list:
                 element.draw()
+            player.draw()
+            ui.draw()
 
 def reset_game(game):
 
-    game.framecount = 0
+    global framecount
+    framecount = 0
     game.state = "GAME_OVER"
 
     star_list.clear()
@@ -100,6 +102,10 @@ def reset_game(game):
     
     player.x = PLAYER_STARTING_X
     player.y = PLAYER_STARTING_Y
+    player.hp = PLAYER_HP
+    player.xp = 0
+    player.iFramesCooldown = 0
+    player.visible = True
 
     generate_stars()
 
