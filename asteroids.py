@@ -1,6 +1,6 @@
 import pyxel
 
-from constants import GAME_HEIGHT, ASTEROID_TYPE_1, ASTEROID_TYPE_2, ASTEROID_TYPE_3
+from constants import GAME_HEIGHT, ASTEROID_TYPE_1, ASTEROID_TYPE_2, ASTEROID_TYPE_3, ASTEROID_TYPE_1_SIZE, ASTEROID_TYPE_2_SIZE, ASTEROID_TYPE_3_SIZE
 
 asteroid_list = []
 
@@ -11,17 +11,17 @@ class Asteroid:
         self.speed = 1
 
         if type == ASTEROID_TYPE_1:
-            self.size = 8
+            self.size = ASTEROID_TYPE_1_SIZE
             self.spritexcoord = 32
             self.spriteycoord = 16
             self.hp = 6
         elif type == ASTEROID_TYPE_2:
-            self.size = 16
+            self.size = ASTEROID_TYPE_2_SIZE
             self.spritexcoord = 48
             self.spriteycoord = 0
             self.hp = 12
         elif type == ASTEROID_TYPE_3:
-            self.size = 32
+            self.size = ASTEROID_TYPE_3_SIZE
             self.spritexcoord = 0
             self.spriteycoord = 32
             self.hp = 24
