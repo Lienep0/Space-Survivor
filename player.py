@@ -69,6 +69,7 @@ class Player:
         if self.iFramesCooldown <= 0:
             self.check_asteroids()
         self.check_pickups_activate()
+        self.attract_pickups()
         self.check_pickups_collect()
 
     def draw(self):   
