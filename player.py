@@ -2,7 +2,7 @@ import pyxel
 
 from bullets import *
 from pickups import pickup_list
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION
+from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, XP_REQUIREMENTS
 from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND
 from movetowards import move_towards
 
@@ -13,6 +13,7 @@ class Player:
         self.size = 8
         self.fireRateCooldown = 0
         self.iFramesCooldown = 0
+        self.level = 0
         self.xp = 0
         self.hp = PLAYER_HP
         self.visible = True
@@ -67,6 +68,10 @@ class Player:
         self.fireRateCooldown -= 1
         self.iFramesCooldown -= 1
 
+        if self.xp == XP_REQUIREMENTS[self.level]:
+            self.xp = 0
+            self.level += 1
+
         if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
         if self.active: self.player_controls()
         if self.iFramesCooldown <= 0: self.check_asteroids()
@@ -77,7 +82,7 @@ class Player:
 
     def draw(self):   
         if self.visible: 
-            pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8, 0) # Player Ship
+            pyxel.blt(self.x, self.y, 0, 0, 8, self.size, self.size, 0) # Player Ship
                 
     
 player = Player()

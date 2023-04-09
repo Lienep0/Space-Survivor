@@ -1,6 +1,6 @@
 import pyxel
 
-from constants import GAME_HEIGHT
+from constants import GAME_HEIGHT, XP_REQUIREMENTS
 from player import player
 
 class Ui:
@@ -18,6 +18,9 @@ class Ui:
 
             # Xp
             pyxel.blt(2, GAME_HEIGHT - 7, 0, 0, 80, 44, 5, 0) # Xp UI Outline
-            pyxel.rect(15, GAME_HEIGHT - 6, min(player.xp, 30), 3, 10) #Xp UI Bar
+            pyxel.rect(15, GAME_HEIGHT - 6,
+                        min(player.xp * 30/XP_REQUIREMENTS[player.level], 30), 
+                        3, 10) #Xp UI Bar
+            pyxel.text(2, GAME_HEIGHT - 25, str(player.xp), 7)
 
 ui = Ui()

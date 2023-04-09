@@ -12,13 +12,28 @@ PLAYER_HP = 3
 PLAYER_IFRAMES = 30
 PLAYER_DEATHFREEZE_DURATION = 30
 
+BULLET_DAMAGE = 1
+BULLET_COOLDOWN = 3
+MAGNET_RANGE = 5
+
 ASTEROID_COOLDOWN = 10
 ASTEROID_OFFSET_FROM_BORDERS = 2
 ASTEROID_HITBOX_CORRECTION = 0
 
-BULLET_DAMAGE = 1
-BULLET_COOLDOWN = 3
-MAGNET_RANGE = 5
+XP_REQUIREMENTS = {
+    0:30,
+    1:40,
+    2:50,
+    3:60,
+    4:70,
+    5:80,
+    6:90,
+    7:100,
+    8:110,
+    9:120,
+    10:130,
+    11:-1 # No more xp
+}
 
 ASTEROIDS = {
     "SMALL_ASTEROID": {"type": 0, "size": 8, "spritexcoord": 32, "spriteycoord": 16, "hp": 6, "xp": 1},
