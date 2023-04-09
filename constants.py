@@ -10,7 +10,7 @@ PLAYER_STARTING_X = 48
 PLAYER_STARTING_Y = 120
 PLAYER_HP = 3
 PLAYER_IFRAMES = 30
-PLAYER_DEATHFREEZE_DURATION = 50
+PLAYER_DEATHFREEZE_DURATION = 30
 
 ASTEROID_COOLDOWN = 10
 ASTEROID_OFFSET_FROM_BORDERS = 2
@@ -19,13 +19,11 @@ BULLET_DAMAGE = 1
 BULLET_COOLDOWN = 3
 MAGNET_RANGE = 5
 
-ASTEROID_TYPE_1 = 0
-ASTEROID_TYPE_2 = 1
-ASTEROID_TYPE_3 = 2
-
-ASTEROID_TYPE_1_SIZE = 8
-ASTEROID_TYPE_2_SIZE = 16
-ASTEROID_TYPE_3_SIZE = 32
+ASTEROIDS = {
+    "SMALL_ASTEROID": {"type": 0, "size": 8, "spritexcoord": 32, "spriteycoord": 16, "hp": 6, "xp": 1},
+    "MEDIUM_ASTEROID": {"type": 1, "size": 16, "spritexcoord": 48, "spriteycoord": 0, "hp": 12, "xp": 8},
+    "LARGE_ASTEROID": {"type": 2, "size": 32, "spritexcoord": 0, "spriteycoord": 32, "hp": 24, "xp": 16}
+}
 
 #Sounds
 CHANNEL_1 = 0

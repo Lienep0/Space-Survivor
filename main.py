@@ -29,7 +29,7 @@ class Main:
             self.asteroid_toggle = not self.asteroid_toggle
         for star in star_list:
             star.update()        
-        if self.state == "MAIN_MENU":
+        if self.state == "MAIN_MENU":    
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "GAME"
         elif self.state == "GAME_OVER":
@@ -41,11 +41,11 @@ class Main:
 
             if self.asteroid_toggle:
                 if framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
-                    asteroid_list.append(Asteroid(randint(0, GAME_WIDTH - ASTEROID_TYPE_2_SIZE), ASTEROID_TYPE_2))
+                    asteroid_list.append(Asteroid(randint(0, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"]), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
 
-            if pyxel.btnp(pyxel.KEY_1):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_1_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_1))
-            if pyxel.btnp(pyxel.KEY_2):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_2_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_2))
-            if pyxel.btnp(pyxel.KEY_3):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_3_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_3))
+            if pyxel.btnp(pyxel.KEY_1):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["SMALL_ASTEROID"]["type"]))
+            if pyxel.btnp(pyxel.KEY_2):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
+            if pyxel.btnp(pyxel.KEY_3):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["LARGE_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["LARGE_ASTEROID"]["type"]))
 
             player.update()
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
@@ -90,12 +90,14 @@ class Main:
             pyxel.text(22, 100, "go back to MENU", 7)
         else: 
             pyxel.cls(0)
-            for element in star_list + particle_list:
-                element.draw()
+            for star in star_list:
+                star.draw()
             if player.active:
                 for element in asteroid_list + bullet_list + pickup_list:
                     element.draw()
-                    player.draw()
+                player.draw()
+            for particle in particle_list:
+                particle.draw()
             ui.draw()
 
 def reset_game(game):

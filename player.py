@@ -36,7 +36,7 @@ class Player:
             if not pickup.activated:
                 dx = (pickup.x - self.x)
                 dy = (pickup.y - self.y)
-                if -3 - MAGNET_RANGE< dx and dx < 10 +MAGNET_RANGE and -4 - MAGNET_RANGE < dy and dy < 10 + MAGNET_RANGE:
+                if -3 - MAGNET_RANGE < dx and dx < 10 + MAGNET_RANGE and -4 - MAGNET_RANGE < dy and dy < 10 + MAGNET_RANGE:
                     pickup.activated = True
 
     def check_pickups_collect(self):
@@ -52,9 +52,9 @@ class Player:
         for asteroid in asteroid_list:            
             dx = asteroid.x - self.x
             dy = asteroid.y - self.y
-            if -asteroid.size < dx and dx < self.size and -asteroid.size < dy and dy < self.size:
-                self.hp -=1
-                self.iFramesCooldown = PLAYER_IFRAMES
+            if -asteroid.parameters.size < dx and dx < self.size and -asteroid.parameters.size < dy and dy < self.size:
+                self.hp -= 1
+                self.iFramesCooldown  = PLAYER_IFRAMES
 
     def attract_pickups(self):
         for pickup in pickup_list:

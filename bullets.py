@@ -18,10 +18,10 @@ class Bullet:
         for asteroid in asteroid_list:
             dx = asteroid.x - self.x
             dy = asteroid.y - self.y
-            if -asteroid.size < dx and dx < self.xsize and -asteroid.size < dy and dy < self.ysize:
+            if -asteroid.parameters.size < dx and dx < self.xsize and -asteroid.parameters.size < dy and dy < self.ysize:
                 pyxel.play(CHANNEL_2, IMPACT_SOUND)
                 particle_list.append(Impact(self.x, self.y + 3))
-                asteroid.hp -= self.damage
+                asteroid.parameters.hp -= self.damage
                 if self in bullet_list:
                     bullet_list.remove(self)
 

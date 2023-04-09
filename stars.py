@@ -1,6 +1,8 @@
 import pyxel
 from random import randint, uniform
 
+from constants import GAME_HEIGHT, GAME_WIDTH
+
 star_list = []
 
 class Star:
@@ -11,10 +13,10 @@ class Star:
 
     def update(self):
         self.y += self.speed
-        if self.y > 138:
+        if self.y > GAME_HEIGHT:
             self.y = 0
-            self.x = randint(2,94)
-            self.speed = uniform(2,4)
+            self.x = randint(2, GAME_WIDTH - 2)
+            self.speed = uniform(2, 4)
 
     def draw(self):
         pyxel.pset(self.x, self.y, 1)
