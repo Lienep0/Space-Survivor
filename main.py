@@ -3,6 +3,7 @@ from random import randint
 
 from constants import *
 from player import player
+from miniboss import *
 from asteroids import *
 from bullets import bullet_list
 from pickups import pickup_list
@@ -13,8 +14,9 @@ from ui import *
 class Main:
     def __init__(self):
         self.state = "MAIN_MENU"
-        self.asteroid_toggle = True
+        self.asteroid_toggle = False
         self.timeofdeath = -100
+        self.miniboss = None
 
         generate_stars()
 
@@ -22,11 +24,42 @@ class Main:
         pyxel.load("game.pyxres")
         pyxel.run(self.update, self.draw)
 
+    def check_for_death(self):
+        if player.hp <= 0 and self.timeofdeath < 0:
+            particle_list.append(PlayerExplosion(player.x + 3, player.y + 3))
+            pyxel.play(0, PLAYER_DEATH_SOUND)
+            player.active = False
+            self.timeofdeath = framecount
+        
+        if self.timeofdeath + PLAYER_DEATHFREEZE_DURATION == framecount :
+            reset_game(self)
+
+    def spawn_asteroids(self):
+        global framecount
+        framecount += 1
+
+        if self.asteroid_toggle:
+            if framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
+                asteroid_list.append(Asteroid(randint(
+                    ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"]- ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
+
+        if pyxel.btnp(pyxel.KEY_1): 
+            asteroid_list.append(Asteroid(randint(
+                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))
+        if pyxel.btnp(pyxel.KEY_2): 
+            asteroid_list.append(Asteroid(randint(
+                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
+        if pyxel.btnp(pyxel.KEY_3): 
+            asteroid_list.append(Asteroid(randint(
+                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["LARGE_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["LARGE_ASTEROID"]["type"]))
+
     def update(self):
         if pyxel.btnp(pyxel.KEY_R):
             reset_game(self)
         if pyxel.btnp(pyxel.KEY_A):
             self.asteroid_toggle = not self.asteroid_toggle
+        if pyxel.btnp(pyxel.KEY_M):
+            self.miniboss = Miniboss()
         for star in star_list:
             star.update()        
         if self.state == "MAIN_MENU":    
@@ -36,39 +69,15 @@ class Main:
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "MAIN_MENU"
         else:
-            global framecount
-            framecount += 1
-
-            if self.asteroid_toggle:
-                if framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
-                    asteroid_list.append(Asteroid(randint(
-                        ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"]- ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
-
-            if pyxel.btnp(pyxel.KEY_1): 
-                asteroid_list.append(Asteroid(randint(
-                    ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))
-            if pyxel.btnp(pyxel.KEY_2): 
-                asteroid_list.append(Asteroid(randint(
-                    ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
-            if pyxel.btnp(pyxel.KEY_3): 
-                asteroid_list.append(Asteroid(randint(
-                    ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["LARGE_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["LARGE_ASTEROID"]["type"]))
+            self.spawn_asteroids()
 
             player.update()
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
                 element.update()
+            if self.miniboss is not None: self.miniboss.update()
             ui.update()
 
-            if player.hp <= 0:
-                particle_list.append(PlayerExplosion(player.x + 3, player.y + 3))
-                pyxel.play(0, PLAYER_DEATH_SOUND)
-                player.active = False
-                player.hp = PLAYER_HP
-                self.timeofdeath = framecount
-            
-            if self.timeofdeath + PLAYER_DEATHFREEZE_DURATION == framecount :
-                reset_game(self)
-
+        self.check_for_death()
 
     def draw(self):
         pyxel.cls(0)
@@ -103,6 +112,7 @@ class Main:
                 for element in asteroid_list + bullet_list + pickup_list:
                     element.draw()
                 player.draw()
+            if self.miniboss is not None: self.miniboss.draw()
             for particle in particle_list:
                 particle.draw()
             ui.draw()
@@ -113,6 +123,7 @@ def reset_game(game):
     framecount = 0
     game.state = "GAME_OVER"
     game.timeofdeath = -100
+    game.miniboss = None
 
     star_list.clear()
     asteroid_list.clear()

@@ -5,7 +5,7 @@ from constants import GAME_HEIGHT
 
 pickup_list = []
 
-class Pickup: # collectible pour augmenter le score/l'xp
+class Pickup: # Collectible pour augmenter le score/l'xp
     def __init__(self,x,y):
         self.x = x
         self.y = y
@@ -19,7 +19,6 @@ class Pickup: # collectible pour augmenter le score/l'xp
 
     def draw(self):
         pyxel.circ(self.x, self.y, 1, 10) # 1 ou 2, à voir
-
 
 def spawn_pickups(asteroid):
     sqrtxp = int(pyxel.sqrt(asteroid.parameters.xp))

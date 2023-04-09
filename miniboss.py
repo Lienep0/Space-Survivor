@@ -1,13 +1,37 @@
 import pyxel
 
+from player import player
+from crosshair import Crosshair
+from particles import particle_list, MinibossShot
+from constants import GAME_WIDTH
+
 class Miniboss:
     def __init__(self):
-        self.x = 40
-        self.y = -8
-        self.hp = 6
+        self.size = 16
+        self.x = (GAME_WIDTH - self.size)/2
+        self.y = -self.size
+        self.hp = 50
+        self.spriteOffset = 0
+        self.crosshair = None
+        self.hasFired = False
 
     def update(self):
-        if self.y <= 50: self.y += 1
+        if self.y <= 20: self.y += 1
+        elif not self.hasFired:
+            self.hasFired = True
+            self.crosshair = Crosshair(self.x, self.y + 20)
+        if self.crosshair is not None: 
+            self.crosshair.update()
+            if self.crosshair.hasHit and player.iFramesCooldown <= 0:
+                player.take_damage()
+                particle_list.append(MinibossShot(self.x + 8 + (self.spriteOffset/8), self. y + 8))
+                self.crosshair = None
+                self.hasFired = False
 
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, 16, 16, 16, 16, 0)
+        if player.x < self.x - 16: self.spriteOffset = -16
+        elif player.x > self.x + 16: self.spriteOffset = 16
+        else: self.spriteOffset = 0
+        pyxel.blt(self.x, self.y, 0, 16 + self.spriteOffset, 16, 16, 16, 0)
+
+        if self.crosshair is not None and player.hp != 0: self.crosshair.draw()

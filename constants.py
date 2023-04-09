@@ -1,4 +1,4 @@
-framecount = 0
+framecount = 0 # The number of frames since game start. Does not go up in menu and resets at game over.
 
 #Main
 GAME_WIDTH = 104
@@ -9,18 +9,21 @@ TITLE = "Space Survivor"
 PLAYER_STARTING_X = 48
 PLAYER_STARTING_Y = 120
 PLAYER_HP = 3
-PLAYER_IFRAMES = 30
-PLAYER_DEATHFREEZE_DURATION = 30
+PLAYER_IFRAMES = 30 # The amount of frames the player has invincibility after getting hit
+PLAYER_DEATHFREEZE_DURATION = 30 # The amount of time the screen freezes when the player dies
 
 BULLET_DAMAGE = 1
 BULLET_COOLDOWN = 3
 MAGNET_RANGE = 5
 
-ASTEROID_COOLDOWN = 10
-ASTEROID_OFFSET_FROM_BORDERS = 2
-ASTEROID_HITBOX_CORRECTION = 0
+ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
+ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border of the screen, in pixels
+ASTEROID_HITBOX_CORRECTION = 0 # How generous the asteroid hitbox is. The higher, the less generous. Default is 0
 
-XP_REQUIREMENTS = {
+CROSSHAIR_SPEED = 1.5
+CROSSHAIR_HITBOX_CORRECTION = 0 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
+
+XP_REQUIREMENTS = { # How much xp is required per level up
     0:30,
     1:40,
     2:50,
@@ -36,8 +39,8 @@ XP_REQUIREMENTS = {
 }
 
 ASTEROIDS = {
-    "SMALL_ASTEROID": {"type": 0, "size": 8, "spritexcoord": 32, "spriteycoord": 16, "hp": 6, "xp": 1},
-    "MEDIUM_ASTEROID": {"type": 1, "size": 16, "spritexcoord": 48, "spriteycoord": 0, "hp": 12, "xp": 8},
+    "SMALL_ASTEROID": {"type": 0, "size": 8, "spritexcoord": 8, "spriteycoord": 0, "hp": 6, "xp": 1},
+    "MEDIUM_ASTEROID": {"type": 1, "size": 16, "spritexcoord": 48, "spriteycoord": 16, "hp": 12, "xp": 8},
     "LARGE_ASTEROID": {"type": 2, "size": 32, "spritexcoord": 0, "spriteycoord": 32, "hp": 24, "xp": 16}
 }
 

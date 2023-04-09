@@ -11,13 +11,13 @@ class Player:
         self.x = PLAYER_STARTING_X
         self.y = PLAYER_STARTING_Y
         self.size = 8
-        self.fireRateCooldown = 0
-        self.iFramesCooldown = 0
         self.level = 0
         self.xp = 0
         self.hp = PLAYER_HP
-        self.visible = True
         self.active = True
+        self.visible = True
+        self.fireRateCooldown = 0
+        self.iFramesCooldown = 0
 
     def player_controls(self):
         if pyxel.btn(pyxel.KEY_RIGHT) and self.x < 96:
@@ -54,15 +54,18 @@ class Player:
         for asteroid in asteroid_list:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - (self.x + (self.size/2 - .5))
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - (self.y + (self.size/2 - .5))
-            if pyxel.sqrt(dx**2 + dy**2) <= asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION:
-                self.hp -= 1
-                self.iFramesCooldown  = PLAYER_IFRAMES
-                if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
+            if pyxel.sqrt(dx**2 + dy**2) <= asteroid.parameters.size/2 + 3 + ASTEROID_HITBOX_CORRECTION:
+                self.take_damage()
+
+    def take_damage(self):
+        self.hp -= 1
+        self.iFramesCooldown  = PLAYER_IFRAMES
+        if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
 
     def attract_pickups(self):
         for pickup in pickup_list:
             if pickup.activated:
-                pickup.x, pickup.y = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed)
+                pickup.x, pickup.y, _ = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed)
 
     def update(self):
         self.fireRateCooldown -= 1
