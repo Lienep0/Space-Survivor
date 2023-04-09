@@ -10,7 +10,7 @@ class Asteroid:
         self.y = -8
         self.speed = 1
 
-        if type == ASTEROID_TYPE_1:
+        if type == ASTEROID_TYPE_1: #Y'a moyen de mieux faire ça je pense. Des sous-classes peut-être ?
             self.size = ASTEROID_TYPE_1_SIZE
             self.spritexcoord = 32
             self.spriteycoord = 16
