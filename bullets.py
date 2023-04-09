@@ -2,8 +2,7 @@ import pyxel
 
 from asteroids import asteroid_list
 from particles import *
-from pickups import *
-from constants import IMPACT_SOUND, CHANNEL_2
+from constants import IMPACT_SOUND, CHANNEL_2, BULLET_DAMAGE
 
 bullet_list = []
 
@@ -13,6 +12,7 @@ class Bullet:
         self.y = y
         self.xsize = 1
         self.ysize = 6
+        self.damage = BULLET_DAMAGE
     
     def check_asteroids(self):
         for asteroid in asteroid_list:
@@ -21,12 +21,7 @@ class Bullet:
             if -asteroid.size < dx and dx < self.xsize and -asteroid.size < dy and dy < self.ysize:
                 pyxel.play(IMPACT_SOUND, CHANNEL_2)
                 particle_list.append(Impact(self.x, self.y + 3))
-                asteroid.hp -= 1
-                if asteroid.hp == 0:
-                    pickup_list.append(Pickup(asteroid.x + asteroid.size/2 - 1, asteroid.y + asteroid.size/2 - 1))
-                    # for i in range(asteroid.xp):
-                    #     pickup_list.append(Pickup(asteroid.x + asteroid.size/2, asteroid.y + asteroid.size/2))
-                    asteroid_list.remove(asteroid)
+                asteroid.hp -= self.damage
                 if self in bullet_list:
                     bullet_list.remove(self)
 

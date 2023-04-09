@@ -13,6 +13,7 @@ class Main:
     def __init__(self):
         self.state = "MAIN_MENU"
         self.framecount = 0
+        self.asteroid_toggle = True
 
         generate_stars()
 
@@ -23,6 +24,8 @@ class Main:
     def update(self):
         if pyxel.btnp(pyxel.KEY_R):
             reset_game(self)
+        if pyxel.btnp(pyxel.KEY_A):
+            self.asteroid_toggle = not self.asteroid_toggle
         for star in star_list:
             star.update()        
         if self.state == "MAIN_MENU":
@@ -34,8 +37,14 @@ class Main:
         else:
             self.framecount += 1
 
-            if self.framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
-                asteroid_list.append(Asteroid(randint(0, GAME_WIDTH - ASTEROID_TYPE_3_SIZE), ASTEROID_TYPE_3))
+            if self.asteroid_toggle:
+                if self.framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
+                    asteroid_list.append(Asteroid(randint(0, GAME_WIDTH - ASTEROID_TYPE_2_SIZE), ASTEROID_TYPE_2))
+            else:  
+                # Dev asteroids
+                if pyxel.btnp(pyxel.KEY_1):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_1_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_1))
+                if pyxel.btnp(pyxel.KEY_2):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_2_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_2))
+                if pyxel.btnp(pyxel.KEY_3):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_3_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_3))
 
             player.update()
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
@@ -52,14 +61,21 @@ class Main:
         for star in star_list:
             star.draw()
         if self.state == "MAIN_MENU":
-            pyxel.blt(32, 20, 0, 8, 64, 40, 8, 0) #SPACE
-            pyxel.blt(23, 28, 0, 0, 72, 64, 8, 0) #SURVIVOR
+            pyxel.blt(32, 24, 0, 8, 64, 40, 8, 0) #SPACE
+            pyxel.blt(23, 32, 0, 0, 72, 64, 8, 0) #SURVIVOR
             pyxel.text(27, 48, "High scores :", 7)
             pyxel.text(30, 60, "XXX  000000", 7)
             pyxel.text(30, 70, "XXX  000000", 7)
             pyxel.text(30, 80, "XXX  000000", 7)
             pyxel.text(10, 100, "Press SPACE to Start !", 7)
+            pyxel.text(2, 2, "1/2/3 to spawn asteroid", 7)
+            pyxel.text(2, 10, "A to spawn On/Off", 7)
+            pyxel.text(2, 18, "R to Reset", 7)
             pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 0, 8, 8, 8, 0) #PLAYER
+            if self.asteroid_toggle:
+                pyxel.circ(75, 12, 3, 11)
+            else:
+                pyxel.circ(75, 12, 3, 8)
         elif self.state == "GAME_OVER":
             pyxel.blt(20, 20, 1, 0, 0, 64, 16) #GAME
             pyxel.blt(20, 36, 1, 0, 16, 64, 16) #OVER
