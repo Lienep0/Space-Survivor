@@ -2,7 +2,7 @@ import pyxel
 
 from bullets import *
 from pickups import pickup_list
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y
+from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, BULLET_SOUND, CHANNEL_1
 
 class Player:
     def __init__(self):
@@ -21,6 +21,7 @@ class Player:
         if pyxel.btn(pyxel.KEY_UP) and self.y > 0:
             self.y -= 2
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
+            pyxel.play(BULLET_SOUND, CHANNEL_1)
             self.fireRateCooldown = self.fireRateTimer
             bullet_list.extend([Bullet(self.x + 1, self.y), Bullet(self.x + 6, self.y)])
 
