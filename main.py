@@ -40,11 +40,10 @@ class Main:
             if self.asteroid_toggle:
                 if self.framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
                     asteroid_list.append(Asteroid(randint(0, GAME_WIDTH - ASTEROID_TYPE_2_SIZE), ASTEROID_TYPE_2))
-            else:  
-                # Dev asteroids
-                if pyxel.btnp(pyxel.KEY_1):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_1_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_1))
-                if pyxel.btnp(pyxel.KEY_2):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_2_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_2))
-                if pyxel.btnp(pyxel.KEY_3):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_3_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_3))
+
+            if pyxel.btnp(pyxel.KEY_1):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_1_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_1))
+            if pyxel.btnp(pyxel.KEY_2):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_2_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_2))
+            if pyxel.btnp(pyxel.KEY_3):asteroid_list.append(Asteroid(randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROID_TYPE_3_SIZE - ASTEROID_OFFSET_FROM_BORDERS), ASTEROID_TYPE_3))
 
             player.update()
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
