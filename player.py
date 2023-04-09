@@ -8,6 +8,7 @@ class Player:
     def __init__(self):
         self.x = PLAYER_STARTING_X
         self.y = PLAYER_STARTING_Y
+        self.size= 8
         self.fireRateTimer = 3
         self.fireRateCooldown = 0
 

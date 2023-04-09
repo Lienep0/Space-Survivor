@@ -35,15 +35,17 @@ class Main:
             self.framecount += 1
 
             if self.framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
-                asteroid_list.append(Asteroid(randint(0,GAME_WIDTH - 8)))
+                asteroid_list.append(Asteroid(randint(0, GAME_WIDTH - 8), ASTEROID_TYPE_3))
 
             player.update()
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
                 element.update()
 
-            for asteroid in asteroid_list:
-                if abs(asteroid.x - player.x) < 8 and abs(asteroid.y - player.y) < 8:
-                    reset_game(self)
+            for asteroid in asteroid_list:            
+                dx = asteroid.x - player.x
+                dy = asteroid.y - player.y
+                if -asteroid.size < dx and dx < player.size and -asteroid.size < dy and dy < player.size:
+                        reset_game(self)
 
     def draw(self):
         pyxel.cls(0)

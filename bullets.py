@@ -11,20 +11,22 @@ class Bullet:
     def __init__(self,x,y):
         self.x = x
         self.y = y
+        self.xsize = 1
+        self.ysize = 6
     
     def check_asteroids(self):
         for asteroid in asteroid_list:
             dx = asteroid.x - self.x
             dy = asteroid.y - self.y
-            if -8 < dx and dx < 1 and -8 < dy and dy < 6:
+            if -asteroid.size < dx and dx < self.xsize and -asteroid.size < dy and dy < self.ysize:
                 pyxel.play(IMPACT_SOUND, CHANNEL_2)
                 particle_list.append(Impact(self.x, self.y + 3))
                 asteroid.hp -= 1
                 if asteroid.hp == 0:
-                    pickup_list.append(Pickup(asteroid.x + 3, asteroid.y + 3))
+                    pickup_list.append(Pickup(asteroid.x + asteroid.size/2 - 1, asteroid.y + asteroid.size/2 - 1))
                     asteroid_list.remove(asteroid)
                 if self in bullet_list:
-                    bullet_list.remove(self)   
+                    bullet_list.remove(self)
 
     def update(self):
         self.y -= 3
@@ -33,4 +35,4 @@ class Bullet:
         self.check_asteroids()
 
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, 0, 0, 1, 8, 0)
+        pyxel.blt(self.x, self.y, 0, 0, 0, self.xsize, self.ysize, 0)
