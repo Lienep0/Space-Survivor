@@ -43,6 +43,16 @@ class Main:
                 asteroid_list.append(Asteroid(randint(
                     ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"]- ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
 
+    def update(self):
+        #
+        # DEV SHORTCUTS
+        #
+        if pyxel.btnp(pyxel.KEY_R):
+            reset_game(self)
+        if pyxel.btnp(pyxel.KEY_A):
+            self.asteroid_toggle = not self.asteroid_toggle
+        if pyxel.btnp(pyxel.KEY_M):
+            self.miniboss = Miniboss()
         if pyxel.btnp(pyxel.KEY_1): 
             asteroid_list.append(Asteroid(randint(
                 ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))
@@ -52,14 +62,10 @@ class Main:
         if pyxel.btnp(pyxel.KEY_3): 
             asteroid_list.append(Asteroid(randint(
                 ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["LARGE_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["LARGE_ASTEROID"]["type"]))
+        #
+        # DEV SHORTCUTS
+        #
 
-    def update(self):
-        if pyxel.btnp(pyxel.KEY_R):
-            reset_game(self)
-        if pyxel.btnp(pyxel.KEY_A):
-            self.asteroid_toggle = not self.asteroid_toggle
-        if pyxel.btnp(pyxel.KEY_M):
-            self.miniboss = Miniboss()
         for star in star_list:
             star.update()        
         if self.state == "MAIN_MENU":    
