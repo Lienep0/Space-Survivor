@@ -15,6 +15,7 @@ class Player:
         self.xp = 0
         self.hp = PLAYER_HP
         self.visible = True
+        self.active = True
 
     def player_controls(self):
         if pyxel.btn(pyxel.KEY_RIGHT) and self.x < 96:
@@ -26,7 +27,7 @@ class Player:
         if pyxel.btn(pyxel.KEY_UP) and self.y > 0:
             self.y -= 2
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
-            pyxel.play(BULLET_SOUND, CHANNEL_1)
+            pyxel.play(CHANNEL_1, BULLET_SOUND)
             self.fireRateCooldown = BULLET_COOLDOWN
             bullet_list.extend([Bullet(self.x + 1, self.y), Bullet(self.x + 6, self.y)])
 
@@ -43,7 +44,7 @@ class Player:
             dx = (pickup.x - self.x)
             dy = (pickup.y - self.y)
             if -3 < dx and dx < 10 and -4 < dy and dy < 10:
-                pyxel.play(PICKUP_SOUND, CHANNEL_3)
+                pyxel.play(CHANNEL_3, PICKUP_SOUND)
                 self.xp += 1
                 pickup_list.remove(pickup)
 
@@ -63,11 +64,11 @@ class Player:
     def update(self):
         self.fireRateCooldown -= 1
         self.iFramesCooldown -= 1
-        if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0:
-            self.visible = not self.visible
-        self.player_controls()
-        if self.iFramesCooldown <= 0:
-            self.check_asteroids()
+
+        if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
+        if self.active: self.player_controls()
+        if self.iFramesCooldown <= 0: self.check_asteroids()
+
         self.check_pickups_activate()
         self.attract_pickups()
         self.check_pickups_collect()

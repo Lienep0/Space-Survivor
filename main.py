@@ -6,7 +6,7 @@ from player import player
 from asteroids import *
 from bullets import bullet_list
 from pickups import pickup_list
-from particles import particle_list
+from particles import particle_list, PlayerExplosion
 from stars import generate_stars, star_list
 from ui import *
 
@@ -14,6 +14,7 @@ class Main:
     def __init__(self):
         self.state = "MAIN_MENU"
         self.asteroid_toggle = True
+        self.timeofdeath = -100
 
         generate_stars()
 
@@ -52,6 +53,13 @@ class Main:
             ui.update()
 
             if player.hp <= 0:
+                particle_list.append(PlayerExplosion(player.x + 3, player.y + 3))
+                pyxel.play(CHANNEL_1,PLAYER_DEATH_SOUND)
+                player.active = False
+                player.hp = PLAYER_HP
+                self.timeofdeath = framecount
+            
+            if self.timeofdeath + PLAYER_DEATHFREEZE_DURATION == framecount :
                 reset_game(self)
 
 
@@ -82,9 +90,12 @@ class Main:
             pyxel.text(22, 100, "go back to MENU", 7)
         else: 
             pyxel.cls(0)
-            for element in star_list + asteroid_list + particle_list + bullet_list + pickup_list:
+            for element in star_list + particle_list:
                 element.draw()
-            player.draw()
+            if player.active:
+                for element in asteroid_list + bullet_list + pickup_list:
+                    element.draw()
+                    player.draw()
             ui.draw()
 
 def reset_game(game):
@@ -92,6 +103,7 @@ def reset_game(game):
     global framecount
     framecount = 0
     game.state = "GAME_OVER"
+    game.timeofdeath = -100
 
     star_list.clear()
     asteroid_list.clear()
@@ -106,6 +118,7 @@ def reset_game(game):
     player.xp = 0
     player.iFramesCooldown = 0
     player.visible = True
+    player.active = True
 
     generate_stars()
 
