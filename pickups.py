@@ -5,7 +5,7 @@ from constants import GAME_HEIGHT
 
 pickup_list = []
 
-class Pickup:   #collectible pour augmenter le score
+class Pickup: # collectible pour augmenter le score/l'xp
     def __init__(self,x,y):
         self.x = x
         self.y = y
