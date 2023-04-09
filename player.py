@@ -26,7 +26,7 @@ class Player:
             self.fireRateCooldown = BULLET_COOLDOWN
             bullet_list.extend([Bullet(self.x + 1, self.y), Bullet(self.x + 6, self.y)])
 
-    def check_pickups_activated(self): 
+    def check_pickups_activate(self): 
         for pickup in pickup_list:
             if not pickup.activated:
                 dx = (pickup.x - self.x)
@@ -34,7 +34,7 @@ class Player:
                 if -3 - MAGNET_RANGE< dx and dx < 10 +MAGNET_RANGE and -4 - MAGNET_RANGE < dy and dy < 10 + MAGNET_RANGE:
                     pickup.activated = True
 
-    def check_pickups_collected(self):
+    def check_pickups_collect(self):
         for pickup in pickup_list:
             dx = (pickup.x - self.x)
             dy = (pickup.y - self.y)
@@ -45,11 +45,11 @@ class Player:
     def update(self):
         self.fireRateCooldown -= 1
         self.player_controls()
-        self.check_pickups_activated()
+        self.check_pickups_activate()
         for pickup in pickup_list:
             if pickup.activated:
                 pickup.x, pickup.y = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed)
-        self.check_pickups_collected()
+        self.check_pickups_collect()
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8, 0)
