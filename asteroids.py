@@ -15,16 +15,19 @@ class Asteroid:
             self.spritexcoord = 32
             self.spriteycoord = 16
             self.hp = 6
+            self.xp = 1
         elif type == ASTEROID_TYPE_2:
             self.size = ASTEROID_TYPE_2_SIZE
             self.spritexcoord = 48
             self.spriteycoord = 0
-            self.hp = 12
+            self.hp = 1
+            self.xp = 8
         elif type == ASTEROID_TYPE_3:
             self.size = ASTEROID_TYPE_3_SIZE
             self.spritexcoord = 0
             self.spriteycoord = 32
             self.hp = 24
+            self.xp = 16
         else:
             raise Exception("Invalid Asteroid Type")
 

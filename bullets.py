@@ -24,6 +24,8 @@ class Bullet:
                 asteroid.hp -= 1
                 if asteroid.hp == 0:
                     pickup_list.append(Pickup(asteroid.x + asteroid.size/2 - 1, asteroid.y + asteroid.size/2 - 1))
+                    # for i in range(asteroid.xp):
+                    #     pickup_list.append(Pickup(asteroid.x + asteroid.size/2, asteroid.y + asteroid.size/2))
                     asteroid_list.remove(asteroid)
                 if self in bullet_list:
                     bullet_list.remove(self)
