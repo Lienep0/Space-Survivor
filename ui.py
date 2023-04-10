@@ -1,6 +1,6 @@
 import pyxel
 
-from constants import GAME_HEIGHT, XP_REQUIREMENTS
+from constants import GAME_HEIGHT, GAME_WIDTH, XP_REQUIREMENTS
 from player import player
 
 class Ui:
@@ -14,7 +14,7 @@ class Ui:
         if player.active:
             # Hp
             for i in range(player.hp):
-                pyxel.blt(2 + 8 * i, GAME_HEIGHT - 17, 0, 9, 8, 6, 8, 0) # Shields
+                pyxel.blt(GAME_WIDTH - 9 * (i + 1), GAME_HEIGHT - 8, 0, 8, 9, 8, 7, 0) # Hearts
 
             # Xp
             pyxel.blt(2, GAME_HEIGHT - 7, 0, 0, 80, 44, 5, 0) # Xp UI Outline
