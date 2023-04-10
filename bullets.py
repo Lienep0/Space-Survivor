@@ -7,7 +7,7 @@ from constants import IMPACT_SOUND
 bullet_list = []
 
 class Bullet:
-    def __init__(self,x,y, damage):
+    def __init__(self, x, y, damage):
         self.x = x
         self.y = y
         self.xsize = 1

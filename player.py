@@ -48,20 +48,11 @@ class Player:
                 if -3 - range < dx and dx < 10 + range and -4 - range < dy and dy < 10 + range:
                     pickup.activated = True
 
-    def check_pickups_collect(self):
-        for pickup in pickup_list:
-            dx = (pickup.x - self.x)
-            dy = (pickup.y - self.y)
-            if -3 < dx and dx < 10 and -4 < dy and dy < 10:
-                pyxel.play(2, PICKUP_SOUND)
-                self.xp += 1
-                pickup_list.remove(pickup)
-
     def check_asteroids(self):
         for asteroid in asteroid_list:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - (self.x + (self.size/2 - .5))
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - (self.y + (self.size/2 - .5))
-            if pyxel.sqrt(dx**2 + dy**2) <= asteroid.parameters.size/2 + 3 + ASTEROID_HITBOX_CORRECTION:
+            if pyxel.sqrt(dx ** 2 + dy ** 2) <= asteroid.parameters.size/2 + 3 + ASTEROID_HITBOX_CORRECTION:
                 self.take_damage()
 
     def take_damage(self):
@@ -72,7 +63,11 @@ class Player:
     def attract_pickups(self):
         for pickup in pickup_list:
             if pickup.activated:
-                pickup.x, pickup.y, _ = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed)
+                pickup.x, pickup.y, collected = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed, 5)
+                if collected:
+                    pyxel.play(2, PICKUP_SOUND)
+                    self.xp += 1
+                    pickup_list.remove(pickup)
 
     def update(self):
         self.fireRateCooldown -= 1
@@ -86,7 +81,6 @@ class Player:
 
         self.check_pickups_activate()
         self.attract_pickups()
-        self.check_pickups_collect()
 
     def draw(self):   
         if self.visible: 

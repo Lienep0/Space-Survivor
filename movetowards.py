@@ -1,6 +1,6 @@
 import pyxel
 
-def move_towards(sprite1_x, sprite1_y, sprite2_x, sprite2_y, speed, max_diff = .5):
+def move_towards(sprite1_x, sprite1_y, sprite2_x, sprite2_y, speed, max_diff):
     dy = sprite2_y - sprite1_y
     dx = sprite2_x - sprite1_x
     if abs(dx) <= max_diff and abs(dy) <= max_diff: return sprite1_x, sprite1_y, True
