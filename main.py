@@ -51,7 +51,7 @@ class Main:
         if self.asteroid_toggle:
             if framecount % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
                 asteroid_list.append(Asteroid(randint(
-                    ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"]- ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
+                    ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"]- ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["SMALL_ASTEROID"]["type"]))
 
     def update(self):
         # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +63,8 @@ class Main:
             self.asteroid_toggle = not self.asteroid_toggle
         if pyxel.btnp(pyxel.KEY_M):
             self.miniboss = Miniboss()
+        if pyxel.btnp(pyxel.KEY_X):
+            player.xp += 10
         if pyxel.btnp(pyxel.KEY_1): 
             asteroid_list.append(Asteroid(randint(
                 ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))
@@ -88,14 +90,17 @@ class Main:
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "MAIN_MENU"
         elif self.state == "UPGRADE_MENU":
-            if pyxel.btnp(pyxel.KEY_LEFT) and self.upgradescursorposition <= 0:
-                self.upgradescursorposition += 1
-            if pyxel.btnp(pyxel.KEY_RIGHT) and self.upgradescursorposition >= 0:
+            if pyxel.btnp(pyxel.KEY_LEFT) and self.upgradescursorposition >= 0:
                 self.upgradescursorposition -= 1
+            if pyxel.btnp(pyxel.KEY_RIGHT) and self.upgradescursorposition <= 0:
+                self.upgradescursorposition += 1
             if pyxel.btnp(pyxel.KEY_SPACE):
-                self.state = "GAME"
+                self.hasgeneratedupgrades = False
                 player.iFramesCooldown = PLAYER_IFRAMES
-                player.inventory.append(current_upgrade_list[self.upgradescursorposition + 1])
+                chosen_upgrade = current_upgrade_list[self.upgradescursorposition + 1]
+                player.inventory.append(chosen_upgrade)
+                if chosen_upgrade.is_unique: upgrade_list.remove(chosen_upgrade)
+                self.state = "GAME"
         elif not self.paused:
             self.spawn_asteroids()
             self.check_player_upgrade(player)
@@ -157,10 +162,11 @@ class Main:
         if not self.hasgeneratedupgrades:
             global current_upgrade_list
             current_upgrade_list = []
+            upgrade_list_buffer = list(upgrade_list)
 
-            current_upgrade_list.append(upgrade_list.pop(randrange(0,len (upgrade_list))))
-            current_upgrade_list.append(upgrade_list.pop(randrange(0,len (upgrade_list))))
-            current_upgrade_list.append(upgrade_list.pop(randrange(0,len (upgrade_list))))
+            current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
+            current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
+            current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
 
             self.hasgeneratedupgrades = True
 
@@ -168,9 +174,9 @@ class Main:
         pyxel.blt(45, 50, 0, current_upgrade_list[1].coords[0], current_upgrade_list[1].coords[1], 16, 16, 0) # UPGRADE 2
         pyxel.blt(65, 50, 0, current_upgrade_list[2].coords[0], current_upgrade_list[2].coords[1], 16, 16, 0) # UPGRADE 3
         pyxel.text(13, 30, "Select your upgrade :", 7)
-        pyxel.text(20, 75, current_upgrade_list[self.upgradescursorposition + 1].description[0], 7) # DESCRIPTION LINE 1
-        pyxel.text(20, 85, current_upgrade_list[self.upgradescursorposition + 1].description[1], 7) # DESCRIPTION LINE 2
-        pyxel.rectb(43 - 20 * self.upgradescursorposition, 48, 20, 20, 7) #CURSOR
+        for i in range(len(current_upgrade_list[self.upgradescursorposition + 1].description)):
+            pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgradescursorposition + 1].description[i], 7) # DESCRIPTION LINES
+        pyxel.rectb(43 + 20 * self.upgradescursorposition, 48, 20, 20, 7) #CURSOR
 
 def reset_game(game):
 
@@ -198,6 +204,7 @@ def reset_game(game):
     player.visible = True
     player.active = True
     player.inventory = []
+    player.isDashing = False
 
     generate_stars()
 

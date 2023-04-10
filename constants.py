@@ -9,11 +9,12 @@ TITLE = "Space Survivor"
 PLAYER_STARTING_X = 48
 PLAYER_STARTING_Y = 120
 PLAYER_HP = 3
+PLAYER_SPEED = 2
 PLAYER_IFRAMES = 30 # The amount of frames the player has invincibility after getting hit
 PLAYER_DEATHFREEZE_DURATION = 30 # The amount of time the screen freezes when the player dies
 
 BULLET_DAMAGE = 1
-BULLET_COOLDOWN = 3
+BULLET_COOLDOWN = 10
 MAGNET_RANGE = 5
 
 ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
@@ -31,14 +32,9 @@ XP_REQUIREMENTS = { # How much xp is required per level up
     2:50,
     3:60,
     4:70,
-    5:80,
-    6:90,
-    7:100,
-    8:110,
-    9:120,
-    10:130
+    5:80
 }
-MAX_LEVEL = 10
+MAX_LEVEL = 5
 
 ASTEROIDS = {
     "SMALL_ASTEROID": {"type": 0, "size": 8, "coords": [8, 0], "hp": 6, "xp": 1},
@@ -52,3 +48,4 @@ IMPACT_SOUND = 1
 PICKUP_SOUND = 2
 PLAYER_DEATH_SOUND = 3
 PLAYER_DAMAGE_SOUND = 4
+PLAYER_DASH_SOUND = 5

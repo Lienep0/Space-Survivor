@@ -2,8 +2,8 @@ import pyxel
 
 from bullets import *
 from pickups import pickup_list
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE
-from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND
+from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE, PLAYER_SPEED, GAME_HEIGHT, GAME_WIDTH
+from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND, PLAYER_DASH_SOUND
 from movetowards import move_towards
 
 class Player:
@@ -19,29 +19,33 @@ class Player:
         self.fireRateCooldown = 0
         self.iFramesCooldown = 0
         self.inventory = []
+        self.isDashing = False
 
     def player_controls(self):
-        if pyxel.btn(pyxel.KEY_RIGHT) and self.x < 96:
-            self.x += 2
+        self.isDashing = pyxel.btn(pyxel.KEY_SHIFT) and len([x for x in self.inventory if x.name == "Dash"])
+        if self.isDashing: pyxel.play(3, PLAYER_DASH_SOUND)
+        speed = PLAYER_SPEED * 1.5 ** self.isDashing
+        if pyxel.btn(pyxel.KEY_RIGHT) and self.x < GAME_WIDTH - self.size:
+            self.x += speed
         if pyxel.btn(pyxel.KEY_LEFT) and self.x > 0:
-            self.x -= 2
-        if pyxel.btn(pyxel.KEY_DOWN) and self.y < 132:
-            self.y += 2
+            self.x -= speed
+        if pyxel.btn(pyxel.KEY_DOWN) and self.y < GAME_HEIGHT - self.size:
+            self.y += speed
         if pyxel.btn(pyxel.KEY_UP) and self.y > 0:
-            self.y -= 2
+            self.y -= speed
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
             pyxel.play(0, BULLET_SOUND)
-            self.fireRateCooldown = BULLET_COOLDOWN
-            bullet_list.extend([Bullet(self.x + 1, self.y, BULLET_DAMAGE * 1.5 ** len([x for x in self.inventory if x.name == "Damage"])),
-                                Bullet(self.x + 6, self.y, BULLET_DAMAGE * 1.5 ** len([x for x in self.inventory if x.name == "Damage"]))])
-                                 
-
+            self.fireRateCooldown = BULLET_COOLDOWN * 0.8 ** len([x for x in self.inventory if x.name == "Fire Rate"])
+            bullet_list.extend([Bullet(self.x + 1, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"])),
+                                Bullet(self.x + 6, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"]))])
+            
     def check_pickups_activate(self): 
+        range = MAGNET_RANGE * 1.5 ** len([x for x in self.inventory if x.name == "Magnet"])
         for pickup in pickup_list:
             if not pickup.activated:
                 dx = (pickup.x - self.x)
                 dy = (pickup.y - self.y)
-                if -3 - MAGNET_RANGE < dx and dx < 10 + MAGNET_RANGE and -4 - MAGNET_RANGE < dy and dy < 10 + MAGNET_RANGE:
+                if -3 - range < dx and dx < 10 + range and -4 - range < dy and dy < 10 + range:
                     pickup.activated = True
 
     def check_pickups_collect(self):
@@ -76,7 +80,9 @@ class Player:
 
         if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
         if self.active: self.player_controls()
-        if self.iFramesCooldown <= 0: self.check_asteroids()
+        if self.iFramesCooldown <= 0: 
+            self.visible = True
+            self.check_asteroids()
 
         self.check_pickups_activate()
         self.attract_pickups()
@@ -85,6 +91,9 @@ class Player:
     def draw(self):   
         if self.visible: 
             pyxel.blt(self.x, self.y, 0, 0, 8, self.size, self.size, 0) # Player Ship
+            if self.isDashing: 
+                pyxel.pset(player.x + 1, player.y + 9, 10)
+                pyxel.pset(player.x + 6, player.y + 9, 10) # Player Ship Dashes
                 
     
 player = Player()
