@@ -17,6 +17,7 @@ class Main:
         self.asteroid_toggle = True
         self.timeofdeath = -100
         self.miniboss = None
+        self.paused = False
 
         generate_stars()
 
@@ -66,15 +67,18 @@ class Main:
         # DEV SHORTCUTS
         # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        for star in star_list:
-            star.update()        
+        if pyxel.btnp(pyxel.KEY_P):
+            self.paused = not self.paused
+        if not self.paused:
+            for star in star_list:
+                star.update()
         if self.state == "MAIN_MENU":    
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "GAME"
         elif self.state == "GAME_OVER":
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "MAIN_MENU"
-        else:
+        elif not self.paused:
             self.spawn_asteroids()
 
             player.update()
@@ -111,7 +115,6 @@ class Main:
             pyxel.text(24, 90, "Press SPACE to", 7)
             pyxel.text(22, 100, "go back to MENU", 7)
         else: 
-            pyxel.cls(0)
             for star in star_list:
                 star.draw()
             if player.active:
@@ -122,6 +125,7 @@ class Main:
             for particle in particle_list:
                 particle.draw()
             ui.draw()
+            if self.paused: pyxel.blt(28, 30, 0, 0, 112, 48, 8, 0) # PAUSED
 
 def reset_game(game):
 
@@ -130,6 +134,7 @@ def reset_game(game):
     game.state = "GAME_OVER"
     game.timeofdeath = -100
     game.miniboss = None
+    game.paused = False
 
     star_list.clear()
     asteroid_list.clear()
