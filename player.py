@@ -2,7 +2,7 @@ import pyxel
 
 from bullets import *
 from pickups import pickup_list
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE, PLAYER_SPEED, GAME_HEIGHT, GAME_WIDTH
+from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE, PLAYER_SPEED, GAME_HEIGHT, GAME_WIDTH, BOTTOM_UI_BAR_SIZE
 from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND, PLAYER_DASH_SOUND
 from movetowards import move_towards
 
@@ -25,13 +25,13 @@ class Player:
         self.isDashing = pyxel.btn(pyxel.KEY_SHIFT) and len([x for x in self.inventory if x.name == "Dash"])
         if self.isDashing: pyxel.play(3, PLAYER_DASH_SOUND)
         speed = PLAYER_SPEED * 1.5 ** self.isDashing
-        if pyxel.btn(pyxel.KEY_RIGHT) and self.x < GAME_WIDTH - self.size:
+        if pyxel.btn(pyxel.KEY_RIGHT) and self.x < GAME_WIDTH - self.size - 1:
             self.x += speed
-        if pyxel.btn(pyxel.KEY_LEFT) and self.x > 0:
+        if pyxel.btn(pyxel.KEY_LEFT) and self.x > 1:
             self.x -= speed
-        if pyxel.btn(pyxel.KEY_DOWN) and self.y < GAME_HEIGHT - self.size:
+        if pyxel.btn(pyxel.KEY_DOWN) and self.y < GAME_HEIGHT - self.size - BOTTOM_UI_BAR_SIZE - 1:
             self.y += speed
-        if pyxel.btn(pyxel.KEY_UP) and self.y > 0:
+        if pyxel.btn(pyxel.KEY_UP) and self.y > 1:
             self.y -= speed
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
             pyxel.play(0, BULLET_SOUND)

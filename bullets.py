@@ -19,7 +19,7 @@ class Bullet:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - (self.x + (self.xsize/2 - .5))
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - (self.y + (self.ysize/2 - .5))
             if pyxel.sqrt(dx**2 + dy**2) <= asteroid.parameters.size/2 + 3:
-                pyxel.play(1, IMPACT_SOUND)
+                pyxel.play(2, IMPACT_SOUND)
                 particle_list.append(Impact(self.x, self.y + 3))
                 asteroid.parameters.hp -= self.damage
                 if self in bullet_list:

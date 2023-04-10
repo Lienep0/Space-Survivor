@@ -7,14 +7,14 @@ from miniboss import *
 from asteroids import *
 from bullets import bullet_list
 from pickups import pickup_list
-from particles import particle_list, PlayerExplosion
+from particles import particle_list, PlayerExplosion, Impact
 from stars import generate_stars, star_list
 from ui import ui
 from upgrades import upgrade_list
 
 class Main:
     def __init__(self):
-        self.state = "GAME"
+        self.state = "MENU"
         self.asteroid_toggle = True
         self.timeofdeath = -100
         self.miniboss = None
@@ -83,12 +83,12 @@ class Main:
         if not self.paused:
             for star in star_list:
                 star.update()
-        if self.state == "MAIN_MENU":    
+        if self.state == "MENU":    
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "GAME"
         elif self.state == "GAME_OVER":
             if pyxel.btnp(pyxel.KEY_SPACE):
-                self.state = "MAIN_MENU"
+                self.state = "MENU"
         elif self.state == "UPGRADE_MENU":
             if pyxel.btnp(pyxel.KEY_LEFT) and self.upgradescursorposition >= 0:
                 self.upgradescursorposition -= 1
@@ -116,7 +116,7 @@ class Main:
         pyxel.cls(0)
         for star in star_list:
             star.draw()
-        if self.state == "MAIN_MENU":
+        if self.state == "MENU":
             self.draw_menu()
         elif self.state == "GAME_OVER":
             self.draw_game_over()
@@ -136,13 +136,13 @@ class Main:
             if self.paused: pyxel.blt(28, 30, 0, 0, 112, 48, 8, 0) # PAUSED
 
     def draw_menu(self):
-        pyxel.blt(32, 24, 0, 8, 64, 40, 8, 0) #SPACE
-        pyxel.blt(23, 32, 0, 0, 72, 64, 8, 0) #SURVIVOR
-        pyxel.text(27, 48, "High scores :", 7)
-        pyxel.text(30, 60, "XXX  000000", 7)
+        pyxel.blt(32, 34, 0, 8, 64, 40, 8, 0) #SPACE
+        pyxel.blt(23, 42, 0, 0, 72, 64, 8, 0) #SURVIVOR
+        pyxel.text(27, 58, "High scores :", 7)
         pyxel.text(30, 70, "XXX  000000", 7)
         pyxel.text(30, 80, "XXX  000000", 7)
-        pyxel.text(10, 100, "Press SPACE to Start !", 7)
+        pyxel.text(30, 90, "XXX  000000", 7)
+        pyxel.text(10, 110, "Press SPACE to Start !", 7)
         pyxel.text(2, 2, "1/2/3 to spawn asteroid", 7)
         pyxel.text(2, 10, "A to spawn On/Off", 7)
         pyxel.text(2, 18, "R to Reset, M for miniboss", 7)
@@ -155,8 +155,8 @@ class Main:
     def draw_game_over(self):
         pyxel.blt(20, 20, 1, 0, 0, 64, 16) #GAME
         pyxel.blt(20, 36, 1, 0, 16, 64, 16) #OVER
-        pyxel.text(24, 90, "Press SPACE to", 7)
-        pyxel.text(22, 100, "go back to MENU", 7)
+        pyxel.text(24, 100, "Press SPACE to", 7)
+        pyxel.text(22, 110, "go back to MENU", 7)
 
     def draw_upgrade_menu(self):
         if not self.hasgeneratedupgrades:

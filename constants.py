@@ -2,12 +2,12 @@ framecount = 0 # The number of frames since game start. Does not go up in menu a
 
 #Main
 GAME_WIDTH = 104
-GAME_HEIGHT = 140
+GAME_HEIGHT = 149
 FPS = 30
 TITLE = "Space Survivor"
 
 PLAYER_STARTING_X = 48
-PLAYER_STARTING_Y = 120
+PLAYER_STARTING_Y = 130
 PLAYER_HP = 3
 PLAYER_SPEED = 2
 PLAYER_IFRAMES = 30 # The amount of frames the player has invincibility after getting hit
@@ -41,6 +41,8 @@ ASTEROIDS = {
     "MEDIUM_ASTEROID": {"type": 1, "size": 16, "coords" :[48, 16], "hp": 12, "xp": 8},
     "LARGE_ASTEROID": {"type": 2, "size": 32, "coords": [0, 32], "hp": 24, "xp": 16}
 }
+#Ui
+BOTTOM_UI_BAR_SIZE = 9
 
 #Sounds
 BULLET_SOUND = 0
