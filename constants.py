@@ -20,6 +20,7 @@ ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
 ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border of the screen, in pixels
 ASTEROID_HITBOX_CORRECTION = 0 # How generous the asteroid hitbox is. The higher, the less generous. Default is 0
 
+MINIBOSS_HEIGHT = 20
 MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-shoot after shooting 
 CROSSHAIR_SPEED = 1.5
 CROSSHAIR_HITBOX_CORRECTION = 0 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
