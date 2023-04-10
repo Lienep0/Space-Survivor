@@ -1,5 +1,5 @@
 import pyxel
-from random import randint
+from random import randint, randrange
 
 from constants import *
 from player import player
@@ -9,21 +9,30 @@ from bullets import bullet_list
 from pickups import pickup_list
 from particles import particle_list, PlayerExplosion
 from stars import generate_stars, star_list
-from ui import *
+from ui import ui
+from upgrades import upgrade_list
 
 class Main:
     def __init__(self):
-        self.state = "MAIN_MENU"
+        self.state = "GAME"
         self.asteroid_toggle = True
         self.timeofdeath = -100
         self.miniboss = None
         self.paused = False
+        self.hasgeneratedupgrades = False
+        self.upgradescursorposition = 0
 
         generate_stars()
 
         pyxel.init(GAME_WIDTH, GAME_HEIGHT, title=TITLE, fps=FPS)
         pyxel.load("game.pyxres")
         pyxel.run(self.update, self.draw)
+
+    def check_player_upgrade(self,player):
+        if player.level <= MAX_LEVEL and player.xp >= XP_REQUIREMENTS[player.level]:
+            player.xp = 0
+            player.level += 1
+            self.state = "UPGRADE_MENU"
 
     def check_for_death(self):
         if player.hp <= 0 and self.timeofdeath < 0:
@@ -78,14 +87,23 @@ class Main:
         elif self.state == "GAME_OVER":
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "MAIN_MENU"
+        elif self.state == "UPGRADE_MENU":
+            if pyxel.btnp(pyxel.KEY_LEFT) and self.upgradescursorposition <= 0:
+                self.upgradescursorposition += 1
+            if pyxel.btnp(pyxel.KEY_RIGHT) and self.upgradescursorposition >= 0:
+                self.upgradescursorposition -= 1
+            if pyxel.btnp(pyxel.KEY_SPACE):
+                self.state = "GAME"
+                player.iFramesCooldown = PLAYER_IFRAMES
+                player.inventory.append(current_upgrade_list[self.upgradescursorposition + 1])
         elif not self.paused:
             self.spawn_asteroids()
+            self.check_player_upgrade(player)
 
             player.update()
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
                 element.update()
             if self.miniboss is not None: self.miniboss.update()
-            ui.update()
 
         self.check_for_death()
 
@@ -94,26 +112,11 @@ class Main:
         for star in star_list:
             star.draw()
         if self.state == "MAIN_MENU":
-            pyxel.blt(32, 24, 0, 8, 64, 40, 8, 0) #SPACE
-            pyxel.blt(23, 32, 0, 0, 72, 64, 8, 0) #SURVIVOR
-            pyxel.text(27, 48, "High scores :", 7)
-            pyxel.text(30, 60, "XXX  000000", 7)
-            pyxel.text(30, 70, "XXX  000000", 7)
-            pyxel.text(30, 80, "XXX  000000", 7)
-            pyxel.text(10, 100, "Press SPACE to Start !", 7)
-            pyxel.text(2, 2, "1/2/3 to spawn asteroid", 7)
-            pyxel.text(2, 10, "A to spawn On/Off", 7)
-            pyxel.text(2, 18, "R to Reset, M for miniboss", 7)
-            pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 0, 8, 8, 8, 0) #PLAYER
-            if self.asteroid_toggle:
-                pyxel.circ(75, 12, 3, 11)
-            else:
-                pyxel.circ(75, 12, 3, 8)
+            self.draw_menu()
         elif self.state == "GAME_OVER":
-            pyxel.blt(20, 20, 1, 0, 0, 64, 16) #GAME
-            pyxel.blt(20, 36, 1, 0, 16, 64, 16) #OVER
-            pyxel.text(24, 90, "Press SPACE to", 7)
-            pyxel.text(22, 100, "go back to MENU", 7)
+            self.draw_game_over()
+        elif self.state == "UPGRADE_MENU":
+            self.draw_upgrade_menu()
         else: 
             for star in star_list:
                 star.draw()
@@ -127,6 +130,48 @@ class Main:
             ui.draw()
             if self.paused: pyxel.blt(28, 30, 0, 0, 112, 48, 8, 0) # PAUSED
 
+    def draw_menu(self):
+        pyxel.blt(32, 24, 0, 8, 64, 40, 8, 0) #SPACE
+        pyxel.blt(23, 32, 0, 0, 72, 64, 8, 0) #SURVIVOR
+        pyxel.text(27, 48, "High scores :", 7)
+        pyxel.text(30, 60, "XXX  000000", 7)
+        pyxel.text(30, 70, "XXX  000000", 7)
+        pyxel.text(30, 80, "XXX  000000", 7)
+        pyxel.text(10, 100, "Press SPACE to Start !", 7)
+        pyxel.text(2, 2, "1/2/3 to spawn asteroid", 7)
+        pyxel.text(2, 10, "A to spawn On/Off", 7)
+        pyxel.text(2, 18, "R to Reset, M for miniboss", 7)
+        pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 0, 8, 8, 8, 0) #PLAYER
+        if self.asteroid_toggle:
+            pyxel.circ(75, 12, 3, 11)
+        else:
+            pyxel.circ(75, 12, 3, 8)
+    
+    def draw_game_over(self):
+        pyxel.blt(20, 20, 1, 0, 0, 64, 16) #GAME
+        pyxel.blt(20, 36, 1, 0, 16, 64, 16) #OVER
+        pyxel.text(24, 90, "Press SPACE to", 7)
+        pyxel.text(22, 100, "go back to MENU", 7)
+
+    def draw_upgrade_menu(self):
+        if not self.hasgeneratedupgrades:
+            global current_upgrade_list
+            current_upgrade_list = []
+
+            current_upgrade_list.append(upgrade_list.pop(randrange(0,len (upgrade_list))))
+            current_upgrade_list.append(upgrade_list.pop(randrange(0,len (upgrade_list))))
+            current_upgrade_list.append(upgrade_list.pop(randrange(0,len (upgrade_list))))
+
+            self.hasgeneratedupgrades = True
+
+        pyxel.blt(25, 50, 0, current_upgrade_list[0].coords[0], current_upgrade_list[0].coords[1], 16, 16, 0) # UPGRADE 1
+        pyxel.blt(45, 50, 0, current_upgrade_list[1].coords[0], current_upgrade_list[1].coords[1], 16, 16, 0) # UPGRADE 2
+        pyxel.blt(65, 50, 0, current_upgrade_list[2].coords[0], current_upgrade_list[2].coords[1], 16, 16, 0) # UPGRADE 3
+        pyxel.text(13, 30, "Select your upgrade :", 7)
+        pyxel.text(20, 75, current_upgrade_list[self.upgradescursorposition + 1].description[0], 7) # DESCRIPTION LINE 1
+        pyxel.text(20, 85, current_upgrade_list[self.upgradescursorposition + 1].description[1], 7) # DESCRIPTION LINE 2
+        pyxel.rectb(43 - 20 * self.upgradescursorposition, 48, 20, 20, 7) #CURSOR
+
 def reset_game(game):
 
     global framecount
@@ -135,7 +180,8 @@ def reset_game(game):
     game.timeofdeath = -100
     game.miniboss = None
     game.paused = False
-
+    game.hasgeneratedupgrades = False
+    
     star_list.clear()
     asteroid_list.clear()
     asteroid_list.clear()
@@ -151,6 +197,7 @@ def reset_game(game):
     player.iFramesCooldown = 0
     player.visible = True
     player.active = True
+    player.inventory = []
 
     generate_stars()
 

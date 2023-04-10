@@ -2,7 +2,7 @@ import pyxel
 
 from bullets import *
 from pickups import pickup_list
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, XP_REQUIREMENTS
+from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE
 from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND
 from movetowards import move_towards
 
@@ -18,6 +18,7 @@ class Player:
         self.visible = True
         self.fireRateCooldown = 0
         self.iFramesCooldown = 0
+        self.inventory = []
 
     def player_controls(self):
         if pyxel.btn(pyxel.KEY_RIGHT) and self.x < 96:
@@ -31,7 +32,9 @@ class Player:
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
             pyxel.play(0, BULLET_SOUND)
             self.fireRateCooldown = BULLET_COOLDOWN
-            bullet_list.extend([Bullet(self.x + 1, self.y), Bullet(self.x + 6, self.y)])
+            bullet_list.extend([Bullet(self.x + 1, self.y, BULLET_DAMAGE * 1.5 ** len([x for x in self.inventory if x.name == "Damage"])),
+                                Bullet(self.x + 6, self.y, BULLET_DAMAGE * 1.5 ** len([x for x in self.inventory if x.name == "Damage"]))])
+                                 
 
     def check_pickups_activate(self): 
         for pickup in pickup_list:
@@ -70,10 +73,6 @@ class Player:
     def update(self):
         self.fireRateCooldown -= 1
         self.iFramesCooldown -= 1
-
-        if self.xp == XP_REQUIREMENTS[self.level]:
-            self.xp = 0
-            self.level += 1
 
         if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
         if self.active: self.player_controls()

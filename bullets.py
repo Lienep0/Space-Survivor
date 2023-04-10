@@ -2,17 +2,17 @@ import pyxel
 
 from asteroids import asteroid_list
 from particles import *
-from constants import IMPACT_SOUND, BULLET_DAMAGE
+from constants import IMPACT_SOUND
 
 bullet_list = []
 
 class Bullet:
-    def __init__(self,x,y):
+    def __init__(self,x,y, damage):
         self.x = x
         self.y = y
         self.xsize = 1
         self.ysize = 6
-        self.damage = BULLET_DAMAGE
+        self.damage = damage
     
     def check_asteroids(self):
         for asteroid in asteroid_list:            

@@ -6,7 +6,7 @@ from constants import GAME_HEIGHT, ASTEROIDS
 asteroid_list = []
 
 class Asteroid:
-    def __init__(self,x,type):
+    def __init__(self, x, type):
         self.x = x
         self.speed = 1
         self.type = type
@@ -36,7 +36,7 @@ class Asteroid:
 class AsteroidParameters:
     def __init__(self,parameters):
         self.size = parameters["size"]
-        self.spritexcoord = parameters["spritexcoord"]
-        self.spriteycoord = parameters["spriteycoord"]
+        self.spritexcoord = parameters["coords"][0]
+        self.spriteycoord = parameters["coords"][1]
         self.hp = parameters["hp"]
         self.xp = parameters["xp"]

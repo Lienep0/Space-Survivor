@@ -36,14 +36,14 @@ XP_REQUIREMENTS = { # How much xp is required per level up
     7:100,
     8:110,
     9:120,
-    10:130,
-    11:-1 # No more xp
+    10:130
 }
+MAX_LEVEL = 10
 
 ASTEROIDS = {
-    "SMALL_ASTEROID": {"type": 0, "size": 8, "spritexcoord": 8, "spriteycoord": 0, "hp": 6, "xp": 1},
-    "MEDIUM_ASTEROID": {"type": 1, "size": 16, "spritexcoord": 48, "spriteycoord": 16, "hp": 12, "xp": 8},
-    "LARGE_ASTEROID": {"type": 2, "size": 32, "spritexcoord": 0, "spriteycoord": 32, "hp": 24, "xp": 16}
+    "SMALL_ASTEROID": {"type": 0, "size": 8, "coords": [8, 0], "hp": 6, "xp": 1},
+    "MEDIUM_ASTEROID": {"type": 1, "size": 16, "coords" :[48, 16], "hp": 12, "xp": 8},
+    "LARGE_ASTEROID": {"type": 2, "size": 32, "coords": [0, 32], "hp": 24, "xp": 16}
 }
 
 #Sounds

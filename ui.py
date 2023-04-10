@@ -1,15 +1,9 @@
 import pyxel
 
-from constants import GAME_HEIGHT, GAME_WIDTH, XP_REQUIREMENTS
+from constants import GAME_HEIGHT, GAME_WIDTH, XP_REQUIREMENTS, MAX_LEVEL
 from player import player
 
 class Ui:
-    def __init__(self):
-        pass
-
-    def update(self):
-        pass
-
     def draw(self):
         if player.active:
             # Hp
@@ -18,9 +12,12 @@ class Ui:
 
             # Xp
             pyxel.blt(2, GAME_HEIGHT - 7, 0, 0, 80, 44, 5, 0) # Xp UI Outline
-            pyxel.rect(15, GAME_HEIGHT - 6,
-                        min(player.xp * 30/XP_REQUIREMENTS[player.level], 30), 
-                        3, 10) #Xp UI Bar
-            pyxel.text(2, GAME_HEIGHT - 25, str(player.xp), 7)
+            if player.level <= MAX_LEVEL:
+                pyxel.rect(15, GAME_HEIGHT - 6,
+                            min(player.xp * 30/XP_REQUIREMENTS[player.level], 30), 
+                            3, 10) #Xp UI Bar
+            else:
+                pyxel.rect(15, GAME_HEIGHT - 6, 30, 3, 3) #Xp UI Bar
+            pyxel.text(2, GAME_HEIGHT - 14, str(player.xp), 7)
 
 ui = Ui()
