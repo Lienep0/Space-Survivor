@@ -52,7 +52,7 @@ class Player:
         for asteroid in asteroid_list:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - (self.x + (self.size/2 - .5))
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - (self.y + (self.size/2 - .5))
-            if pyxel.sqrt(dx ** 2 + dy ** 2) <= asteroid.parameters.size/2 + 3 + ASTEROID_HITBOX_CORRECTION:
+            if pyxel.sqrt(dx ** 2 + dy ** 2) <= asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION:
                 self.take_damage()
 
     def take_damage(self):

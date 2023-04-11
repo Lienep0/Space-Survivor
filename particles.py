@@ -18,20 +18,6 @@ class Impact:
     def draw(self):
         pyxel.circb(self.x, self.y, self.timer // 2, 8 + self.timer % 3)
 
-class MinibossShot:
-    def __init__(self,x,y):
-        self.x = x
-        self.y = y
-        self.timer = 0
-
-    def update(self):
-        self.timer += 1
-        if self.timer == 18:
-            particle_list.remove(self)
-
-    def draw(self):
-        pyxel.circb(self.x, self.y, self.timer // 2, 8 + self.timer % 3)
-
 class MinibossShotLine:
     def __init__(self,x,y,xgoal,ygoal):
         self.x = x

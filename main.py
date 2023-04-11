@@ -7,7 +7,7 @@ from miniboss import *
 from asteroids import *
 from bullets import bullet_list
 from pickups import pickup_list
-from particles import particle_list, PlayerExplosion, Impact
+from particles import particle_list, PlayerExplosion
 from stars import generate_stars, star_list
 from ui import ui
 from upgrades import upgrade_list
@@ -173,13 +173,13 @@ class Main:
         pyxel.blt(25, 50, 0, current_upgrade_list[0].coords[0], current_upgrade_list[0].coords[1], 16, 16, 0) # UPGRADE 1
         pyxel.blt(45, 50, 0, current_upgrade_list[1].coords[0], current_upgrade_list[1].coords[1], 16, 16, 0) # UPGRADE 2
         pyxel.blt(65, 50, 0, current_upgrade_list[2].coords[0], current_upgrade_list[2].coords[1], 16, 16, 0) # UPGRADE 3
+        
         pyxel.text(13, 30, "Select your upgrade :", 7)
         for i in range(len(current_upgrade_list[self.upgradescursorposition + 1].description)):
             pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgradescursorposition + 1].description[i], 7) # DESCRIPTION LINES
         pyxel.rectb(43 + 20 * self.upgradescursorposition, 48, 20, 20, 7) #CURSOR
 
 def reset_game(game):
-
     global framecount
     framecount = 0
     game.state = "GAME_OVER"
