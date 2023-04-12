@@ -5,3 +5,5 @@ git pull (! TRES IMPORTANT)
 git add [nom du fichier] (--all)
 git commit -m "[commentaire]"
 git push
+
+(On peut aussi le faire sur VSCode)
