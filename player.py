@@ -4,7 +4,7 @@ from bullets import *
 from pickups import pickup_list
 from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE, PLAYER_SPEED, GAME_HEIGHT, GAME_WIDTH, BOTTOM_UI_BAR_SIZE
 from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND, PLAYER_DASH_SOUND
-from movetowards import move_towards
+from moveTowards import move_towards
 
 class Player:
     def __init__(self):

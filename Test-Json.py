@@ -1,7 +1,6 @@
 import json
 
-with open("Test-Json.json", "r") as read_file:
-    data = json.load(read_file)
+data = json.load(open("Test-Json.json", "r"))
 
 dic_data = {}
 for x in data.values():
