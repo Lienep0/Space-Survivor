@@ -1,13 +1,15 @@
+from random import randint
+
 import pyxel
 
 from asteroids import asteroid_list
-from bullets import Bullet, bullet_list
+from bullets import Bullet, ExplodingBullet, bullet_list
 from constants import (ASTEROID_HITBOX_CORRECTION, BOTTOM_UI_BAR_SIZE,
                        BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
-                       GAME_HEIGHT, GAME_WIDTH, MAGNET_RANGE, PICKUP_SOUND,
-                       PLAYER_DAMAGE_SOUND, PLAYER_DASH_SOUND, PLAYER_HP,
-                       PLAYER_IFRAMES, PLAYER_SPEED, PLAYER_STARTING_X,
-                       PLAYER_STARTING_Y)
+                       EXPLODING_UPGRADE_CHANCE, GAME_HEIGHT, GAME_WIDTH,
+                       MAGNET_RANGE, PICKUP_SOUND, PLAYER_DAMAGE_SOUND,
+                       PLAYER_DASH_SOUND, PLAYER_HP, PLAYER_IFRAMES,
+                       PLAYER_SPEED, PLAYER_STARTING_X, PLAYER_STARTING_Y)
 from movetowards import move_towards
 from pickups import pickup_list
 
@@ -34,10 +36,15 @@ class Player:
 
         # Shooting
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
-            pyxel.play(0, BULLET_SOUND)
-            self.fireRateCooldown = BULLET_COOLDOWN * 0.8 ** len([x for x in self.inventory if x.name == "Fire Rate"])
-            bullet_list.extend([Bullet(self.x + 1, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"])),
-                                Bullet(self.x + 6, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"]))])
+            self.shoot()
+
+    def shoot(self):
+        pyxel.play(0, BULLET_SOUND)
+        for i in range(2):
+            if randint(0, 99) <= EXPLODING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Explosions"]): bullet_type = ExplodingBullet
+            else: bullet_type = Bullet
+            bullet_list.extend([bullet_type(self.x + 1 + i * 5, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"]))])
+        self.fireRateCooldown = BULLET_COOLDOWN * 0.8 ** len([x for x in self.inventory if x.name == "Fire Rate"])
 
     def check_pickups_activate(self): 
         range = MAGNET_RANGE * 1.5 ** len([x for x in self.inventory if x.name == "Magnet"])

@@ -1,3 +1,5 @@
+from constants import EXPLODING_UPGRADE_CHANCE
+
 upgrade_list = []
 
 class Upgrade:
@@ -14,3 +16,4 @@ upgrade_list.append(Upgrade("Magnet", ["Boosts your magnet", "range by 50%"], 64
 upgrade_list.append(Upgrade("Dash", ["Adds the ability to", "Dash by holding", "Shift. (+50% speed)"], 80, 16, True, False))
 upgrade_list.append(Upgrade("Bomb", ["Gives you a bomb", "That can clear all", "asteroids. Activate", "by pressing B."], 96, 0, False, True))
 upgrade_list.append(Upgrade("Health", ["Heals you 1 HP", "Maximum is 5"], 96, 16, False, True))
+upgrade_list.append(Upgrade("Explosions", [f"+{EXPLODING_UPGRADE_CHANCE}% chance to", "Fire an explosive", "shot that deals", "Double damage !"], 112, 0, False, False))

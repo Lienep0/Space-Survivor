@@ -14,6 +14,8 @@ PLAYER_DEATHFREEZE_DURATION = 30 # The amount of time the screen freezes when th
 BULLET_DAMAGE = 1
 BULLET_COOLDOWN = 10
 MAGNET_RANGE = 5
+EXPLODING_BULLET_RADIUS = 20
+EXPLODING_UPGRADE_CHANCE = 15
 
 ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
 ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border of the screen, in pixels

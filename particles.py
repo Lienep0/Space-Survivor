@@ -1,6 +1,7 @@
 import pyxel
 
 from asteroids import asteroid_list
+from constants import EXPLODING_BULLET_RADIUS
 
 particle_list = []
 
@@ -53,8 +54,8 @@ class BombExplosion:
         self.x = x
         self.y = y
         self.timer = 0
-        self.radius = self.timer * 6
-
+        self.radius = 0
+ 
     def update(self):
         self.timer += 1
         self.radius = self.timer * 6
@@ -68,7 +69,36 @@ class BombExplosion:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - self.x
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - self.y
             if pyxel.sqrt(dx ** 2 + dy ** 2) <= self.radius:
-                asteroid.parameters.hp -= 100
+                asteroid.parameters.hp = 0
+
+    def draw(self):
+        pyxel.circb(self.x, self.y, self.radius, 8 + self.timer % 3)
+
+class ExplodingBulletsImpact:
+    def __init__(self,x,y,damage):
+        self.x = x
+        self.y = y
+        self.timer = 0
+        self.radius = 0
+        self.damage = damage * 2
+        self.asteroids_hit = []
+
+    def update(self):
+        self.timer += 1
+        self.radius = self.timer * 2.5
+        if self.timer % 2 == 0: self.y += 1
+        self.hit_asteroids()
+        if self.timer == EXPLODING_BULLET_RADIUS / 2.5:
+            particle_list.remove(self)
+            self = None
+
+    def hit_asteroids(self):
+        for asteroid in [asteroid for asteroid in asteroid_list if asteroid not in self.asteroids_hit]:
+            dx = asteroid.x + (asteroid.parameters.size/2 - .5) - self.x
+            dy = asteroid.y + (asteroid.parameters.size/2 - .5) - self.y
+            if pyxel.sqrt(dx ** 2 + dy ** 2) <= self.radius:
+                asteroid.parameters.hp -= self.damage
+                self.asteroids_hit.append(asteroid)
 
     def draw(self):
         pyxel.circb(self.x, self.y, self.radius, 8 + self.timer % 3)

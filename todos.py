@@ -5,6 +5,7 @@
 # TODO : Bomb
 
 # Imperative
+# TODO : Make Bomb able to hit miniboss
 # TODO : Non exponential upgrades
 # TODO : Add level up sfx
 # TODO : Add more upgrades (Explosion, Piercing, Quadruple shot (Damage/Fire rate -), Fullscreen clear bomb en pointillés si tu l'as pas, + Health (Max 4))
