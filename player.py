@@ -48,10 +48,10 @@ class Player:
         
         pyxel.play(0, BULLET_SOUND)
 
-        if self.hasQuadShot: positions_list = [0,2,5,7]
-        else: positions_list = [1,5]
-        for i in positions_list:
-            bullet_list.append(generate_type()(self.x + i, self.y, BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"])))
+        if self.hasQuadShot: positions_list = [[0,2,5,7],[3,0,0,3]]
+        else: positions_list = [[1,6],[0,0]]
+        for i in range(len(positions_list[0])):
+            bullet_list.append(generate_type()(self.x + positions_list[0][i], self.y + positions_list[1][i], BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"])))
 
         self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])
         if self.hasQuadShot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
