@@ -2,7 +2,7 @@ import pyxel
 
 from player import player
 
-from movetowards import move_towards
+from functions import move_towards
 from constants import CROSSHAIR_SPEED, CROSSHAIR_HITBOX_CORRECTION
 
 class Crosshair:

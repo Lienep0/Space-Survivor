@@ -13,7 +13,7 @@ from constants import (ASTEROID_HITBOX_CORRECTION, BOTTOM_UI_BAR_SIZE,
                        PLAYER_DASH_SOUND, PLAYER_HP, PLAYER_IFRAMES,
                        PLAYER_SPEED, PLAYER_STARTING_X, PLAYER_STARTING_Y,
                        QUAD_SHOT_FIRE_RATE_PENALTY)
-from movetowards import move_towards
+from functions import move_towards, round_collision
 from pickups import pickup_list
 
 
@@ -60,17 +60,14 @@ class Player:
     def check_pickups_activate(self): 
         range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Magnet"])
         for pickup in pickup_list:
-            if not pickup.activated:
-                dx = (pickup.x - self.x)
-                dy = (pickup.y - self.y)
-                if -3 - range < dx and dx < 10 + range and -4 - range < dy and dy < 10 + range:
-                    pickup.activated = True
+            if round_collision((self.x + (self.size/2 - .5)), (self.y + (self.size/2 - .5)), pickup.x, pickup.y, range):
+                pickup.activated = True
 
     def check_asteroids(self):
         for asteroid in asteroid_list:
-            dx = asteroid.x + (asteroid.parameters.size/2 - .5) - (self.x + (self.size/2 - .5))
-            dy = asteroid.y + (asteroid.parameters.size/2 - .5) - (self.y + (self.size/2 - .5))
-            if pyxel.sqrt(dx ** 2 + dy ** 2) <= asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION and self.iFramesCooldown <= 0:
+            if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), 
+                               (self.x + (self.size/2 - .5)), (self.y + (self.size/2 - .5)), 
+                               asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION) and self.iFramesCooldown <=0:
                 self.take_damage()
 
     def take_damage(self):
