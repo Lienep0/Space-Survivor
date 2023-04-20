@@ -1,6 +1,7 @@
 import pyxel
 
 from constants import GAME_HEIGHT, ASTEROIDS
+from pickups import spawn_pickups
 
 asteroid_list = []
 
@@ -22,6 +23,9 @@ class Asteroid:
         self.y = -self.parameters.size
 
     def update(self):
+        if self.parameters.hp <= 0:
+            spawn_pickups(self)
+            asteroid_list.remove(self)
         self.y += self.speed
         if self.y > GAME_HEIGHT + self.parameters.size:
             asteroid_list.remove(self)

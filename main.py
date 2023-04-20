@@ -2,12 +2,12 @@ import pyxel
 from random import randint, randrange
 
 from constants import *
+from miniboss import miniboss
 from player import player
-from miniboss import *
-from asteroids import *
+from asteroids import asteroid_list, Asteroid
 from bullets import bullet_list
 from pickups import pickup_list
-from particles import particle_list, PlayerExplosion
+from particles import particle_list, PlayerExplosion, BombExplosion
 from stars import generate_stars, star_list
 from ui import ui
 from upgrades import upgrade_list
@@ -17,7 +17,6 @@ class Main:
         self.state = "MENU"
         self.asteroid_toggle = True
         self.timeofdeath = -100
-        self.miniboss = None
         self.paused = False
         self.hasgeneratedupgrades = False
         self.upgradescursorposition = 0
@@ -28,7 +27,7 @@ class Main:
         pyxel.load("game.pyxres")
         pyxel.run(self.update, self.draw)
 
-    def check_player_upgrade(self,player):
+    def check_player_upgrade(self, player):
         if player.level < MAX_LEVEL and player.xp >= XP_REQUIREMENTS[player.level]:
             player.xp = 0
             player.level += 1
@@ -64,9 +63,11 @@ class Main:
         if pyxel.btnp(pyxel.KEY_A):
             self.asteroid_toggle = not self.asteroid_toggle
         if pyxel.btnp(pyxel.KEY_M):
-            self.miniboss = Miniboss()
+            miniboss.active = True
         if pyxel.btnp(pyxel.KEY_X):
             player.xp += 10
+        if pyxel.btnp(pyxel.KEY_V):
+            player.hasBomb = True
         if pyxel.btnp(pyxel.KEY_1): 
             asteroid_list.append(Asteroid(randint(
                 ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))
@@ -108,13 +109,25 @@ class Main:
                     if chosen_upgrade.name == "Health": player.hp += 1
                 self.state = "GAME"
         elif not self.paused:
+            
+            # Bomb
+            if pyxel.btn(pyxel.KEY_B) and player.hasBomb:
+                pyxel.play(1, BOMB_SOUND)
+                particle_list.append(BombExplosion(player.x + 3, player.y + 3))
+                player.hasBomb = False
+                for asteroid in asteroid_list:
+                    asteroid.parameters.hp -= 100
+                if miniboss.active:
+                    miniboss.hp -=10
+
             self.spawn_asteroids()
             self.check_player_upgrade(player)
 
-            player.update()
+            if player.active: player.update()
+            if miniboss.active: miniboss.update()
+
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
                 element.update()
-            if self.miniboss is not None: self.miniboss.update()
 
         self.check_for_death()
 
@@ -135,7 +148,7 @@ class Main:
                 for element in asteroid_list + bullet_list + pickup_list:
                     element.draw()
                 player.draw()
-            if self.miniboss is not None: self.miniboss.draw()
+            if miniboss.active: miniboss.draw()
             for particle in particle_list:
                 particle.draw()
             ui.draw()
@@ -193,7 +206,7 @@ class Main:
         framecount = 0
         self.state = "GAME_OVER"
         self.timeofdeath = -100
-        self.miniboss = None
+        miniboss = None
         self.paused = False
         self.hasgeneratedupgrades = False
         

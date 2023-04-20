@@ -1,6 +1,7 @@
 import pyxel
 
-from bullets import *
+from bullets import bullet_list, Bullet
+from asteroids import asteroid_list
 from pickups import pickup_list
 from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE, PLAYER_SPEED, GAME_HEIGHT, GAME_WIDTH, BOTTOM_UI_BAR_SIZE
 from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND, PLAYER_DASH_SOUND
@@ -20,7 +21,7 @@ class Player:
         self.iFramesCooldown = 0
         self.inventory = []
         self.isDashing = False
-        self.hasBomb = False
+        self.hasBomb = True
 
     def player_controls(self):
         # Dash
@@ -44,10 +45,6 @@ class Player:
             self.fireRateCooldown = BULLET_COOLDOWN * 0.8 ** len([x for x in self.inventory if x.name == "Fire Rate"])
             bullet_list.extend([Bullet(self.x + 1, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"])),
                                 Bullet(self.x + 6, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"]))])
-
-        # Bomb
-        if pyxel.btn(pyxel.KEY_B) and player.hasBomb:
-            player.hasBomb = False
 
     def check_pickups_activate(self): 
         range = MAGNET_RANGE * 1.5 ** len([x for x in self.inventory if x.name == "Magnet"])
@@ -97,7 +94,6 @@ class Player:
             pyxel.blt(self.x, self.y, 0, 0, 8, self.size, self.size, 0) # Player Ship
             if self.isDashing: 
                 pyxel.pset(player.x + 1, player.y + 9, 10)
-                pyxel.pset(player.x + 6, player.y + 9, 10) # Player Ship Dashes
-                
-    
+                pyxel.pset(player.x + 6, player.y + 9, 10) # Player Ship Dashes                
+
 player = Player()

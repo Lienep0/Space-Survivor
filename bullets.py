@@ -1,6 +1,5 @@
 import pyxel
 
-from pickups import spawn_pickups
 from asteroids import asteroid_list
 from particles import *
 from constants import IMPACT_SOUND
@@ -23,9 +22,6 @@ class Bullet:
                 pyxel.play(2, IMPACT_SOUND)
                 particle_list.append(Impact(self.x, self.y + 3))
                 asteroid.parameters.hp -= self.damage
-                if asteroid.parameters.hp <= 0:
-                    spawn_pickups(asteroid)
-                    asteroid_list.remove(asteroid)
                 if self in bullet_list:
                     bullet_list.remove(self)
 

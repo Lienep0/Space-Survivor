@@ -7,6 +7,7 @@ from constants import GAME_WIDTH, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT
 
 class Miniboss:
     def __init__(self):
+        self.active = False
         self.size = 16
         self.x = (GAME_WIDTH - self.size)/2
         self.y = -self.size
@@ -37,3 +38,5 @@ class Miniboss:
         pyxel.blt(self.x, self.y, 0, 16 + self.spriteOffset, 16, 16, 16, 0)
 
         if self.crosshair is not None and player.hp != 0: self.crosshair.draw()
+
+miniboss = Miniboss()
