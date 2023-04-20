@@ -20,6 +20,7 @@ class Main:
         self.paused = False
         self.hasgeneratedupgrades = False
         self.upgradescursorposition = 0
+        self.explosion = None
 
         generate_stars()
 
@@ -113,12 +114,19 @@ class Main:
             # Bomb
             if pyxel.btn(pyxel.KEY_B) and player.hasBomb:
                 pyxel.play(1, BOMB_SOUND)
-                particle_list.append(BombExplosion(player.x + 3, player.y + 3))
+                self.explosion = BombExplosion(player.x + 3, player.y + 3)
+                particle_list.append(self.explosion)
                 player.hasBomb = False
+
+            if self.explosion is not None:
                 for asteroid in asteroid_list:
-                    asteroid.parameters.hp -= 100
-                if miniboss.active:
-                    miniboss.hp -=10
+                    dx = asteroid.x + (asteroid.parameters.size/2 - .5) - self.explosion.x
+                    dy = asteroid.y + (asteroid.parameters.size/2 - .5) - self.explosion.y
+                    if pyxel.sqrt(dx ** 2 + dy ** 2) <= self.explosion.radius:
+                        asteroid.parameters.hp -= 100
+                if self.explosion.timer == 22:
+                    particle_list.remove(self.explosion)
+                    self.explosion = None
 
             self.spawn_asteroids()
             self.check_player_upgrade(player)
@@ -206,7 +214,7 @@ class Main:
         framecount = 0
         self.state = "GAME_OVER"
         self.timeofdeath = -100
-        miniboss = None
+        self.explosion = None
         self.paused = False
         self.hasgeneratedupgrades = False
         

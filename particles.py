@@ -1,6 +1,6 @@
 import pyxel
 
-from constants import PLAYER_DEATHFREEZE_DURATION
+from asteroids import asteroid_list
 
 particle_list = []
 
@@ -51,11 +51,11 @@ class BombExplosion:
         self.x = x
         self.y = y
         self.timer = 0
+        self.radius = self.timer * 6
 
     def update(self):
         self.timer += 1
-        if self.timer == 100:
-            particle_list.remove(self)
+        self.radius = self.timer * 6
 
     def draw(self):
-        pyxel.circb(self.x, self.y, self.timer * 6, 8 + self.timer % 3)
+        pyxel.circb(self.x, self.y, self.radius, 8 + self.timer % 3)
