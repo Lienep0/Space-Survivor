@@ -24,7 +24,7 @@ class MainMenu:
         pyxel.text(10, 110, "Press SPACE to Start !", 7)
         pyxel.text(2, 2, "1/2/3 to spawn asteroid", 7)
         pyxel.text(2, 10, "A to spawn On/Off", 7)
-        pyxel.text(2, 18, "R to Reset, M for miniboss", 7)
+        pyxel.text(2, 18, "M for miniboss, X for xp", 7)
         pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 0, 8, 8, 8, 0) #PLAYER
         if self.asteroid_toggle:
             pyxel.circ(75, 12, 3, 11)

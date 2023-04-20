@@ -8,6 +8,7 @@ from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
                        ASTEROIDS, BOMB_SOUND, GAME_WIDTH, MAX_LEVEL,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
                        XP_REQUIREMENTS)
+from gameovermenu import gameOverMenu
 from globals import get_framecount, set_state, update_framecount
 from mainmenu import mainMenu
 from miniboss import miniboss
@@ -20,6 +21,25 @@ from ui import ui
 class GameManager:
     def __init__(self):
         self.reset()
+
+    def check_dev_shortcuts(self): # DEV SHORTCUTS, NEED TO REMOVE BEFORE IT'S DONE
+        if pyxel.btnp(pyxel.KEY_A):
+            mainMenu.asteroid_toggle = not mainMenu.asteroid_toggle
+        if pyxel.btnp(pyxel.KEY_M):
+            miniboss.active = True
+        if pyxel.btnp(pyxel.KEY_X):
+            player.xp += 10
+        if pyxel.btnp(pyxel.KEY_V):
+            player.hasBomb = True
+        if pyxel.btnp(pyxel.KEY_1): 
+            asteroid_list.append(Asteroid(randint(
+                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))
+        if pyxel.btnp(pyxel.KEY_2): 
+            asteroid_list.append(Asteroid(randint(
+                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
+        if pyxel.btnp(pyxel.KEY_3): 
+            asteroid_list.append(Asteroid(randint(
+                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["LARGE_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["LARGE_ASTEROID"]["type"]))
 
     def check_player_upgrade(self, player):
         if player.level < MAX_LEVEL and player.xp >= XP_REQUIREMENTS[player.level]:
@@ -49,33 +69,7 @@ class GameManager:
         if pyxel.btnp(pyxel.KEY_P):
             self.paused = not self.paused
 
-        # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        # DEV SHORTCUTS
-        # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        if pyxel.btnp(pyxel.KEY_R):
-            self.reset_game()
-        if pyxel.btnp(pyxel.KEY_A):
-            mainMenu.asteroid_toggle = not mainMenu.asteroid_toggle
-        if pyxel.btnp(pyxel.KEY_M):
-            miniboss.active = True
-        if pyxel.btnp(pyxel.KEY_X):
-            player.xp += 10
-        if pyxel.btnp(pyxel.KEY_V):
-            player.hasBomb = True
-        if pyxel.btnp(pyxel.KEY_1): 
-            asteroid_list.append(Asteroid(randint(
-                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))
-        if pyxel.btnp(pyxel.KEY_2): 
-            asteroid_list.append(Asteroid(randint(
-                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
-        if pyxel.btnp(pyxel.KEY_3): 
-            asteroid_list.append(Asteroid(randint(
-                ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["LARGE_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["LARGE_ASTEROID"]["type"]))
-        
-        # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        # DEV SHORTCUTS
-        # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        self.check_dev_shortcuts()
 
         if not self.paused:
             # Bomb
