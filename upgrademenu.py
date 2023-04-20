@@ -44,6 +44,22 @@ class UpgradeMenu:
 
         self.hasgeneratedupgrades = True
     
+    def confirm_upgrade(self):
+        self.hasgeneratedupgrades = False
+        self.upgradescursorposition = 0
+        player.iFramesCooldown = PLAYER_IFRAMES
+        chosen_upgrade = current_upgrade_list[self.upgradescursorposition + 1]
+
+        player.inventory.append(chosen_upgrade)
+
+        if chosen_upgrade.is_unique: upgrade_list.remove(chosen_upgrade)
+        
+        if chosen_upgrade.instant_effect:
+            if chosen_upgrade.name == "Bomb": player.hasBomb = True
+            if chosen_upgrade.name == "Health": player.hp += 1
+
+        set_state("GAME")
+        
     def update(self):
         if not self.hasgeneratedupgrades:
             self.generate_upgrades()
@@ -53,15 +69,7 @@ class UpgradeMenu:
         if pyxel.btnp(pyxel.KEY_RIGHT) and self.upgradescursorposition <= 0:
             self.upgradescursorposition += 1
         if pyxel.btnp(pyxel.KEY_SPACE):
-            self.hasgeneratedupgrades = False
-            player.iFramesCooldown = PLAYER_IFRAMES
-            chosen_upgrade = current_upgrade_list[self.upgradescursorposition + 1]
-            player.inventory.append(chosen_upgrade)
-            if chosen_upgrade.is_unique: upgrade_list.remove(chosen_upgrade)
-            if chosen_upgrade.instant_effect:
-                if chosen_upgrade.name == "Bomb": player.hasBomb = True
-                if chosen_upgrade.name == "Health": player.hp += 1
-            set_state("GAME")
+            self.confirm_upgrade()
     
     def draw(self):
         pyxel.text(13, 30, "Select your upgrade :", 7)
