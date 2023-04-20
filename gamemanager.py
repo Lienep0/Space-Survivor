@@ -21,7 +21,7 @@ class GameManager:
     def __init__(self):
         self.reset()
 
-    def check_dev_shortcuts(self): # DEV SHORTCUTS, NEED TO REMOVE BEFORE IT'S DONE
+    def dev_shortcuts(self): # DEV SHORTCUTS, NEED TO REMOVE BEFORE IT'S DONE
         if pyxel.btnp(pyxel.KEY_A):
             mainMenu.asteroid_toggle = not mainMenu.asteroid_toggle
         if pyxel.btnp(pyxel.KEY_M):
@@ -68,7 +68,7 @@ class GameManager:
         if pyxel.btnp(pyxel.KEY_P):
             self.paused = not self.paused
 
-        self.check_dev_shortcuts()
+        self.dev_shortcuts()
 
         if not self.paused:
             # Bomb

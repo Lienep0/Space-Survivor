@@ -53,6 +53,7 @@ class UpgradeMenu:
         player.inventory.append(chosen_upgrade)
 
         if chosen_upgrade.is_unique: upgrade_list.remove(chosen_upgrade)
+        print(chosen_upgrade.name)
         
         if chosen_upgrade.instant_effect:
             if chosen_upgrade.name == "Bomb": player.hasBomb = True
@@ -68,8 +69,6 @@ class UpgradeMenu:
             self.upgradescursorposition -= 1
         if pyxel.btnp(pyxel.KEY_RIGHT) and self.upgradescursorposition <= 0:
             self.upgradescursorposition += 1
-        if pyxel.btnp(pyxel.KEY_SPACE):
-            self.confirm_upgrade()
     
     def draw(self):
         pyxel.text(13, 30, "Select your upgrade :", 7)
@@ -82,5 +81,8 @@ class UpgradeMenu:
             pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgradescursorposition + 1].description[i], 7)
 
         pyxel.rectb(43 + 20 * self.upgradescursorposition, 48, 20, 20, 7) #CURSOR
+
+        if pyxel.btnp(pyxel.KEY_SPACE):
+            self.confirm_upgrade()
 
 upgradeMenu = UpgradeMenu()
