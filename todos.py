@@ -1,6 +1,7 @@
 # Done
 # TODO : A lot of stuff
 # TODO : Player takes two damage when hitting two asteroids at the same time
+# TODO : Fix being able to dash, shoot and move on the y axis at the same time // Actually not a bug, PC dependent
 
 # Imperative
 # TODO : Non exponential upgrades
@@ -21,4 +22,3 @@
 # TODO : .exe
 
 # Bugs
-# TODO : Fix being able to dash, shoot and move on the y axis at the same time
