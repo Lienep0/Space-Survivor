@@ -31,7 +31,7 @@ class UpgradeMenu:
     def generate_upgrades(self):
         global current_upgrade_list
         current_upgrade_list = []
-        upgrade_list_buffer = list(upgrade_list)
+        upgrade_list_buffer = [x for x in upgrade_list]
 
         # Remove redundant upgrades
         if player.hasBomb: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Bomb"]
@@ -45,19 +45,19 @@ class UpgradeMenu:
         self.hasgeneratedupgrades = True
     
     def confirm_upgrade(self):
-        self.hasgeneratedupgrades = False
-        self.upgradescursorposition = 0
-        player.iFramesCooldown = PLAYER_IFRAMES
         chosen_upgrade = current_upgrade_list[self.upgradescursorposition + 1]
 
         player.inventory.append(chosen_upgrade)
 
         if chosen_upgrade.is_unique: upgrade_list.remove(chosen_upgrade)
-        print(chosen_upgrade.name)
         
         if chosen_upgrade.instant_effect:
             if chosen_upgrade.name == "Bomb": player.hasBomb = True
             if chosen_upgrade.name == "Health": player.hp += 1
+
+        self.hasgeneratedupgrades = False
+        self.upgradescursorposition = 0
+        player.iFramesCooldown = PLAYER_IFRAMES
 
         set_state("GAME")
         
