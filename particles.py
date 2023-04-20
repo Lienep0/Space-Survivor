@@ -55,6 +55,7 @@ class BombExplosion:
         self.y = y
         self.timer = 0
         self.radius = 0
+        self.damage = 100
  
     def update(self):
         self.timer += 1
@@ -69,7 +70,7 @@ class BombExplosion:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - self.x
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - self.y
             if pyxel.sqrt(dx ** 2 + dy ** 2) <= self.radius:
-                asteroid.parameters.hp = 0
+                asteroid.take_damage(self.damage)
 
     def draw(self):
         pyxel.circb(self.x, self.y, self.radius, 8 + self.timer % 3)
@@ -97,7 +98,7 @@ class ExplodingBulletsImpact:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - self.x
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - self.y
             if pyxel.sqrt(dx ** 2 + dy ** 2) <= self.radius:
-                asteroid.parameters.hp -= self.damage
+                asteroid.take_damage(self.damage)
                 self.asteroids_hit.append(asteroid)
 
     def draw(self):

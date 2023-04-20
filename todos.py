@@ -5,6 +5,8 @@
 # TODO : Bomb
 
 # Imperative
+# TODO : Add exploding bullet sfx
+# TODO : Mini-invertory when game is paused
 # TODO : Make Bomb able to hit miniboss
 # TODO : Non exponential upgrades
 # TODO : Add level up sfx
@@ -18,6 +20,7 @@
 
 # Optionnal
 # TODO : Add music
+# TODO : Add weight to upgrades ?
 # TODO : Controls Tutorial Menu ? (otherwise just put in readme) Maybe only open on first time game start
 # TODO : Spinning asteroids
 # TODO : Change asteroid sprites as they take more damage

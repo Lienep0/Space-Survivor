@@ -1,4 +1,4 @@
-from random import randint
+from random import random
 
 import pyxel
 
@@ -6,10 +6,13 @@ from asteroids import asteroid_list
 from bullets import Bullet, ExplodingBullet, bullet_list
 from constants import (ASTEROID_HITBOX_CORRECTION, BOTTOM_UI_BAR_SIZE,
                        BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
-                       EXPLODING_UPGRADE_CHANCE, GAME_HEIGHT, GAME_WIDTH,
-                       MAGNET_RANGE, PICKUP_SOUND, PLAYER_DAMAGE_SOUND,
+                       DAMAGE_UPGRADE_BOOST, DASH_UPGRADE_SPEED_BOOST,
+                       EXPLODING_UPGRADE_CHANCE, FIRE_RATE_UPGRADE_BOOST,
+                       GAME_HEIGHT, GAME_WIDTH, MAGNET_RANGE,
+                       MAGNET_UPGRADE_BOOST, PICKUP_SOUND, PLAYER_DAMAGE_SOUND,
                        PLAYER_DASH_SOUND, PLAYER_HP, PLAYER_IFRAMES,
-                       PLAYER_SPEED, PLAYER_STARTING_X, PLAYER_STARTING_Y)
+                       PLAYER_SPEED, PLAYER_STARTING_X, PLAYER_STARTING_Y,
+                       QUAD_SHOT_FIRE_RATE_PENALTY)
 from movetowards import move_towards
 from pickups import pickup_list
 
@@ -22,7 +25,7 @@ class Player:
         # Dash
         self.isDashing = pyxel.btn(pyxel.KEY_SHIFT) and len([x for x in self.inventory if x.name == "Dash"])
         if self.isDashing: pyxel.play(3, PLAYER_DASH_SOUND)
-        speed = PLAYER_SPEED * 1.5 ** self.isDashing
+        speed = PLAYER_SPEED + DASH_UPGRADE_SPEED_BOOST ** self.isDashing
 
         # Movement
         if pyxel.btn(pyxel.KEY_RIGHT) and self.x < GAME_WIDTH - self.size - 1:
@@ -39,15 +42,23 @@ class Player:
             self.shoot()
 
     def shoot(self):
+        def generate_type():
+            if random() <= EXPLODING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Explosions"]): return ExplodingBullet
+            return Bullet
+        
         pyxel.play(0, BULLET_SOUND)
-        for i in range(2):
-            if randint(0, 99) <= EXPLODING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Explosions"]): bullet_type = ExplodingBullet
-            else: bullet_type = Bullet
-            bullet_list.extend([bullet_type(self.x + 1 + i * 5, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"]))])
-        self.fireRateCooldown = BULLET_COOLDOWN * 0.8 ** len([x for x in self.inventory if x.name == "Fire Rate"])
+
+        if self.hasQuadShot: positions_list = [0,2,5,7]
+        else: positions_list = [1,5]
+        for i in positions_list:
+            bullet_list.append(generate_type()(self.x + i, self.y, BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"])))
+
+        self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])
+        if self.hasQuadShot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
+
 
     def check_pickups_activate(self): 
-        range = MAGNET_RANGE * 1.5 ** len([x for x in self.inventory if x.name == "Magnet"])
+        range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Magnet"])
         for pickup in pickup_list:
             if not pickup.activated:
                 dx = (pickup.x - self.x)
@@ -79,6 +90,7 @@ class Player:
     def update(self):
         self.fireRateCooldown -= 1
         self.iFramesCooldown -= 1
+        self.hasQuadShot = len([x for x in self.inventory if x.name == "Quad Shot"])
 
         if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
         if self.active: self.player_controls()
@@ -90,8 +102,11 @@ class Player:
         self.attract_pickups()
 
     def draw(self):   
-        if self.visible: 
-            pyxel.blt(self.x, self.y, 0, 0, 8, self.size, self.size, 0) # Player Ship
+        if self.visible:
+            if self.hasQuadShot:
+                pyxel.blt(self.x, self.y, 0, 88, 40, self.size, self.size, 0) # Quad Shot Player Ship
+            else :
+                pyxel.blt(self.x, self.y, 0, 0, 8, self.size, self.size, 0) # Player Ship
             if self.isDashing: 
                 pyxel.pset(player.x + 1, player.y + 9, 10)
                 pyxel.pset(player.x + 6, player.y + 9, 10) # Player Ship Dashes                

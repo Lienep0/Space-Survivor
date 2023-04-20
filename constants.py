@@ -11,11 +11,18 @@ PLAYER_SPEED = 2
 PLAYER_IFRAMES = 30 # The amount of frames the player has invincibility after getting hit
 PLAYER_DEATHFREEZE_DURATION = 30 # The amount of time the screen freezes when the player dies
 
-BULLET_DAMAGE = 1
+BULLET_DAMAGE = 2
 BULLET_COOLDOWN = 10
 MAGNET_RANGE = 5
 EXPLODING_BULLET_RADIUS = 20
-EXPLODING_UPGRADE_CHANCE = 15
+
+# Upgrade modifiers
+DAMAGE_UPGRADE_BOOST = 0.5
+FIRE_RATE_UPGRADE_BOOST = 1
+MAGNET_UPGRADE_BOOST = 3
+DASH_UPGRADE_SPEED_BOOST = 1
+EXPLODING_UPGRADE_CHANCE = 0.15
+QUAD_SHOT_FIRE_RATE_PENALTY = 1.7
 
 ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
 ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border of the screen, in pixels
