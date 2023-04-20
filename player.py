@@ -25,7 +25,7 @@ class Player:
         # Dash
         self.isDashing = pyxel.btn(pyxel.KEY_SHIFT) and len([x for x in self.inventory if x.name == "Dash"])
         if self.isDashing: pyxel.play(3, PLAYER_DASH_SOUND)
-        speed = PLAYER_SPEED + DASH_UPGRADE_SPEED_BOOST ** self.isDashing
+        speed = PLAYER_SPEED + (DASH_UPGRADE_SPEED_BOOST and self.isDashing) # MDRRRRRRR
 
         # Movement
         if pyxel.btn(pyxel.KEY_RIGHT) and self.x < GAME_WIDTH - self.size - 1:
