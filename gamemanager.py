@@ -9,7 +9,7 @@ from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
                        XP_REQUIREMENTS)
 from globals import get_framecount, set_state, update_framecount
-from inputmanager import manage_inputs
+from gameinputmanager import manage_inputs
 from mainmenu import mainMenu
 from miniboss import miniboss
 from particles import PlayerExplosion, particle_list
@@ -57,7 +57,7 @@ class GameManager:
             if player.active:
                 manage_inputs()
                 player.update()
-                
+
             if miniboss.active: miniboss.update()
 
             for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
