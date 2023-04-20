@@ -3,12 +3,12 @@
 # TODO : Player takes two damage when hitting two asteroids at the same time
 # TODO : Fix being able to dash, shoot and move on the y axis at the same time // Actually not a bug, PC dependent
 # TODO : Bomb
+# TODO : Non exponential upgrades
 
 # Imperative
 # TODO : Add exploding bullet sfx
 # TODO : Mini-invertory when game is paused
 # TODO : Make Bomb able to hit miniboss
-# TODO : Non exponential upgrades
 # TODO : Add level up sfx
 # TODO : Add more upgrades (Explosion, Piercing, Quadruple shot (Damage/Fire rate -), Fullscreen clear bomb en pointillés si tu l'as pas, + Health (Max 4))
 # TODO : Add attacks to miniboss (spread shot pattern ?)
