@@ -7,14 +7,7 @@ from constants import GAME_WIDTH, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT
 
 class Miniboss:
     def __init__(self):
-        self.active = False
-        self.size = 16
-        self.x = (GAME_WIDTH - self.size)/2
-        self.y = -self.size
-        self.hp = 50
-        self.spriteOffset = 0
-        self.crosshair = None
-        self.shootcooldown = 0
+        self.reset()
 
     def update(self):
         self.shootcooldown -= 1
@@ -38,5 +31,15 @@ class Miniboss:
         pyxel.blt(self.x, self.y, 0, 16 + self.spriteOffset, 16, 16, 16, 0)
 
         if self.crosshair is not None and player.hp != 0: self.crosshair.draw()
+
+    def reset(self):
+        self.active = False
+        self.size = 16
+        self.x = (GAME_WIDTH - self.size)/2
+        self.y = -self.size
+        self.hp = 50
+        self.spriteOffset = 0
+        self.crosshair = None
+        self.shootcooldown = 0
 
 miniboss = Miniboss()

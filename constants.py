@@ -1,5 +1,3 @@
-framecount = 0 # The number of frames since game start. Does not go up in menu and resets at game over.
-
 #Main
 GAME_WIDTH = 104
 GAME_HEIGHT = 149
@@ -7,7 +5,7 @@ FPS = 30
 TITLE = "Space Survivor"
 
 PLAYER_STARTING_X = 48
-PLAYER_STARTING_Y = 130
+PLAYER_STARTING_Y = 125
 PLAYER_HP = 3
 PLAYER_SPEED = 2
 PLAYER_IFRAMES = 30 # The amount of frames the player has invincibility after getting hit

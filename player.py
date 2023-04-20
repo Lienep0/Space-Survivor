@@ -9,19 +9,7 @@ from movetowards import move_towards
 
 class Player:
     def __init__(self):
-        self.x = PLAYER_STARTING_X
-        self.y = PLAYER_STARTING_Y
-        self.size = 8
-        self.level = 0
-        self.xp = 0
-        self.hp = PLAYER_HP
-        self.active = True
-        self.visible = True
-        self.fireRateCooldown = 0
-        self.iFramesCooldown = 0
-        self.inventory = []
-        self.isDashing = False
-        self.hasBomb = True
+        self.reset()
 
     def player_controls(self):
         # Dash
@@ -96,4 +84,19 @@ class Player:
                 pyxel.pset(player.x + 1, player.y + 9, 10)
                 pyxel.pset(player.x + 6, player.y + 9, 10) # Player Ship Dashes                
 
+    def reset(self):
+        self.x = PLAYER_STARTING_X
+        self.y = PLAYER_STARTING_Y
+        self.size = 8
+        self.level = 0
+        self.xp = 0
+        self.hp = PLAYER_HP
+        self.active = True
+        self.visible = True
+        self.fireRateCooldown = 0
+        self.iFramesCooldown = 0
+        self.inventory = []
+        self.isDashing = False
+        self.hasBomb = False
+        
 player = Player()
