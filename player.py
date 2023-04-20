@@ -20,11 +20,15 @@ class Player:
         self.iFramesCooldown = 0
         self.inventory = []
         self.isDashing = False
+        self.hasBomb = False
 
     def player_controls(self):
+        # Dash
         self.isDashing = pyxel.btn(pyxel.KEY_SHIFT) and len([x for x in self.inventory if x.name == "Dash"])
         if self.isDashing: pyxel.play(3, PLAYER_DASH_SOUND)
         speed = PLAYER_SPEED * 1.5 ** self.isDashing
+
+        # Movement
         if pyxel.btn(pyxel.KEY_RIGHT) and self.x < GAME_WIDTH - self.size - 1:
             self.x += speed
         if pyxel.btn(pyxel.KEY_LEFT) and self.x > 1:
@@ -33,12 +37,18 @@ class Player:
             self.y += speed
         if pyxel.btn(pyxel.KEY_UP) and self.y > 1:
             self.y -= speed
+
+        # Shooting
         if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
             pyxel.play(0, BULLET_SOUND)
             self.fireRateCooldown = BULLET_COOLDOWN * 0.8 ** len([x for x in self.inventory if x.name == "Fire Rate"])
             bullet_list.extend([Bullet(self.x + 1, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"])),
                                 Bullet(self.x + 6, self.y, BULLET_DAMAGE * 1.2 ** len([x for x in self.inventory if x.name == "Damage"]))])
-            
+
+        # Bomb
+        if pyxel.btn(pyxel.KEY_B) and player.hasBomb:
+            player.hasBomb = False
+
     def check_pickups_activate(self): 
         range = MAGNET_RANGE * 1.5 ** len([x for x in self.inventory if x.name == "Magnet"])
         for pickup in pickup_list:

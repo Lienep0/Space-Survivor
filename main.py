@@ -29,7 +29,7 @@ class Main:
         pyxel.run(self.update, self.draw)
 
     def check_player_upgrade(self,player):
-        if player.level <= MAX_LEVEL and player.xp >= XP_REQUIREMENTS[player.level]:
+        if player.level < MAX_LEVEL and player.xp >= XP_REQUIREMENTS[player.level]:
             player.xp = 0
             player.level += 1
             self.state = "UPGRADE_MENU"
@@ -103,6 +103,9 @@ class Main:
                 chosen_upgrade = current_upgrade_list[self.upgradescursorposition + 1]
                 player.inventory.append(chosen_upgrade)
                 if chosen_upgrade.is_unique: upgrade_list.remove(chosen_upgrade)
+                if chosen_upgrade.instant_effect:
+                    if chosen_upgrade.name == "Bomb": player.hasBomb = True
+                    if chosen_upgrade.name == "Health": player.hp += 1
                 self.state = "GAME"
         elif not self.paused:
             self.spawn_asteroids()
@@ -167,6 +170,9 @@ class Main:
             current_upgrade_list = []
             upgrade_list_buffer = list(upgrade_list)
 
+            if player.hasBomb: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Bomb"]
+            if player.hp >= 5: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Health"]
+
             current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
             current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
             current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
@@ -208,6 +214,7 @@ class Main:
         player.active = True
         player.inventory = []
         player.isDashing = False
+        player.hasBomb = False
 
         generate_stars()
     
