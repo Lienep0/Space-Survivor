@@ -26,15 +26,8 @@ MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-s
 CROSSHAIR_SPEED = 1.5
 CROSSHAIR_HITBOX_CORRECTION = 0 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
 
-XP_REQUIREMENTS = { # How much xp is required per level up // A METTRE EN LISTE, DUCON
-    0:30,
-    1:40,
-    2:50,
-    3:60,
-    4:70,
-    5:80
-}
-MAX_LEVEL = 5
+XP_REQUIREMENTS = [30, 40, 50, 60, 70, 80] # Number of xp required to level up per level
+MAX_LEVEL = len(XP_REQUIREMENTS) - 1
 
 ASTEROIDS = {
     "SMALL_ASTEROID": {"type": 0, "size": 8, "coords": [8, 0], "hp": 6, "xp": 1},
