@@ -75,6 +75,7 @@ class GameManager:
             if pyxel.btn(pyxel.KEY_B) and player.hasBomb:
                 pyxel.play(1, BOMB_SOUND)
                 self.explosion = BombExplosion(player.x + 3, player.y + 3)
+                particle_list = [x for x in particle_list if type(x) != BombExplosion]
                 particle_list.append(self.explosion)
                 player.hasBomb = False
 
