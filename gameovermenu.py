@@ -12,7 +12,9 @@ from player import player
 
 class GameOverMenu:
     def update(self):
-        if pyxel.btnp(pyxel.KEY_SPACE): self.reset_game
+        if pyxel.btnp(pyxel.KEY_SPACE): 
+            print("reset")
+            self.reset_game()
 
     def draw(self):
         pyxel.blt(20, 20, 1, 0, 0, 64, 16) #GAME

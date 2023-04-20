@@ -28,7 +28,6 @@ class UpgradeMenu:
                 upgrade_pool.remove(upgrade)
                 return upgrade
 
-
     def generate_upgrades(self):
         global current_upgrade_list
         current_upgrade_list = []
@@ -37,7 +36,7 @@ class UpgradeMenu:
         # Remove redundant upgrades
         if player.hasBomb: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Bomb"]
         if player.hp >= MAXIMUM_HEALTH: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Health"]
-        if len([x for x in player.inventory if x.name == "Explosions"]) * EXPLODING_UPGRADE_CHANCE > 100:
+        if len([x for x in player.inventory if x.name == "Explosions"]) * EXPLODING_UPGRADE_CHANCE > 1:
             upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Explosions"]
 
         for _ in range(3):
