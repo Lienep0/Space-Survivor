@@ -22,40 +22,23 @@ class Player:
     def __init__(self):
         self.reset()
 
-    def player_controls(self):
-        # Dash
-        self.isDashing = pyxel.btn(pyxel.KEY_SHIFT) and len([x for x in self.inventory if x.name == "Dash"])
-        if self.isDashing: pyxel.play(3, PLAYER_DASH_SOUND)
-        speed = PLAYER_SPEED + (DASH_UPGRADE_SPEED_BOOST and self.isDashing) # MDRRRRRRR
+    def update(self):
+        self.fireRateCooldown -= 1
+        self.iFramesCooldown -= 1
+        self.hasQuadShot = len([x for x in self.inventory if x.name == "Quad Shot"])
 
-        # Movement
-        if pyxel.btn(pyxel.KEY_RIGHT) and self.x < GAME_WIDTH - self.size - 1:
-            self.x += speed
-        if pyxel.btn(pyxel.KEY_LEFT) and self.x > 1:
-            self.x -= speed
-        if pyxel.btn(pyxel.KEY_DOWN) and self.y < GAME_HEIGHT - self.size - BOTTOM_UI_BAR_SIZE - 1:
-            self.y += speed
-        if pyxel.btn(pyxel.KEY_UP) and self.y > 1:
-            self.y -= speed
+        if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
+        if self.iFramesCooldown <= 0: 
+            self.visible = True
+            self.check_asteroids()
 
-        # Shooting
-        if pyxel.btn(pyxel.KEY_SPACE) and self.fireRateCooldown <= 0:
-            self.shoot()
-
-    def shoot(self):
-        pyxel.play(0, BULLET_SOUND)
-
-        if self.hasQuadShot: positions_list = [[0,2,5,7],[3,0,0,3]]
-        else: positions_list = [[1,6],[0,0]]
-        for i in range(len(positions_list[0])):
-            bullet_list.append(Bullet(self.x + positions_list[0][i], self.y + positions_list[1][i], 
-                                      damage= BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"]),
-                                      piercing= random() <= PIERCING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Piercing"]),
-                                      exploding= random() <= EXPLODING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Explosions"])))
-
-        self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])
-        if self.hasQuadShot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
-
+        self.check_pickups_activate()
+        self.attract_pickups()
+    
+    def take_damage(self):
+        self.hp -= 1
+        self.iFramesCooldown = PLAYER_IFRAMES
+        if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
 
     def check_pickups_activate(self): 
         range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Magnet"])
@@ -70,11 +53,6 @@ class Player:
                                asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION) and self.iFramesCooldown <=0:
                 self.take_damage()
 
-    def take_damage(self):
-        self.hp -= 1
-        self.iFramesCooldown = PLAYER_IFRAMES
-        if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
-
     def attract_pickups(self):
         for pickup in pickup_list:
             if pickup.activated:
@@ -84,19 +62,19 @@ class Player:
                     self.xp += 1
                     pickup_list.remove(pickup)
 
-    def update(self):
-        self.fireRateCooldown -= 1
-        self.iFramesCooldown -= 1
-        self.hasQuadShot = len([x for x in self.inventory if x.name == "Quad Shot"])
+    def shoot(self):
+        pyxel.play(0, BULLET_SOUND)
 
-        if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
-        if self.active: self.player_controls()
-        if self.iFramesCooldown <= 0: 
-            self.visible = True
-            self.check_asteroids()
+        if self.hasQuadShot: positions_list = [[0,2,5,7],[3,0,0,3]]
+        else: positions_list = [[1,6],[0,0]]
+        for i in range(len(positions_list[0])):
+            bullet_list.append(Bullet(self.x + positions_list[0][i], self.y + positions_list[1][i], 
+                                      damage= BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"]),
+                                      piercing= random() <= PIERCING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Piercing"]),
+                                      exploding= random() <= EXPLODING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Explosions"])))
 
-        self.check_pickups_activate()
-        self.attract_pickups()
+        self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])
+        if self.hasQuadShot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
 
     def draw(self):   
         if self.visible:
@@ -122,5 +100,6 @@ class Player:
         self.inventory = []
         self.isDashing = False
         self.hasBomb = False
+        self.hasQuadShot = False
         
 player = Player()

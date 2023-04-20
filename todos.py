@@ -6,9 +6,10 @@
 # TODO : Non exponential upgrades
 # TODO : Add weight to upgrades
 # TODO : Add more upgrades (Explosion, Piercing, Quadruple shot (Damage/Fire rate -), Fullscreen clear bomb en pointillés si tu l'as pas, + Health (Max 4))
+# TODO : Move inputs to InputManager (not a class, just a function in a script)
 
 # Imperative
-# TODO : Move inputs to InputManager (not a class, just a function in a script)
+# TODO : Upgrades that increases size but also doubles damage
 # TODO : Add exploding bullet sfx
 # TODO : Mini-invertory when game is paused
 # TODO : Make Bomb able to hit miniboss
