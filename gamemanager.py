@@ -75,19 +75,8 @@ class GameManager:
             if pyxel.btn(pyxel.KEY_B) and player.hasBomb:
                 pyxel.play(1, BOMB_SOUND)
                 self.explosion = BombExplosion(player.x + 3, player.y + 3)
-                particle_list = [x for x in particle_list if type(x) != BombExplosion]
                 particle_list.append(self.explosion)
                 player.hasBomb = False
-
-            if self.explosion is not None:
-                for asteroid in asteroid_list:
-                    dx = asteroid.x + (asteroid.parameters.size/2 - .5) - self.explosion.x
-                    dy = asteroid.y + (asteroid.parameters.size/2 - .5) - self.explosion.y
-                    if pyxel.sqrt(dx ** 2 + dy ** 2) <= self.explosion.radius:
-                        asteroid.parameters.hp -= 100
-                if self.explosion.timer == 22:
-                    particle_list.remove(self.explosion)
-                    self.explosion = None
 
             self.spawn_asteroids()
             self.check_player_upgrade(player)

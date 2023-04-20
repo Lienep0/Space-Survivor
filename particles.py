@@ -14,6 +14,7 @@ class Impact:
         self.timer += 1
         if self.timer == 6:
             particle_list.remove(self)
+            self = None
 
     def draw(self):
         pyxel.circb(self.x, self.y, self.timer // 2, 8 + self.timer % 3)
@@ -30,6 +31,7 @@ class MinibossShotLine:
         self.timer += 1
         if self.timer == 18:
             particle_list.remove(self)
+            self = None
 
     def draw(self):
         pyxel.line(self.x, self.y, self.xgoal, self.ygoal, 8 + self.timer % 3)
@@ -56,6 +58,17 @@ class BombExplosion:
     def update(self):
         self.timer += 1
         self.radius = self.timer * 6
+        self.remove_asteroids()
+        if self.timer == 22:
+            particle_list.remove(self)
+            self = None
+
+    def remove_asteroids(self):
+        for asteroid in asteroid_list:
+            dx = asteroid.x + (asteroid.parameters.size/2 - .5) - self.x
+            dy = asteroid.y + (asteroid.parameters.size/2 - .5) - self.y
+            if pyxel.sqrt(dx ** 2 + dy ** 2) <= self.radius:
+                asteroid.parameters.hp -= 100
 
     def draw(self):
         pyxel.circb(self.x, self.y, self.radius, 8 + self.timer % 3)
