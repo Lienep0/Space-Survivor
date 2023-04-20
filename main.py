@@ -208,4 +208,5 @@ def reset_game(game):
 
     generate_stars()
 
-game = Main()
+if __name__ == "__main__":
+    game = Main()
