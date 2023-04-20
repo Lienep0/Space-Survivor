@@ -1,10 +1,12 @@
+from random import randrange
+
 import pyxel
 
-from player import player
 from constants import PLAYER_IFRAMES
-from upgrades import upgrade_list
-from random import randrange
 from globals import set_state
+from player import player
+from upgrades import upgrade_list
+
 
 class UpgradeMenu:
     def __init__(self):

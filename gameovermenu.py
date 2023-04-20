@@ -9,6 +9,7 @@ from particles import particle_list
 from pickups import pickup_list
 from player import player
 
+
 class GameOverMenu:
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE): self.reset_game

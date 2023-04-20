@@ -1,11 +1,16 @@
 import pyxel
 
-from bullets import bullet_list, Bullet
 from asteroids import asteroid_list
-from pickups import pickup_list
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE, PLAYER_SPEED, GAME_HEIGHT, GAME_WIDTH, BOTTOM_UI_BAR_SIZE
-from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND, PLAYER_DASH_SOUND
+from bullets import Bullet, bullet_list
+from constants import (ASTEROID_HITBOX_CORRECTION, BOTTOM_UI_BAR_SIZE,
+                       BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
+                       GAME_HEIGHT, GAME_WIDTH, MAGNET_RANGE, PICKUP_SOUND,
+                       PLAYER_DAMAGE_SOUND, PLAYER_DASH_SOUND, PLAYER_HP,
+                       PLAYER_IFRAMES, PLAYER_SPEED, PLAYER_STARTING_X,
+                       PLAYER_STARTING_Y)
 from movetowards import move_towards
+from pickups import pickup_list
+
 
 class Player:
     def __init__(self):

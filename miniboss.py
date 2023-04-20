@@ -1,9 +1,10 @@
 import pyxel
 
-from player import player
-from crosshair import Crosshair
-from particles import particle_list, MinibossShotLine
 from constants import GAME_WIDTH, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT
+from crosshair import Crosshair
+from particles import MinibossShotLine, particle_list
+from player import player
+
 
 class Miniboss:
     def __init__(self):
