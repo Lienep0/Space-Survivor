@@ -25,5 +25,5 @@ upgrade_list.append(Upgrade("Dash", ["Adds the ability to", "Dash by holding", f
 upgrade_list.append(Upgrade("Quad Shot", ["You fire Twice as", "Many bullets. Fire", "rate is reduced", f"by {-int((1 - QUAD_SHOT_FIRE_RATE_PENALTY) * 100)}%"], 112, 16, True, False, .1))
 
 # Instant Upgrades
-upgrade_list.append(Upgrade("Bomb", ["Gives you a bomb", "That can clear all", "asteroids. Activate", "by pressing B."], 96, 0, False, True, 100000)) # Default is 2
+upgrade_list.append(Upgrade("Bomb", ["Gives you a bomb", "That can clear all", "asteroids. Activate", "by pressing B."], 96, 0, False, True, 2))
 upgrade_list.append(Upgrade("Health", ["Heals you 1 HP", f"Maximum is {MAXIMUM_HEALTH}"], 96, 16, False, True, 1))
