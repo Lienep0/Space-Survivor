@@ -4,6 +4,7 @@
 # TODO : Fix being able to dash, shoot and move on the y axis at the same time // Actually not a bug, PC dependent
 
 # Imperative
+# TODO : Bomb
 # TODO : Non exponential upgrades
 # TODO : Add level up sfx
 # TODO : Add more upgrades (Explosion, Piercing, Quadruple shot (Damage/Fire rate -), Fullscreen clear bomb en pointillés si tu l'as pas, + Health (Max 4))
