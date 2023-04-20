@@ -42,7 +42,7 @@ class Main:
             self.timeofdeath = framecount
         
         if self.timeofdeath + PLAYER_DEATHFREEZE_DURATION == framecount :
-            reset_game(self)
+            self.reset_game()
 
     def spawn_asteroids(self):
         global framecount
@@ -58,7 +58,7 @@ class Main:
         # DEV SHORTCUTS
         # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         if pyxel.btnp(pyxel.KEY_R):
-            reset_game(self)
+            self.reset_game()
         if pyxel.btnp(pyxel.KEY_A):
             self.asteroid_toggle = not self.asteroid_toggle
         if pyxel.btnp(pyxel.KEY_M):
@@ -179,34 +179,34 @@ class Main:
             pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgradescursorposition + 1].description[i], 7) # DESCRIPTION LINES
         pyxel.rectb(43 + 20 * self.upgradescursorposition, 48, 20, 20, 7) #CURSOR
 
-def reset_game(game):
-    global framecount
-    framecount = 0
-    game.state = "GAME_OVER"
-    game.timeofdeath = -100
-    game.miniboss = None
-    game.paused = False
-    game.hasgeneratedupgrades = False
-    
-    star_list.clear()
-    asteroid_list.clear()
-    asteroid_list.clear()
-    bullet_list.clear()
-    pickup_list.clear()
-    particle_list.clear()
-    
-    player.x = PLAYER_STARTING_X
-    player.y = PLAYER_STARTING_Y
-    player.hp = PLAYER_HP
-    player.level = 0
-    player.xp = 0
-    player.iFramesCooldown = 0
-    player.visible = True
-    player.active = True
-    player.inventory = []
-    player.isDashing = False
+    def reset_game(self):
+        global framecount
+        framecount = 0
+        self.state = "GAME_OVER"
+        self.timeofdeath = -100
+        self.miniboss = None
+        self.paused = False
+        self.hasgeneratedupgrades = False
+        
+        star_list.clear()
+        asteroid_list.clear()
+        asteroid_list.clear()
+        bullet_list.clear()
+        pickup_list.clear()
+        particle_list.clear()
+        
+        player.x = PLAYER_STARTING_X
+        player.y = PLAYER_STARTING_Y
+        player.hp = PLAYER_HP
+        player.level = 0
+        player.xp = 0
+        player.iFramesCooldown = 0
+        player.visible = True
+        player.active = True
+        player.inventory = []
+        player.isDashing = False
 
-    generate_stars()
-
+        generate_stars()
+    
 if __name__ == "__main__":
     game = Main()
