@@ -1,9 +1,9 @@
 import pyxel
 
 from asteroids import asteroid_list
-from particles import particle_list, Impact, ExplodingBulletsImpact
 from constants import IMPACT_SOUND
 from functions import round_collision
+from particles import ExplodingBulletsImpact, Impact, particle_list
 
 bullet_list = []
 

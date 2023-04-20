@@ -7,11 +7,11 @@ from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROIDS, BOMB_SOUND,
                        BOTTOM_UI_BAR_SIZE, DASH_UPGRADE_SPEED_BOOST,
                        GAME_HEIGHT, GAME_WIDTH, PLAYER_DASH_SOUND,
                        PLAYER_SPEED)
+from globals import set_state
 from mainmenu import mainMenu
 from miniboss import miniboss
 from particles import BombExplosion, particle_list
 from player import player
-from globals import set_state
 
 
 def manage_inputs():
