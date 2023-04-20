@@ -52,12 +52,12 @@ class Player:
         for asteroid in asteroid_list:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - (self.x + (self.size/2 - .5))
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - (self.y + (self.size/2 - .5))
-            if pyxel.sqrt(dx ** 2 + dy ** 2) <= asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION:
+            if pyxel.sqrt(dx ** 2 + dy ** 2) <= asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION and self.iFramesCooldown <= 0:
                 self.take_damage()
 
     def take_damage(self):
         self.hp -= 1
-        self.iFramesCooldown  = PLAYER_IFRAMES
+        self.iFramesCooldown = PLAYER_IFRAMES
         if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
 
     def attract_pickups(self):
