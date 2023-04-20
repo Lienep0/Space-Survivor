@@ -2,7 +2,8 @@ from random import uniform
 
 import pyxel
 
-from constants import EXPLODING_UPGRADE_CHANCE, MAXIMUM_HEALTH, PLAYER_IFRAMES
+from constants import (EXPLODING_UPGRADE_CHANCE, MAXIMUM_HEALTH,
+                       PIERCING_UPGRADE_CHANCE, PLAYER_IFRAMES)
 from globals import set_state
 from player import player
 from upgrades import upgrade_list
@@ -38,6 +39,8 @@ class UpgradeMenu:
         if player.hp >= MAXIMUM_HEALTH: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Health"]
         if len([x for x in player.inventory if x.name == "Explosions"]) * EXPLODING_UPGRADE_CHANCE > 1:
             upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Explosions"]
+        if len([x for x in player.inventory if x.name == "Piercing"]) * PIERCING_UPGRADE_CHANCE > 1:
+            upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Piercing"]
 
         for _ in range(3):
             current_upgrade_list.append(self.choose_upgrade(upgrade_list_buffer))
