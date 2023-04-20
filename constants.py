@@ -23,6 +23,7 @@ MAGNET_UPGRADE_BOOST = 3
 DASH_UPGRADE_SPEED_BOOST = 1
 EXPLODING_UPGRADE_CHANCE = 0.15
 QUAD_SHOT_FIRE_RATE_PENALTY = 1.7
+MAXIMUM_HEALTH = 4
 
 ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
 ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border of the screen, in pixels

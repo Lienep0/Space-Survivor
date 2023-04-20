@@ -1,6 +1,7 @@
 from constants import (DAMAGE_UPGRADE_BOOST, DASH_UPGRADE_SPEED_BOOST,
                        EXPLODING_UPGRADE_CHANCE, FIRE_RATE_UPGRADE_BOOST,
-                       MAGNET_UPGRADE_BOOST, QUAD_SHOT_FIRE_RATE_PENALTY)
+                       MAGNET_UPGRADE_BOOST, MAXIMUM_HEALTH,
+                       QUAD_SHOT_FIRE_RATE_PENALTY)
 
 upgrade_list = []
 
@@ -24,4 +25,4 @@ upgrade_list.append(Upgrade("Quad Shot", ["You fire Twice as", "Many bullets. Fi
 
 # Instant Upgrades
 upgrade_list.append(Upgrade("Bomb", ["Gives you a bomb", "That can clear all", "asteroids. Activate", "by pressing B."], 96, 0, False, True))
-upgrade_list.append(Upgrade("Health", ["Heals you 1 HP", "Maximum is 5"], 96, 16, False, True))
+upgrade_list.append(Upgrade("Health", ["Heals you 1 HP", f"Maximum is {MAXIMUM_HEALTH}"], 96, 16, False, True))

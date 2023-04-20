@@ -2,7 +2,7 @@ from random import randrange
 
 import pyxel
 
-from constants import PLAYER_IFRAMES, EXPLODING_UPGRADE_CHANCE
+from constants import EXPLODING_UPGRADE_CHANCE, MAXIMUM_HEALTH, PLAYER_IFRAMES
 from globals import set_state
 from player import player
 from upgrades import upgrade_list
@@ -20,7 +20,7 @@ class UpgradeMenu:
 
         # Remove redundant upgrades
         if player.hasBomb: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Bomb"]
-        if player.hp >= 5: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Health"]
+        if player.hp >= MAXIMUM_HEALTH: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Health"]
         if len([x for x in player.inventory if x.name == "Explosions"]) * EXPLODING_UPGRADE_CHANCE > 100:
             upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Explosions"]
 
@@ -58,7 +58,7 @@ class UpgradeMenu:
         
         for i in range(len(current_upgrade_list[self.upgradescursorposition + 1].description)): # DESCRIPTION LINES
             pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgradescursorposition + 1].description[i], 7)
-            
+
         pyxel.rectb(43 + 20 * self.upgradescursorposition, 48, 20, 20, 7) #CURSOR
 
 upgradeMenu = UpgradeMenu()
