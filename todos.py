@@ -4,6 +4,7 @@
 # TODO : Fix being able to dash, shoot and move on the y axis at the same time // Actually not a bug, PC dependent
 # TODO : Bomb
 # TODO : Non exponential upgrades
+# TODO : Add weight to upgrades
 
 # Imperative
 # TODO : Add exploding bullet sfx
@@ -19,8 +20,8 @@
 # TODO : GAMEMANAGER
 
 # Optionnal
+# TODO : Dynamic Health Upgrade Weight based on player hp ?
 # TODO : Add music
-# TODO : Add weight to upgrades ?
 # TODO : Controls Tutorial Menu ? (otherwise just put in readme) Maybe only open on first time game start
 # TODO : Spinning asteroids
 # TODO : Change asteroid sprites as they take more damage

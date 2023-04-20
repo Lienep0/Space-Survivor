@@ -1,4 +1,4 @@
-from random import randrange
+from random import uniform
 
 import pyxel
 
@@ -13,6 +13,22 @@ class UpgradeMenu:
         self.hasgeneratedupgrades = False
         self.upgradescursorposition = 0
 
+    def choose_upgrade(self, upgrade_pool):
+        # Calculate the cumulative probabilities
+        cumulative_probs = []
+        total_prob = 0
+        for upgrade in upgrade_pool:
+            total_prob += upgrade.weight
+            cumulative_probs.append((upgrade, total_prob))
+
+        # Choose a random upgrade based on the probabilities
+        rand_num = uniform(0, total_prob)
+        for upgrade, cum_prob in cumulative_probs:
+            if rand_num < cum_prob:
+                upgrade_pool.remove(upgrade)
+                return upgrade
+
+
     def generate_upgrades(self):
         global current_upgrade_list
         current_upgrade_list = []
@@ -24,9 +40,8 @@ class UpgradeMenu:
         if len([x for x in player.inventory if x.name == "Explosions"]) * EXPLODING_UPGRADE_CHANCE > 100:
             upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Explosions"]
 
-        current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
-        current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
-        current_upgrade_list.append(upgrade_list_buffer.pop(randrange(0,len (upgrade_list_buffer))))
+        for _ in range(3):
+            current_upgrade_list.append(self.choose_upgrade(upgrade_list_buffer))
 
         self.hasgeneratedupgrades = True
     
