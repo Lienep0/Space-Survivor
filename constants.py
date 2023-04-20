@@ -26,7 +26,7 @@ MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-s
 CROSSHAIR_SPEED = 1.5
 CROSSHAIR_HITBOX_CORRECTION = 0 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
 
-XP_REQUIREMENTS = { # How much xp is required per level up
+XP_REQUIREMENTS = { # How much xp is required per level up // A METTRE EN LISTE, DUCON
     0:30,
     1:40,
     2:50,

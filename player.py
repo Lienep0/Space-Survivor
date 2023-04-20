@@ -4,7 +4,7 @@ from bullets import *
 from pickups import pickup_list
 from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, MAGNET_RANGE, BULLET_COOLDOWN, PLAYER_HP, PLAYER_IFRAMES, ASTEROID_HITBOX_CORRECTION, BULLET_DAMAGE, PLAYER_SPEED, GAME_HEIGHT, GAME_WIDTH, BOTTOM_UI_BAR_SIZE
 from constants import BULLET_SOUND, PICKUP_SOUND, PLAYER_DAMAGE_SOUND, PLAYER_DASH_SOUND
-from movetowards import move_towards
+from moveTowards import move_towards
 
 class Player:
     def __init__(self):
@@ -52,7 +52,7 @@ class Player:
         for asteroid in asteroid_list:
             dx = asteroid.x + (asteroid.parameters.size/2 - .5) - (self.x + (self.size/2 - .5))
             dy = asteroid.y + (asteroid.parameters.size/2 - .5) - (self.y + (self.size/2 - .5))
-            if pyxel.sqrt(dx ** 2 + dy ** 2) <= asteroid.parameters.size/2 + 3 + ASTEROID_HITBOX_CORRECTION:
+            if pyxel.sqrt(dx ** 2 + dy ** 2) <= asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION:
                 self.take_damage()
 
     def take_damage(self):

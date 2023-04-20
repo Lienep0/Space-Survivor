@@ -2,7 +2,7 @@ import pyxel
 
 from player import player
 from crosshair import Crosshair
-from particles import particle_list, MinibossShot, MinibossShotLine
+from particles import particle_list, MinibossShotLine
 from constants import GAME_WIDTH, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT
 
 class Miniboss:
@@ -25,8 +25,7 @@ class Miniboss:
             self.crosshair.update()
             if self.crosshair.hasHit and player.iFramesCooldown <= 0:
                 player.take_damage()
-                particle_list.append(MinibossShot(self.x + 8 + (self.spriteOffset/8), self.y + 8))
-                particle_list.append(MinibossShotLine(self.x + 8 + (self.spriteOffset/8), self.y + 8, player.x, player.y))
+                particle_list.append(MinibossShotLine(self.x + 8 + (self.spriteOffset/8), self.y + 8, player.x + 3, player.y))
                 self.crosshair = None
                 self.hasFired = False
                 self.shootcooldown = MINIBOSS_FIRE_COOLDOWN
