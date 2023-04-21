@@ -4,7 +4,7 @@ import pyxel
 
 from asteroids import Asteroid, asteroid_list
 from bombs import bombs_list
-from bullets import bullet_list, bullet_list_buffer
+from bullets import bullet_list
 from collisionmanager import check_collisions
 from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
                        ASTEROIDS, GAME_WIDTH, LEVEL_UP_SOUND, MAX_LEVEL,
