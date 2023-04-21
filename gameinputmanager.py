@@ -5,8 +5,8 @@ import pyxel
 from asteroids import Asteroid, asteroid_list
 from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROIDS, BOMB_SOUND,
                        BOTTOM_UI_BAR_SIZE, DASH_UPGRADE_SPEED_BOOST,
-                       GAME_HEIGHT, GAME_WIDTH, PLAYER_DASH_SOUND,
-                       PLAYER_SPEED)
+                       GAME_HEIGHT, GAME_WIDTH, MAX_NUMBER_OF_BOMBS,
+                       PLAYER_DASH_SOUND, PLAYER_SPEED)
 from globals import set_state
 from mainmenu import mainMenu
 from miniboss import miniboss
@@ -35,10 +35,10 @@ def manage_inputs():
         player.shoot()
 
     # Bomb
-    if pyxel.btn(pyxel.KEY_B) and player.hasBomb:
+    if pyxel.btnp(pyxel.KEY_B) and player.number_of_bombs >= 1:
         pyxel.play(1, BOMB_SOUND)
         particle_list.append(BombExplosion(player.x + 3, player.y + 3))
-        player.hasBomb = False
+        player.number_of_bombs -= 1
 
     # Dev Shortcuts
     if pyxel.btnp(pyxel.KEY_R):
@@ -49,8 +49,8 @@ def manage_inputs():
         miniboss.active = True
     if pyxel.btnp(pyxel.KEY_X):
         player.xp += 10
-    if pyxel.btnp(pyxel.KEY_V):
-        player.hasBomb = True
+    if pyxel.btnp(pyxel.KEY_V) and player.number_of_bombs < MAX_NUMBER_OF_BOMBS:
+        player.number_of_bombs += 1
     if pyxel.btnp(pyxel.KEY_1): 
         asteroid_list.append(Asteroid(randint(
             ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))

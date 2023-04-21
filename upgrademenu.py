@@ -2,8 +2,8 @@ from random import uniform
 
 import pyxel
 
-from constants import (EXPLODING_UPGRADE_CHANCE, MAXIMUM_HEALTH,
-                       PIERCING_UPGRADE_CHANCE, PLAYER_IFRAMES)
+from constants import (EXPLODING_UPGRADE_CHANCE, MAX_NUMBER_OF_BOMBS,
+                       MAXIMUM_HEALTH, PIERCING_UPGRADE_CHANCE, PLAYER_IFRAMES)
 from globals import set_state
 from player import player
 from upgrades import upgrade_list
@@ -35,7 +35,7 @@ class UpgradeMenu:
         upgrade_list_buffer = [x for x in upgrade_list]
 
         # Remove redundant upgrades
-        if player.hasBomb: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Bomb"]
+        if player.number_of_bombs >= MAX_NUMBER_OF_BOMBS: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Bomb"]
         if player.hp >= MAXIMUM_HEALTH: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Health"]
         if len([x for x in player.inventory if x.name == "Explosions"]) * EXPLODING_UPGRADE_CHANCE > 1:
             upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Explosions"]
@@ -55,7 +55,7 @@ class UpgradeMenu:
         if chosen_upgrade.is_unique: upgrade_list.remove(chosen_upgrade)
         
         if chosen_upgrade.instant_effect:
-            if chosen_upgrade.name == "Bomb": player.hasBomb = True
+            if chosen_upgrade.name == "Bomb": player.number_of_bombs += 1
             if chosen_upgrade.name == "Health": player.hp += 1
 
         self.hasgeneratedupgrades = False

@@ -95,8 +95,8 @@ class Player:
         self.fireRateCooldown = 0
         self.iFramesCooldown = 0
         self.inventory = []
+        self.number_of_bombs = 1
         self.isDashing = False
-        self.hasBomb = False
         self.hasQuadShot = False
         
 player = Player()
