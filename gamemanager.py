@@ -8,8 +8,8 @@ from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
                        ASTEROIDS, GAME_WIDTH, LEVEL_UP_SOUND, MAX_LEVEL,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
                        XP_REQUIREMENTS)
-from gameinputmanager import manage_inputs
-from globals import get_framecount, set_state, update_framecount
+from gameinputmanager import manage_inputs, pause_input
+from globals import get_framecount, get_paused_state, set_game_state, update_framecount
 from mainmenu import mainMenu
 from miniboss import miniboss
 from particles import PlayerExplosion, particle_list
@@ -27,7 +27,7 @@ class GameManager:
             pyxel.play(2, LEVEL_UP_SOUND)
             player.xp = 0
             player.level += 1
-            set_state("UPGRADEMENU")
+            set_game_state("UPGRADEMENU")
 
     def check_for_death(self):
         if player.hp <= 0 and self.timeofdeath < 0:
@@ -37,19 +37,19 @@ class GameManager:
             self.timeofdeath = get_framecount()
         
         if self.timeofdeath + PLAYER_DEATHFREEZE_DURATION == get_framecount() :
-            set_state("GAMEOVER")
+            set_game_state("GAMEOVER")
 
     def spawn_asteroids(self):
         if mainMenu.asteroid_toggle:
-            if get_framecount() % ASTEROID_COOLDOWN == 0: #Génère un astéroide toutes les "ASTEROID_COOLDOWN" frames
+            if get_framecount() % ASTEROID_COOLDOWN == 0:
                 asteroid_list.append(Asteroid(randint(
                     ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"]- ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["SMALL_ASTEROID"]["type"]))
 
     def update(self):
         update_framecount()
-
-        if pyxel.btnp(pyxel.KEY_P):
-            self.paused = not self.paused
+        
+        pause_input()
+        self.paused = get_paused_state()
 
         if not self.paused:
             self.spawn_asteroids()
@@ -73,6 +73,8 @@ class GameManager:
 
             self.check_for_death()
 
+        ui.update()
+
     def draw(self):
         if player.active:
             for element in asteroid_list + bullet_list + pickup_list:
@@ -89,8 +91,6 @@ class GameManager:
             particle.draw()
 
         ui.draw()
-
-        if self.paused: pyxel.blt(28, 30, 0, 0, 112, 48, 8, 0) # PAUSED
 
     def reset(self):
         self.timeofdeath = -100

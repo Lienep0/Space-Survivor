@@ -3,7 +3,7 @@ import pyxel
 from asteroids import asteroid_list
 from bullets import bullet_list
 from gamemanager import gameManager
-from globals import reset_framecount, set_state
+from globals import reset_framecount, set_game_state
 from miniboss import miniboss
 from particles import particle_list
 from pickups import pickup_list
@@ -23,7 +23,7 @@ class GameOverMenu:
 
     def reset_game(self):
         reset_framecount()
-        set_state("MENU")
+        set_game_state("MENU")
         
         gameManager.timeofdeath = -100
         gameManager.explosion = None

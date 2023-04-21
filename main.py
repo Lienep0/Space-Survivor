@@ -3,7 +3,7 @@ import pyxel
 from constants import FPS, GAME_HEIGHT, GAME_WIDTH, TITLE
 from gamemanager import gameManager
 from gameovermenu import gameOverMenu
-from globals import get_state
+from globals import get_game_state, get_paused_state
 from mainmenu import mainMenu
 from stars import generate_stars, star_list
 from upgrademenu import upgradeMenu
@@ -11,7 +11,7 @@ from upgrademenu import upgradeMenu
 
 class Main:
     def __init__(self):
-        self.state = get_state()
+        self.state = get_game_state()
         generate_stars()
 
         pyxel.init(GAME_WIDTH, GAME_HEIGHT, title = TITLE, fps = FPS)
@@ -19,10 +19,11 @@ class Main:
         pyxel.run(self.update, self.draw)
 
     def update(self):
-        self.state = get_state()
+        self.state = get_game_state()
         
-        for star in star_list:
-            star.update()
+        if not get_paused_state():
+            for star in star_list:
+                star.update()
 
         if self.state == "MENU":    
             mainMenu.update()

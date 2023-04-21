@@ -8,11 +8,17 @@ from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROIDS,
                        BOTTOM_UI_BAR_SIZE, DASH_UPGRADE_SPEED_BOOST,
                        GAME_HEIGHT, GAME_WIDTH, MAX_NUMBER_OF_BOMBS,
                        PLAYER_DASH_SOUND, PLAYER_SPEED)
-from globals import set_state
+from globals import set_game_state, change_pause_status
 from mainmenu import mainMenu
 from miniboss import miniboss
 from player import player
+from ui import ui
 
+def pause_input():
+    # Pause
+    if pyxel.btnp(pyxel.KEY_P):
+        ui.cursor_position = [0,0]
+        change_pause_status()
 
 def manage_inputs():
     # Dash
@@ -41,7 +47,7 @@ def manage_inputs():
 
     # Dev Shortcuts
     if pyxel.btnp(pyxel.KEY_R):
-        set_state("GAMEOVER")
+        set_game_state("GAMEOVER")
     if pyxel.btnp(pyxel.KEY_A): 
         mainMenu.asteroid_toggle = not mainMenu.asteroid_toggle
     if pyxel.btnp(pyxel.KEY_M):

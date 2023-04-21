@@ -1,7 +1,7 @@
 import pyxel
 
 from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y
-from globals import set_state
+from globals import set_game_state
 
 
 class MainMenu:
@@ -10,7 +10,7 @@ class MainMenu:
         
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE):
-            set_state("GAME")
+            set_game_state("GAME")
         if pyxel.btnp(pyxel.KEY_A):
             self.asteroid_toggle = not self.asteroid_toggle
 

@@ -77,7 +77,7 @@ class Player:
     def draw(self):   
         if self.visible:
             if self.hasQuadShot:
-                pyxel.blt(self.x, self.y, 0, 88, 40, self.size, self.size, 0) # Quad Shot Player Ship
+                pyxel.blt(self.x, self.y, 2, 24, 40, self.size, self.size, 0) # Quad Shot Player Ship
             else :
                 pyxel.blt(self.x, self.y, 0, 0, 8, self.size, self.size, 0) # Player Ship
             if self.isDashing: 

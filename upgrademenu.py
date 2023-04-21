@@ -4,7 +4,7 @@ import pyxel
 
 from constants import (EXPLODING_UPGRADE_CHANCE, MAX_NUMBER_OF_BOMBS,
                        MAXIMUM_HEALTH, PIERCING_UPGRADE_CHANCE, PLAYER_IFRAMES)
-from globals import set_state
+from globals import set_game_state
 from player import player
 from upgrades import upgrade_list
 
@@ -62,7 +62,7 @@ class UpgradeMenu:
         self.upgradescursorposition = 0
         player.iFramesCooldown = PLAYER_IFRAMES
 
-        set_state("GAME")
+        set_game_state("GAME")
         
     def update(self):
         if not self.hasgeneratedupgrades:
@@ -76,9 +76,9 @@ class UpgradeMenu:
     def draw(self):
         pyxel.text(13, 30, "Select your upgrade :", 7)
 
-        pyxel.blt(25, 50, 0, current_upgrade_list[0].coords[0], current_upgrade_list[0].coords[1], 16, 16, 0) # UPGRADE 1
-        pyxel.blt(45, 50, 0, current_upgrade_list[1].coords[0], current_upgrade_list[1].coords[1], 16, 16, 0) # UPGRADE 2
-        pyxel.blt(65, 50, 0, current_upgrade_list[2].coords[0], current_upgrade_list[2].coords[1], 16, 16, 0) # UPGRADE 3
+        pyxel.blt(25, 50, 2, current_upgrade_list[0].coords[0], current_upgrade_list[0].coords[1], 16, 16, 0) # UPGRADE 1
+        pyxel.blt(45, 50, 2, current_upgrade_list[1].coords[0], current_upgrade_list[1].coords[1], 16, 16, 0) # UPGRADE 2
+        pyxel.blt(65, 50, 2, current_upgrade_list[2].coords[0], current_upgrade_list[2].coords[1], 16, 16, 0) # UPGRADE 3
         
         for i in range(len(current_upgrade_list[self.upgradescursorposition + 1].description)): # DESCRIPTION LINES
             pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgradescursorposition + 1].description[i], 7)
