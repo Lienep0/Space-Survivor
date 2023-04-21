@@ -8,13 +8,13 @@
 # TODO : Add more upgrades (Explosion, Piercing, Quadruple shot (Damage/Fire rate -), Fullscreen clear bomb en pointillés si tu l'as pas, + Health (Max 4))
 # TODO : Move inputs to InputManager (not a class, just a function in a script)
 # TODO : Make Bomb able to hit miniboss
+# TODO : Add attacks to miniboss (spread shot pattern ?)
 
 # Imperative
 # TODO : Upgrades that increases size but also doubles damage
 # TODO : Add exploding bullet sfx
 # TODO : Mini-invertory when game is paused
 # TODO : Add level up sfx
-# TODO : Add attacks to miniboss (spread shot pattern ?)
 # TODO : High Score Tracker
 # TODO : Score System
 # TODO : Wave Counter UI/Behavior
