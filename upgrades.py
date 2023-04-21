@@ -24,14 +24,14 @@ upgrade_dic["Piercing"] = Upgrade("Piercing", [f"+{int(PIERCING_UPGRADE_CHANCE *
 upgrade_dic["Crit"] = Upgrade("Crit", [f"+{int(CRITICAL_UPGRADE_CHANCE * 100)}% chance to", "Fire an critical", "shot that deals", f"x{CRITICAL_UPGRADE_DAMAGE_MULTIPLIER} damage !"], 80, 0, False, False, .7)
 
 # Unique Upgrades
-upgrade_dic["Explosions"] = Upgrade("Explosions", ["All your shots", "now explode in a", "small burst that", "hits nearby asteroids"], 48, 0, True, False, .2)
+upgrade_dic["Explosions"] = Upgrade("Explosions", ["All your shots now", "explode in a small", "burst that hits", "nearby asteroids"], 48, 0, True, False, .2)
 upgrade_dic["Dash"] = Upgrade("Dash", ["Adds the ability to", "Dash by holding", f"Shift. (+{DASH_UPGRADE_SPEED_BOOST} speed)"], 16, 16, True, False, .5)
 upgrade_dic["Quad Shot"] = Upgrade("Quad Shot", ["You fire Twice as", "Many bullets. Fire", "rate is reduced", f"by {-int((1 - QUAD_SHOT_FIRE_RATE_PENALTY) * 100)}%"], 48, 16, True, False, .1)
 upgrade_dic["Explosive Shield"] = Upgrade("Explosive Shield", ["The next time you", "get hit, use", "a bomb instead"], 64, 16, True, False, .5)
 
 # Instant Upgrades
 upgrade_dic["Bomb"] = Upgrade("Bomb", ["Refills your bombs.", "They can clear all", "asteroids. Activate", "by pressing B."], 32, 0, False, True, 0)
-upgrade_dic["Health"] = Upgrade("Health", ["Heals you up to 2 HP", f"Maximum is {MAXIMUM_HEALTH}"], 32, 16, False, True, 0)
+upgrade_dic["Health"] = Upgrade("Health", ["Heals you up to 2", f"HP. Maximum is {MAXIMUM_HEALTH}"], 32, 16, False, True, 0)
 
-# from player import player
-# player.inventory.extend(upgrade_dic.values( ))
+from player import player
+player.inventory.extend(upgrade_dic.values())

@@ -28,23 +28,24 @@ class Ui:
     def draw(self):
         if get_paused_state():
 
-            pyxel.rect(10, 30, GAME_WIDTH - 20, max(24, 24 + 10 * ((lenght - 1) // 8)), 1) # Outer blue box
-            pyxel.rect(12, 42, GAME_WIDTH - 24, max(10, 10 + 10 * ((lenght - 1) // 8)), 5) # Inner grey box
-            pyxel.blt(12, 32, 0, 0, 120, 67, 8, 0) # INVENTORY:
+            pyxel.rect(10, 20, GAME_WIDTH - 20, max(24, 24 + 10 * ((lenght - 1) // 8)), 1) # Outer blue box
+            pyxel.rect(12, 32, GAME_WIDTH - 24, max(10, 10 + 10 * ((lenght - 1) // 8)), 5) # Inner grey box
+            pyxel.blt(12, 22, 0, 0, 120, 67, 8, 0) # INVENTORY:
 
             for i in range(lenght):
-                pyxel.blt(13 + i % 8 * 10, 43 + i // 8 * 10, 2, player.inventory[i].coords[0]/2, 32 + player.inventory[i].coords[1]/2, 8, 8, 0) # Upgrades
+                pyxel.blt(13 + i % 8 * 10, 33 + i // 8 * 10, 2, player.inventory[i].coords[0]/2, 32 + player.inventory[i].coords[1]/2, 8, 8, 0) # Upgrades
 
-            if lenght >= 1: pyxel.rectb(12 + self.cursor_position[0] * 10, 42 + self.cursor_position[1] * 10, 10, 10, 7) # Cursor
+            if lenght >= 1: pyxel.rectb(12 + self.cursor_position[0] * 10, 32 + self.cursor_position[1] * 10, 10, 10, 7) # Cursor
 
             if len(player.inventory) > 0: # Upgrade Description
                 description_lenght = len(player.inventory[self.cursor_position[1] * 8 + self.cursor_position[0]].description)
+                window_offset = max(24, 24 + 10 * ((lenght - 1) // 8))
 
-                pyxel.rect(11, 71, GAME_WIDTH - 22, 4 + 10 * description_lenght, 1) # Outer blue box
-                pyxel.rect(13, 73, GAME_WIDTH - 26, 10 * description_lenght, 5) # Inner grey box
+                pyxel.rect(11, 24 + window_offset, GAME_WIDTH - 22, 4 + 10 * description_lenght, 1) # Outer blue box
+                pyxel.rect(13, 26 + window_offset, GAME_WIDTH - 26, 10 * description_lenght, 5) # Inner grey box
 
                 for i in range(description_lenght): # DESCRIPTION LINES
-                    pyxel.text(15, 75 + 10 * i, player.inventory[self.cursor_position[1] * 8 + self.cursor_position[0]].description[i], 7)
+                    pyxel.text(15, 28 + window_offset + 10 * i, player.inventory[self.cursor_position[1] * 8 + self.cursor_position[0]].description[i], 7)
 
         if miniboss.active:
             # Miniboss Healthbar Outline
