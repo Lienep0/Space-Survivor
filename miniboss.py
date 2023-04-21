@@ -20,37 +20,45 @@ class Miniboss:
             self.shoot_cooldown -= 1
             self.timer +=1
 
-            if self.crosshair is None and self.shoot_cooldown <= 0:
-                self.crosshair = Crosshair(self.x, self.y)
-            elif self.crosshair is not None: 
-                self.crosshair.update()
-                if self.crosshair.hasHit and player.iFramesCooldown <= 0:
-                    player.take_damage()
-                    particle_list.append(MinibossShotLine(self.x + 8 + (self.sprite_offset/8), self.y + 8, player.x + 3, player.y))
-                    self.crosshair = None
-                    self.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
+            self.manage_crosshair()
 
-            if self.timer % 60 == 0:
-                pattern = self.patterns[self.timer // 60 % len(self.patterns)] # Cycle through patterns
-
-                for i in pattern:
-                    self.projectiles_list.append(MinibossProjectile(self.x + self.offset, self.y + self.size - 3, i))
-
+            self.shoot_projectiles()
             for projectile in self.projectiles_list:
                 projectile.update()
 
-            for bullet in [bullet for bullet in bullet_list if miniboss not in bullet.things_hit]:
-                if round_collision(self.x + self.size/2, self.y + self.size/2, 
+            self.manage_collisions()
+
+    def manage_collisions(self):
+        for bullet in [bullet for bullet in bullet_list if miniboss not in bullet.things_hit]:
+            if round_collision(self.x + self.size/2, self.y + self.size/2, 
                                     (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
                                     self.size/2 + 2):
-                    bullet.collide(miniboss)
-                    bullet.things_hit.append(miniboss)
+                bullet.collide(miniboss)
+                bullet.things_hit.append(miniboss)
             
-            for explosion in [particle for particle in particle_list if type(particle) == ExplodingBulletsImpact and miniboss not in particle.things_hit]:
-                if round_collision(self.x + self.size/2 + 1, self.y + self.size/2 + 1, 
+        for explosion in [particle for particle in particle_list if type(particle) == ExplodingBulletsImpact and miniboss not in particle.things_hit]:
+            if round_collision(self.x + self.size/2 + 1, self.y + self.size/2 + 1, 
                                     explosion.x, explosion.y, explosion.radius):
-                    self.take_damage(explosion.damage)
-                    explosion.things_hit.append(self)
+                self.take_damage(explosion.damage)
+                explosion.things_hit.append(self)
+
+    def shoot_projectiles(self):
+        if self.timer % 60 == 0:
+            pattern = self.patterns[self.timer // 60 % len(self.patterns)] # Cycle through patterns
+
+            for i in pattern:
+                self.projectiles_list.append(MinibossProjectile(self.x + self.offset, self.y + self.size - 3, i))
+
+    def manage_crosshair(self):
+        if self.crosshair is None and self.shoot_cooldown <= 0:
+            self.crosshair = Crosshair(self.x, self.y)
+        elif self.crosshair is not None: 
+            self.crosshair.update()
+            if self.crosshair.hasHit and player.iFramesCooldown <= 0:
+                player.take_damage()
+                particle_list.append(MinibossShotLine(self.x + 8 + (self.sprite_offset/8), self.y + 8, player.x + 3, player.y))
+                self.crosshair = None
+                self.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
     def take_damage(self, damage):
         self.hp -= damage
