@@ -3,7 +3,6 @@ from random import randint
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
-from bombs import Bomb, bombs_list
 from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROIDS,
                        BOTTOM_UI_BAR_SIZE, DASH_UPGRADE_SPEED_BOOST,
                        GAME_HEIGHT, GAME_WIDTH, MAX_NUMBER_OF_BOMBS,

@@ -10,7 +10,6 @@ from miniboss import miniboss
 from particles import ExplodingBulletsImpact, MinibossShotLine, particle_list
 from pickups import pickup_list
 from player import player
-from globals import get_framecount
 
 
 def check_collisions():
