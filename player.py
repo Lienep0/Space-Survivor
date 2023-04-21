@@ -5,11 +5,11 @@ import pyxel
 from bombs import Bomb, bombs_list
 from bullets import Bullet, bullet_list
 from constants import (BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
-                       DAMAGE_UPGRADE_BOOST, CRITICAL_UPGRADE_CHANCE,
-                       FIRE_RATE_UPGRADE_BOOST,
-                       PIERCING_UPGRADE_CHANCE, PLAYER_DAMAGE_SOUND, PLAYER_HP,
-                       PLAYER_IFRAMES, PLAYER_STARTING_X, PLAYER_STARTING_Y,
-                       QUAD_SHOT_FIRE_RATE_PENALTY)
+                       CRITICAL_UPGRADE_CHANCE, DAMAGE_UPGRADE_BOOST,
+                       FIRE_RATE_UPGRADE_BOOST, PIERCING_UPGRADE_CHANCE,
+                       PLAYER_DAMAGE_SOUND, PLAYER_HP, PLAYER_IFRAMES,
+                       PLAYER_STARTING_X, PLAYER_STARTING_Y,
+                       QUAD_SHOT_FIRE_RATE_PENALTY, START_NUMBER_OF_BOMBS)
 
 
 class Player:
@@ -75,7 +75,7 @@ class Player:
         self.fireRateCooldown = 0
         self.iFramesCooldown = 0
         self.inventory = []
-        self.number_of_bombs = 1
+        self.number_of_bombs = START_NUMBER_OF_BOMBS
         self.isDashing = False
         self.hasQuadShot = False
         
