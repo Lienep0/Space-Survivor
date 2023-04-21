@@ -29,10 +29,9 @@ def check_collisions():
 
     # Ateroid Collisions
     for asteroid in asteroid_list:
-        if player.iFramesCooldown <= 0:
-            if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), 
-                                (player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), 
-                                asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION):
+        if player.iFramesCooldown <= 0 and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5),
+                                                            (player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), 
+                                                            asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION):
                 player.take_damage()
 
         for bullet in bullet_list:
