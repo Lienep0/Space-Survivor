@@ -5,9 +5,8 @@ import pyxel
 from asteroids import Asteroid, asteroid_list
 from bullets import bullet_list
 from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
-                       ASTEROIDS, BOMB_SOUND, GAME_WIDTH, MAX_LEVEL,
-                       PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
-                       XP_REQUIREMENTS)
+                       ASTEROIDS, GAME_WIDTH, MAX_LEVEL, PLAYER_DEATH_SOUND,
+                       PLAYER_DEATHFREEZE_DURATION, XP_REQUIREMENTS)
 from gameinputmanager import manage_inputs
 from globals import get_framecount, set_state, update_framecount
 from mainmenu import mainMenu
@@ -55,7 +54,12 @@ class GameManager:
             self.check_player_upgrade(player)
 
             if player.active:
-                manage_inputs()
+                inputs = manage_inputs(self.bomb)
+                if inputs is not None: self.bomb = inputs
+                if self.bomb is not None:
+                    self.bomb.update()
+                    if self.bomb.timer >=22:
+                        self.bomb = None
                 player.update()
 
             if miniboss.active: miniboss.update()
@@ -69,6 +73,8 @@ class GameManager:
         if player.active:
             for element in asteroid_list + bullet_list + pickup_list:
                 element.draw()
+            if self.bomb is not None:
+                self.bomb.draw()
             player.draw()
         if miniboss.active: miniboss.draw()
         for particle in particle_list:
@@ -79,5 +85,6 @@ class GameManager:
     def reset(self):
         self.timeofdeath = -100
         self.paused = False
+        self.bomb = None
 
 gameManager = GameManager()

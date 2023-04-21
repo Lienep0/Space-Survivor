@@ -5,8 +5,7 @@ from constants import (CROSSHAIR_HITBOX_CORRECTION, CROSSHAIR_SPEED,
                        GAME_WIDTH, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT,
                        MINIBOSS_HP)
 from functions import move_towards, round_collision
-from particles import (BombExplosion, ExplodingBulletsImpact, MinibossShotLine,
-                       particle_list)
+from particles import ExplodingBulletsImpact, MinibossShotLine, particle_list
 from player import player
 
 
@@ -22,7 +21,6 @@ class Miniboss:
             self.timer +=1
 
             if self.crosshair is None and self.shoot_cooldown <= 0:
-                self.hasFired = True
                 self.crosshair = Crosshair(self.x, self.y)
             elif self.crosshair is not None: 
                 self.crosshair.update()
@@ -30,7 +28,6 @@ class Miniboss:
                     player.take_damage()
                     particle_list.append(MinibossShotLine(self.x + 8 + (self.sprite_offset/8), self.y + 8, player.x + 3, player.y))
                     self.crosshair = None
-                    self.hasFired = False
                     self.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
             if self.timer % 60 == 0:
@@ -49,13 +46,10 @@ class Miniboss:
                     bullet.collide(miniboss)
                     bullet.things_hit.append(miniboss)
             
-            for explosion in [particle for particle in particle_list if (type(particle) == BombExplosion or type(particle) == ExplodingBulletsImpact) and miniboss not in particle.things_hit]:
+            for explosion in [particle for particle in particle_list if type(particle) == ExplodingBulletsImpact and miniboss not in particle.things_hit]:
                 if round_collision(self.x + self.size/2 + 1, self.y + self.size/2 + 1, 
                                     explosion.x, explosion.y, explosion.radius):
-                    if hasattr(explosion, "bossdamage"):
-                        self.take_damage(explosion.bossdamage)
-                    else: 
-                        self.take_damage(explosion.damage)
+                    self.take_damage(explosion.damage)
                     explosion.things_hit.append(self)
 
     def take_damage(self, damage):
@@ -94,17 +88,18 @@ class MinibossProjectile():
     def __init__(self,x,y,movement):
         self.x = x
         self.y = y
+        self.size = 2
         self.movement = movement
 
     def update(self):
         self.x += self.movement
         self.y += 1.5
-        if round_collision(self.x + 1, self.y + 1, player.x + player.size / 2, player.y + player.size / 2, 5):
+        if round_collision(self.x + self.size / 2, self.y + self.size / 2, player.x + player.size / 2, player.y + player.size / 2, 5):
             player.take_damage()
             miniboss.projectiles_list.remove(self)
     
     def draw(self):
-        pyxel.circ(self.x, self.y, 2, 4)
+        pyxel.circ(self.x, self.y, self.size, 4)
 
 class Crosshair:
     def __init__(self,x,y):

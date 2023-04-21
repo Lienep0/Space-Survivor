@@ -50,32 +50,6 @@ class PlayerExplosion:
     def draw(self):
         pyxel.circb(self.x, self.y, self.timer // 2, 8 + self.timer % 3)
 
-class BombExplosion:
-    def __init__(self,x,y):
-        self.x = x
-        self.y = y
-        self.timer = 0
-        self.radius = 0
-        self.damage = BOMB_DAMAGE
-        self.bossdamage = BOMB_BOSS_DAMAGE
-        self.things_hit= []
- 
-    def update(self):
-        self.timer += 1
-        self.radius = self.timer * 6
-        self.hit_asteroids()
-        if self.timer == 22:
-            particle_list.remove(self)
-            self = None
-
-    def hit_asteroids(self):
-        for asteroid in asteroid_list:
-            if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), self.x, self.y, self.radius):
-                asteroid.take_damage(self.damage)
-
-    def draw(self):
-        pyxel.circb(self.x, self.y, self.radius, 8 + self.timer % 3)
-
 class ExplodingBulletsImpact:
     def __init__(self,x,y,damage):
         self.x = x
