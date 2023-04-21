@@ -4,15 +4,12 @@ import pyxel
 
 from asteroids import asteroid_list
 from bullets import Bullet, bullet_list
-from constants import (ASTEROID_HITBOX_CORRECTION, BOTTOM_UI_BAR_SIZE,
-                       BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
-                       DAMAGE_UPGRADE_BOOST, DASH_UPGRADE_SPEED_BOOST,
+from constants import (ASTEROID_HITBOX_CORRECTION, BULLET_COOLDOWN,
+                       BULLET_DAMAGE, BULLET_SOUND, DAMAGE_UPGRADE_BOOST,
                        EXPLODING_UPGRADE_CHANCE, FIRE_RATE_UPGRADE_BOOST,
-                       GAME_HEIGHT, GAME_WIDTH, MAGNET_RANGE,
-                       MAGNET_UPGRADE_BOOST, PICKUP_SOUND,
-                       PIERCING_UPGRADE_CHANCE, PLAYER_DAMAGE_SOUND,
-                       PLAYER_DASH_SOUND, PLAYER_HP, PLAYER_IFRAMES,
-                       PLAYER_SPEED, PLAYER_STARTING_X, PLAYER_STARTING_Y,
+                       MAGNET_RANGE, MAGNET_UPGRADE_BOOST, PICKUP_SOUND,
+                       PIERCING_UPGRADE_CHANCE, PLAYER_DAMAGE_SOUND, PLAYER_HP,
+                       PLAYER_IFRAMES, PLAYER_STARTING_X, PLAYER_STARTING_Y,
                        QUAD_SHOT_FIRE_RATE_PENALTY)
 from functions import move_towards, round_collision
 from pickups import pickup_list
@@ -70,7 +67,7 @@ class Player:
         for i in range(len(positions_list[0])):
             bullet_list.append(Bullet(self.x + positions_list[0][i], self.y + positions_list[1][i], 
                                       damage= BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"]),
-                                      piercing= random() <= PIERCING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Piercing"]),
+                                      piercing= True or random() <= PIERCING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Piercing"]),
                                       exploding= random() <= EXPLODING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Explosions"])))
 
         self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])

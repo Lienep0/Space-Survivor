@@ -5,7 +5,8 @@ from constants import (CROSSHAIR_HITBOX_CORRECTION, CROSSHAIR_SPEED,
                        GAME_WIDTH, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT,
                        MINIBOSS_HP)
 from functions import move_towards, round_collision
-from particles import MinibossShotLine, particle_list
+from particles import (BombExplosion, ExplodingBulletsImpact, MinibossShotLine,
+                       particle_list)
 from player import player
 
 
@@ -41,11 +42,21 @@ class Miniboss:
             for projectile in self.projectiles_list:
                 projectile.update()
 
-            for bullet in bullet_list:
-                if round_collision(self.x + self.size/2 + 1, self.y + self.size/2 + 1, 
+            for bullet in [bullet for bullet in bullet_list if miniboss not in bullet.things_hit]:
+                if round_collision(self.x + self.size/2, self.y + self.size/2, 
                                     (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
                                     self.size/2 + 2):
                     bullet.collide(miniboss)
+                    bullet.things_hit.append(miniboss)
+            
+            for explosion in [particle for particle in particle_list if (type(particle) == BombExplosion or type(particle) == ExplodingBulletsImpact) and miniboss not in particle.things_hit]:
+                if round_collision(self.x + self.size/2 + 1, self.y + self.size/2 + 1, 
+                                    explosion.x, explosion.y, explosion.radius):
+                    if hasattr(explosion, "bossdamage"):
+                        self.take_damage(explosion.bossdamage)
+                    else: 
+                        self.take_damage(explosion.damage)
+                    explosion.things_hit.append(self)
 
     def take_damage(self, damage):
         self.hp -= damage

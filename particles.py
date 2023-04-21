@@ -1,7 +1,7 @@
 import pyxel
 
 from asteroids import asteroid_list
-from constants import EXPLODING_BULLET_RADIUS
+from constants import BOMB_BOSS_DAMAGE, BOMB_DAMAGE, EXPLODING_BULLET_RADIUS
 from functions import round_collision
 
 particle_list = []
@@ -56,17 +56,19 @@ class BombExplosion:
         self.y = y
         self.timer = 0
         self.radius = 0
-        self.damage = 100
+        self.damage = BOMB_DAMAGE
+        self.bossdamage = BOMB_BOSS_DAMAGE
+        self.things_hit= []
  
     def update(self):
         self.timer += 1
         self.radius = self.timer * 6
-        self.remove_asteroids()
+        self.hit_asteroids()
         if self.timer == 22:
             particle_list.remove(self)
             self = None
 
-    def remove_asteroids(self):
+    def hit_asteroids(self):
         for asteroid in asteroid_list:
             if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), self.x, self.y, self.radius):
                 asteroid.take_damage(self.damage)
@@ -81,7 +83,7 @@ class ExplodingBulletsImpact:
         self.timer = 0
         self.radius = 0
         self.damage = damage * 2
-        self.asteroids_hit = []
+        self.things_hit= []
 
     def update(self):
         self.timer += 1
@@ -93,10 +95,10 @@ class ExplodingBulletsImpact:
             self = None
 
     def hit_asteroids(self):
-        for asteroid in [asteroid for asteroid in asteroid_list if asteroid not in self.asteroids_hit]:
+        for asteroid in [asteroid for asteroid in asteroid_list if asteroid not in self.things_hit]:
             if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), self.x, self.y, self.radius):
                 asteroid.take_damage(self.damage)
-                self.asteroids_hit.append(asteroid)
+                self.things_hit.append(asteroid)
 
     def draw(self):
         pyxel.circb(self.x, self.y, self.radius, 8 + self.timer % 3)
