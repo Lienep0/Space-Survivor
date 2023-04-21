@@ -49,6 +49,15 @@ def check_collisions():
                                                                         explosion.x, explosion.y, explosion.radius):
                 explosion.things_hit.append(asteroid)
 
+    # Bullet Collisisons // Looping over both bullets and asteroids is inefficient, but allows multiple bullets to hit the same asteroid at the same time
+    for bullet in bullet_list:
+        for asteroid in asteroid_list:
+            if asteroid not in bullet.things_hit and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
+                                asteroid.y + (asteroid.parameters.size/2 - .5), 
+                                (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
+                                asteroid.parameters.size/2 + 3):
+                bullet.collide(asteroid)
+
     # Miniboss Collisions
     for projectile in miniboss.projectiles_list:
         if round_collision(projectile.x + projectile.size / 2, projectile.y + projectile.size / 2, player.x + player.size / 2, player.y + player.size / 2, 5):

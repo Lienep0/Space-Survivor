@@ -5,6 +5,7 @@ import pyxel
 from asteroids import Asteroid, asteroid_list
 from bomb import bomb_list
 from bullets import bullet_list
+from collisionmanager import check_collisions
 from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
                        ASTEROIDS, GAME_WIDTH, LEVEL_UP_SOUND, MAX_LEVEL,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
@@ -18,7 +19,6 @@ from particles import PlayerExplosion, particle_list
 from pickups import pickup_list
 from player import player
 from ui import ui
-from collisionmanager import check_collisions
 
 
 class GameManager:
