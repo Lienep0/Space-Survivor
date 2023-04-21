@@ -16,7 +16,7 @@ def check_collisions():
 
     # Player Collisions
     range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * len([x for x in player.inventory if x.name == "Magnet"])
-    for pickup in pickup_list:
+    for pickup in list(pickup_list):
         if round_collision((player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), pickup.x + 1, pickup.y + 1, range):
             pickup.activated = True
 
@@ -28,13 +28,13 @@ def check_collisions():
                 pickup_list.remove(pickup)
 
     # Ateroid Collisions
-    for asteroid in asteroid_list:
+    for asteroid in list(asteroid_list):
         if player.iFramesCooldown <= 0 and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5),
                                                             (player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), 
                                                             asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION):
                 player.take_damage()
 
-        for bullet in bullet_list:
+        for bullet in list(bullet_list):
             if asteroid not in bullet.things_hit and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
                                asteroid.y + (asteroid.parameters.size/2 - .5), 
                                (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
@@ -49,7 +49,7 @@ def check_collisions():
                 explosion.things_hit.append(asteroid)
 
     # Miniboss Collisions
-    for projectile in miniboss.projectiles_list:
+    for projectile in list(miniboss.projectiles_list):
         if round_collision(projectile.x + projectile.size / 2, projectile.y + projectile.size / 2, player.x + player.size / 2, player.y + player.size / 2, 5):
             player.take_damage()
             miniboss.projectiles_list.remove(projectile)
@@ -79,8 +79,8 @@ def check_collisions():
                 miniboss.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
     # Bomb collisions
-    for bomb in bombs_list:
-        for asteroid in asteroid_list:
+    for bomb in list(bombs_list):
+        for asteroid in list(asteroid_list):
             if asteroid not in bomb.things_hit and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
                                                                    asteroid.y + (asteroid.parameters.size/2 - .5), 
                                                                    bomb.x, bomb.y, bomb.radius):
@@ -98,7 +98,7 @@ def check_collisions():
             miniboss.crosshair = None
             miniboss.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
-        for projectile in miniboss.projectiles_list:
+        for projectile in list(miniboss.projectiles_list):
             if round_collision(projectile.x + projectile.size / 2, projectile.y + projectile.size / 2, bomb.x, bomb.y, bomb.radius):
                 miniboss.projectiles_list.remove(projectile)
 

@@ -73,9 +73,6 @@ class GameManager:
 
         ui.update()
 
-        for bullet in bullet_list_buffer:
-            if bullet in bullet_list: bullet_list.remove(bullet)
-
     def draw(self):
         if player.active:
             for element in asteroid_list + bullet_list + pickup_list + bombs_list:
