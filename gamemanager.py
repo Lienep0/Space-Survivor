@@ -54,12 +54,14 @@ class GameManager:
             self.check_player_upgrade(player)
 
             if player.active:
-                inputs = manage_inputs(self.bomb)
-                if inputs is not None: self.bomb = inputs
-                if self.bomb is not None:
-                    self.bomb.update()
-                    if self.bomb.timer >=22:
-                        self.bomb = None
+                inputs = manage_inputs()
+                if inputs is not None: self.bombList.append(inputs)
+
+                for bomb in self.bombList:
+                    bomb.update()
+                    if bomb.timer >= 22:
+                        self.bombList.remove(bomb)
+
                 player.update()
 
             if miniboss.active: miniboss.update()
@@ -73,18 +75,24 @@ class GameManager:
         if player.active:
             for element in asteroid_list + bullet_list + pickup_list:
                 element.draw()
-            if self.bomb is not None:
-                self.bomb.draw()
+
+            for bomb in self.bombList:
+                    bomb.draw()
+
             player.draw()
+
         if miniboss.active: miniboss.draw()
+
         for particle in particle_list:
             particle.draw()
+
         ui.draw()
+        
         if self.paused: pyxel.blt(28, 30, 0, 0, 112, 48, 8, 0) # PAUSED
 
     def reset(self):
         self.timeofdeath = -100
         self.paused = False
-        self.bomb = None
+        self.bombList = []
 
 gameManager = GameManager()

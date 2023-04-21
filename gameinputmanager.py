@@ -3,7 +3,8 @@ from random import randint
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
-from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROIDS, BOMB_SOUND,
+from bomb import Bomb
+from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROIDS,
                        BOTTOM_UI_BAR_SIZE, DASH_UPGRADE_SPEED_BOOST,
                        GAME_HEIGHT, GAME_WIDTH, MAX_NUMBER_OF_BOMBS,
                        PLAYER_DASH_SOUND, PLAYER_SPEED)
@@ -11,10 +12,9 @@ from globals import set_state
 from mainmenu import mainMenu
 from miniboss import miniboss
 from player import player
-from bomb import Bomb
 
 
-def manage_inputs(bomb):
+def manage_inputs():
     # Dash
     player.isDashing = pyxel.btn(pyxel.KEY_SHIFT) and len([x for x in player.inventory if x.name == "Dash"])
     if player.isDashing: pyxel.play(3, PLAYER_DASH_SOUND)
@@ -36,7 +36,6 @@ def manage_inputs(bomb):
 
     # Bomb
     if pyxel.btnp(pyxel.KEY_B) and player.number_of_bombs >= 1:
-        pyxel.play(1, BOMB_SOUND)
         player.number_of_bombs -= 1
         return Bomb(player.x, player.y)
 
@@ -46,6 +45,7 @@ def manage_inputs(bomb):
     if pyxel.btnp(pyxel.KEY_A): 
         mainMenu.asteroid_toggle = not mainMenu.asteroid_toggle
     if pyxel.btnp(pyxel.KEY_M):
+        miniboss.reset()
         miniboss.active = True
     if pyxel.btnp(pyxel.KEY_X):
         player.xp += 10

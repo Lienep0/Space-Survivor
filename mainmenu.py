@@ -6,7 +6,7 @@ from globals import set_state
 
 class MainMenu:
     def __init__(self):
-        self.asteroid_toggle = False
+        self.asteroid_toggle = True
         
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE):

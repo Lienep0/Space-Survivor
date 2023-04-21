@@ -1,7 +1,8 @@
 import pyxel
 
 from asteroids import asteroid_list
-from constants import BOMB_BOSS_DAMAGE, BOMB_DAMAGE, MINIBOSS_FIRE_COOLDOWN
+from constants import (BOMB_BOSS_DAMAGE, BOMB_DAMAGE, BOMB_SOUND,
+                       MINIBOSS_FIRE_COOLDOWN)
 from functions import round_collision
 from miniboss import miniboss
 
@@ -15,6 +16,7 @@ class Bomb():
         self.damage = BOMB_DAMAGE
         self.bossdamage = BOMB_BOSS_DAMAGE
         self.things_hit = []
+        pyxel.play(1, BOMB_SOUND)
  
     def update(self):
         self.timer += 1

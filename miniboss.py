@@ -70,7 +70,7 @@ class Miniboss:
             projectile.draw()
 
     def reset(self):
-        self.active = True
+        self.active = False
         self.size = 16
         self.x = (GAME_WIDTH - self.size)/2
         self.y = -self.size

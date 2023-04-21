@@ -33,9 +33,10 @@ class Player:
         self.attract_pickups()
     
     def take_damage(self):
-        self.hp -= 1
-        self.iFramesCooldown = PLAYER_IFRAMES
-        if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
+        if self.iFramesCooldown <=0:
+            self.hp -= 1
+            self.iFramesCooldown = PLAYER_IFRAMES
+            if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
 
     def check_pickups_activate(self): 
         range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Magnet"])
@@ -47,7 +48,7 @@ class Player:
         for asteroid in asteroid_list:
             if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), 
                                (self.x + (self.size/2 - .5)), (self.y + (self.size/2 - .5)), 
-                               asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION) and self.iFramesCooldown <=0:
+                               asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION):
                 self.take_damage()
 
     def attract_pickups(self):
@@ -67,7 +68,7 @@ class Player:
         for i in range(len(positions_list[0])):
             bullet_list.append(Bullet(self.x + positions_list[0][i], self.y + positions_list[1][i], 
                                       damage= BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"]),
-                                      piercing= True or random() <= PIERCING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Piercing"]),
+                                      piercing= random() <= PIERCING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Piercing"]),
                                       exploding= random() <= EXPLODING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Explosions"])))
 
         self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])

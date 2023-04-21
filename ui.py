@@ -1,10 +1,20 @@
 import pyxel
 
-from constants import GAME_HEIGHT, GAME_WIDTH, XP_REQUIREMENTS, MAX_LEVEL, BOTTOM_UI_BAR_SIZE, MAX_NUMBER_OF_BOMBS
+from constants import (BOTTOM_UI_BAR_SIZE, GAME_HEIGHT, GAME_WIDTH, MAX_LEVEL,
+                       MAX_NUMBER_OF_BOMBS, XP_REQUIREMENTS, MINIBOSS_HP)
+from miniboss import miniboss
 from player import player
+
 
 class Ui:
     def draw(self):
+        if miniboss.active:
+            # Miniboss Healthbar Outline
+            pyxel.rect(2, 2, GAME_WIDTH - 4, 8, 1  )
+
+            #Miniboss Healthbar
+            pyxel.rect(3, 3, miniboss.hp * (GAME_WIDTH - 6) / MINIBOSS_HP, 6, 8)
+
         if player.active:
             # UI background
             pyxel.rect(0, GAME_HEIGHT - BOTTOM_UI_BAR_SIZE, GAME_WIDTH, BOTTOM_UI_BAR_SIZE, 1)
