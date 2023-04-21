@@ -43,7 +43,7 @@ class Player:
     def check_pickups_activate(self): 
         range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Magnet"])
         for pickup in pickup_list:
-            if round_collision((self.x + (self.size/2 - .5)), (self.y + (self.size/2 - .5)), pickup.x, pickup.y, range):
+            if round_collision((self.x + (self.size/2 - .5)), (self.y + (self.size/2 - .5)), pickup.x + 1, pickup.y + 1, range):
                 pickup.activated = True
 
     def check_asteroids(self):

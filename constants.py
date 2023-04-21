@@ -13,13 +13,13 @@ PLAYER_DEATHFREEZE_DURATION = 30 # The amount of time the screen freezes when th
 
 BULLET_DAMAGE = 1
 BULLET_COOLDOWN = 10
-MAGNET_RANGE = 5
+MAGNET_RANGE = 15
 EXPLODING_BULLET_RADIUS = 20
 
 # Upgrade modifiers
 DAMAGE_UPGRADE_BOOST = 0.5
 FIRE_RATE_UPGRADE_BOOST = 1
-MAGNET_UPGRADE_BOOST = 3
+MAGNET_UPGRADE_BOOST = 5
 DASH_UPGRADE_SPEED_BOOST = 1
 EXPLODING_UPGRADE_CHANCE = 0.2
 PIERCING_UPGRADE_CHANCE = 0.2
@@ -38,9 +38,10 @@ ASTEROIDS = {
 }
 
 #Miniboss
+MINIBOSS_HP = 100
 MINIBOSS_HEIGHT = 20
 MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-shoot after shooting 
-CROSSHAIR_SPEED = 1.5
+CROSSHAIR_SPEED = 1.25
 CROSSHAIR_HITBOX_CORRECTION = 0 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
 
 # XP
