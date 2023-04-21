@@ -45,7 +45,7 @@ def check_collisions():
             player.take_damage()
             miniboss.projectiles_list.remove(projectile)
 
-    if miniboss.y <= MINIBOSS_HEIGHT:
+    if not miniboss.y <= MINIBOSS_HEIGHT:
         for bullet in [bullet for bullet in bullet_list if miniboss not in bullet.things_hit]:
             if round_collision(miniboss.x + miniboss.size/2, miniboss.y + miniboss.size/2, 
                                     (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 

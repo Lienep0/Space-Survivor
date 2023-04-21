@@ -40,7 +40,7 @@ class Player:
     
     def use_bomb(self):
         self.number_of_bombs -= 1
-        bomb_list.append(Bomb(self.x, self.y))
+        bomb_list.append(Bomb(self.x + 3, self.y + 3))
 
     def attract_pickups(self):
         for pickup in pickup_list:
