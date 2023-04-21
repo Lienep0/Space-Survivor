@@ -31,23 +31,26 @@ def check_collisions():
     if player.iFramesCooldown <= 0:
         for asteroid in asteroid_list:
             if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), 
-                            (player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), 
-                            asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION):
+                               (player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), 
+                               asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION):
                 player.take_damage()
     
     # Bullet Collisions
     for bullet in bullet_list:
         for asteroid in [asteroid for asteroid in asteroid_list if asteroid not in bullet.things_hit]:
-            if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), 
-                        (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
-                        asteroid.parameters.size/2 + 3):
+            if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
+                               asteroid.y + (asteroid.parameters.size/2 - .5), 
+                               (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
+                               asteroid.parameters.size/2 + 3):
                 print(bullet, get_framecount())
                 bullet.collide(asteroid)
 
     # Bullet Explosions Collisions
     for explosion in [x for x in particle_list if type(x) == ExplodingBulletsImpact]:
         for asteroid in [asteroid for asteroid in asteroid_list if asteroid not in explosion.things_hit]:
-            if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), explosion.x, explosion.y, explosion.radius):
+            if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
+                               asteroid.y + (asteroid.parameters.size/2 - .5), 
+                               explosion.x, explosion.y, explosion.radius):
                 asteroid.take_damage(explosion.damage)
                 explosion.things_hit.append(asteroid)
 
@@ -83,14 +86,20 @@ def check_collisions():
     # Bomb collisions
     for bomb in bomb_list:
         for asteroid in asteroid_list:
-            if asteroid not in bomb.things_hit and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), bomb.x, bomb.y, bomb.radius):
+            if asteroid not in bomb.things_hit and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
+                                                                   asteroid.y + (asteroid.parameters.size/2 - .5), 
+                                                                   bomb.x, bomb.y, bomb.radius):
                 asteroid.take_damage(bomb.damage)
 
-        if miniboss.active and miniboss not in bomb.things_hit and round_collision(miniboss.x + (miniboss.size/2 - .5), miniboss.y + (miniboss.size/2 - .5), bomb.x, bomb.y, bomb.radius):
+        if miniboss.active and miniboss not in bomb.things_hit and round_collision(miniboss.x + (miniboss.size/2 - .5), 
+                                                                                   miniboss.y + (miniboss.size/2 - .5), 
+                                                                                   bomb.x, bomb.y, bomb.radius):
             miniboss.take_damage(bomb.bossdamage)
             bomb.things_hit.append(miniboss)
 
-        if miniboss.crosshair is not None and round_collision(miniboss.crosshair.x + (miniboss.crosshair.size/2 - .5), miniboss.crosshair.y + (miniboss.crosshair.size/2 - .5), bomb.x, bomb.y, bomb.radius):
+        if miniboss.crosshair is not None and round_collision(miniboss.crosshair.x + (miniboss.crosshair.size/2 - .5), 
+                                                              miniboss.crosshair.y + (miniboss.crosshair.size/2 - .5), 
+                                                              bomb.x, bomb.y, bomb.radius):
             miniboss.crosshair = None
             miniboss.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
