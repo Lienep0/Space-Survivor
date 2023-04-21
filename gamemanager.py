@@ -3,19 +3,22 @@ from random import randint
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
+from bomb import bomb_list
 from bullets import bullet_list
 from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
                        ASTEROIDS, GAME_WIDTH, LEVEL_UP_SOUND, MAX_LEVEL,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
                        XP_REQUIREMENTS)
 from gameinputmanager import manage_inputs, pause_input
-from globals import get_framecount, get_paused_state, set_game_state, update_framecount
+from globals import (get_framecount, get_paused_state, set_game_state,
+                     update_framecount)
 from mainmenu import mainMenu
 from miniboss import miniboss
 from particles import PlayerExplosion, particle_list
 from pickups import pickup_list
 from player import player
 from ui import ui
+from collisionmanager import check_collisions
 
 
 class GameManager:
@@ -30,13 +33,13 @@ class GameManager:
             set_game_state("UPGRADEMENU")
 
     def check_for_death(self):
-        if player.hp <= 0 and self.timeofdeath < 0:
+        if player.hp <= 0 and self.time_of_death < 0:
             particle_list.append(PlayerExplosion(player.x + 3, player.y + 3))
             pyxel.play(0, PLAYER_DEATH_SOUND)
             player.active = False
-            self.timeofdeath = get_framecount()
+            self.time_of_death = get_framecount()
         
-        if self.timeofdeath + PLAYER_DEATHFREEZE_DURATION == get_framecount() :
+        if self.time_of_death + PLAYER_DEATHFREEZE_DURATION == get_framecount() :
             set_game_state("GAMEOVER")
 
     def spawn_asteroids(self):
@@ -56,21 +59,19 @@ class GameManager:
             self.check_player_upgrade(player)
 
             if player.active:
-                inputs = manage_inputs()
-                if inputs is not None: self.bombList.append(inputs)
+                manage_inputs()
 
-                for bomb in self.bombList:
+                for bomb in bomb_list:
                     bomb.update()
-                    if bomb.timer >= 22:
-                        self.bombList.remove(bomb)
 
                 player.update()
 
             if miniboss.active: miniboss.update()
 
-            for element in asteroid_list + particle_list + bullet_list + pickup_list: #Evil python hack
+            for element in asteroid_list + particle_list + bullet_list + pickup_list:
                 element.update()
 
+            check_collisions()
             self.check_for_death()
 
         ui.update()
@@ -80,8 +81,8 @@ class GameManager:
             for element in asteroid_list + bullet_list + pickup_list:
                 element.draw()
 
-            for bomb in self.bombList:
-                    bomb.draw()
+            for bomb in bomb_list:
+                bomb.draw()
 
             player.draw()
 
@@ -93,8 +94,7 @@ class GameManager:
         ui.draw()
 
     def reset(self):
-        self.timeofdeath = -100
+        self.time_of_death = -100
         self.paused = False
-        self.bombList = []
 
 gameManager = GameManager()

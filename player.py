@@ -2,16 +2,15 @@ from random import random
 
 import pyxel
 
-from asteroids import asteroid_list
+from bomb import Bomb, bomb_list
 from bullets import Bullet, bullet_list
-from constants import (ASTEROID_HITBOX_CORRECTION, BULLET_COOLDOWN,
-                       BULLET_DAMAGE, BULLET_SOUND, DAMAGE_UPGRADE_BOOST,
-                       EXPLODING_UPGRADE_CHANCE, FIRE_RATE_UPGRADE_BOOST,
-                       MAGNET_RANGE, MAGNET_UPGRADE_BOOST, PICKUP_SOUND,
+from constants import (BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
+                       DAMAGE_UPGRADE_BOOST, EXPLODING_UPGRADE_CHANCE,
+                       FIRE_RATE_UPGRADE_BOOST, PICKUP_SOUND,
                        PIERCING_UPGRADE_CHANCE, PLAYER_DAMAGE_SOUND, PLAYER_HP,
                        PLAYER_IFRAMES, PLAYER_STARTING_X, PLAYER_STARTING_Y,
                        QUAD_SHOT_FIRE_RATE_PENALTY)
-from functions import move_towards, round_collision
+from functions import move_towards
 from pickups import pickup_list
 
 
@@ -27,29 +26,21 @@ class Player:
         if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
         if self.iFramesCooldown <= 0: 
             self.visible = True
-            self.check_asteroids()
 
-        self.check_pickups_activate()
         self.attract_pickups()
     
     def take_damage(self):
         if self.iFramesCooldown <=0:
-            self.hp -= 1
             self.iFramesCooldown = PLAYER_IFRAMES
-            if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
-
-    def check_pickups_activate(self): 
-        range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Magnet"])
-        for pickup in pickup_list:
-            if round_collision((self.x + (self.size/2 - .5)), (self.y + (self.size/2 - .5)), pickup.x + 1, pickup.y + 1, range):
-                pickup.activated = True
-
-    def check_asteroids(self):
-        for asteroid in asteroid_list:
-            if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), 
-                               (self.x + (self.size/2 - .5)), (self.y + (self.size/2 - .5)), 
-                               asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION):
-                self.take_damage()
+            if len([x for x in self.inventory if x.name == "Explosive Shield"]) and player.number_of_bombs >= 1:
+                self.use_bomb()
+            else:    
+                self.hp -= 1
+                if self.hp > 0: pyxel.play(1, PLAYER_DAMAGE_SOUND)
+    
+    def use_bomb(self):
+        self.number_of_bombs -= 1
+        bomb_list.append(Bomb(self.x, self.y))
 
     def attract_pickups(self):
         for pickup in pickup_list:

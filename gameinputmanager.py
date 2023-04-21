@@ -3,16 +3,17 @@ from random import randint
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
-from bomb import Bomb
+from bomb import Bomb, bomb_list
 from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROIDS,
                        BOTTOM_UI_BAR_SIZE, DASH_UPGRADE_SPEED_BOOST,
                        GAME_HEIGHT, GAME_WIDTH, MAX_NUMBER_OF_BOMBS,
                        PLAYER_DASH_SOUND, PLAYER_SPEED)
-from globals import set_game_state, change_pause_status
+from globals import change_pause_status, set_game_state
 from mainmenu import mainMenu
 from miniboss import miniboss
 from player import player
 from ui import ui
+
 
 def pause_input():
     # Pause
@@ -42,8 +43,7 @@ def manage_inputs():
 
     # Bomb
     if pyxel.btnp(pyxel.KEY_B) and player.number_of_bombs >= 1:
-        player.number_of_bombs -= 1
-        return Bomb(player.x, player.y)
+        player.use_bomb()
 
     # Dev Shortcuts
     if pyxel.btnp(pyxel.KEY_R):

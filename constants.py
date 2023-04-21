@@ -30,7 +30,11 @@ DASH_UPGRADE_SPEED_BOOST = 1
 EXPLODING_UPGRADE_CHANCE = 0.2
 PIERCING_UPGRADE_CHANCE = 0.2
 QUAD_SHOT_FIRE_RATE_PENALTY = 1.7
-MAXIMUM_HEALTH = 4
+
+HEALTH_UPGRADE_WEIGHT = [3, 2, 1, 0] # The weight of the health upgrade in the pool, based on the player's health (1-4 hp)
+BOMB_UPGRADE_WEIGHT = [1.5, .5, 0] # The weight of the bomb upgrade in the pool, based on the player's number of bombs (0-2)
+
+MAXIMUM_HEALTH = len(BOMB_UPGRADE_WEIGHT)
 
 # Asteroids
 ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn

@@ -2,11 +2,12 @@ from random import uniform
 
 import pyxel
 
-from constants import (EXPLODING_UPGRADE_CHANCE, MAX_NUMBER_OF_BOMBS,
-                       MAXIMUM_HEALTH, PIERCING_UPGRADE_CHANCE, PLAYER_IFRAMES)
+from constants import (BOMB_UPGRADE_WEIGHT, EXPLODING_UPGRADE_CHANCE,
+                       HEALTH_UPGRADE_WEIGHT, PIERCING_UPGRADE_CHANCE,
+                       PLAYER_IFRAMES)
 from globals import set_game_state
 from player import player
-from upgrades import upgrade_list
+from upgrades import upgrade_dic
 
 
 class UpgradeMenu:
@@ -32,18 +33,18 @@ class UpgradeMenu:
     def generate_upgrades(self):
         global current_upgrade_list
         current_upgrade_list = []
-        upgrade_list_buffer = [x for x in upgrade_list]
 
-        # Remove redundant upgrades
-        if player.number_of_bombs >= MAX_NUMBER_OF_BOMBS: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Bomb"]
-        if player.hp >= MAXIMUM_HEALTH: upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Health"]
-        if len([x for x in player.inventory if x.name == "Explosions"]) * EXPLODING_UPGRADE_CHANCE > 1:
-            upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Explosions"]
-        if len([x for x in player.inventory if x.name == "Piercing"]) * PIERCING_UPGRADE_CHANCE > 1:
-            upgrade_list_buffer = [x for x in upgrade_list_buffer if x.name != "Piercing"]
+        # Dynamic weight handling
+        upgrade_dic["Health"].weight = HEALTH_UPGRADE_WEIGHT[player.hp - 1]
+        upgrade_dic["Bomb"].weight = BOMB_UPGRADE_WEIGHT[player.number_of_bombs]
+        if len([x for x in player.inventory if x.name == "Explosions"]) * EXPLODING_UPGRADE_CHANCE > 1: 
+            upgrade_dic["Explosion"].weight = 0
+        if len([x for x in player.inventory if x.name == "Piercing"]) * PIERCING_UPGRADE_CHANCE > 1: 
+            upgrade_dic["Piercing"].weight = 0
 
+        upgrade_dic_values = [x for x in upgrade_dic.values()]
         for _ in range(3):
-            current_upgrade_list.append(self.choose_upgrade(upgrade_list_buffer))
+            current_upgrade_list.append(self.choose_upgrade(upgrade_dic_values))
 
         self.hasgeneratedupgrades = True
     
@@ -52,7 +53,7 @@ class UpgradeMenu:
 
         player.inventory.append(chosen_upgrade)
 
-        if chosen_upgrade.is_unique: upgrade_list.remove(chosen_upgrade)
+        if chosen_upgrade.is_unique: upgrade_dic.pop(chosen_upgrade.name)
         
         if chosen_upgrade.instant_effect:
             if chosen_upgrade.name == "Bomb": player.number_of_bombs += 1

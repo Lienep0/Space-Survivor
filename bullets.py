@@ -2,7 +2,6 @@ import pyxel
 
 from asteroids import asteroid_list
 from constants import IMPACT_SOUND
-from functions import round_collision
 from particles import ExplodingBulletsImpact, Impact, particle_list
 
 bullet_list = []
@@ -17,12 +16,6 @@ class Bullet:
         self.piercing = piercing
         self.exploding = exploding
         self.things_hit = []
-
-    def check_collision(self, collider):
-        if round_collision(collider.x + (collider.parameters.size/2 - .5), collider.y + (collider.parameters.size/2 - .5), 
-                    (self.x + (self.xsize/2 - .5)), (self.y + (self.ysize/2 - .5)), 
-                    collider.parameters.size/2 + 3):
-            self.collide(collider)
             
     def collide(self, collider):
         if self.exploding:
@@ -41,8 +34,6 @@ class Bullet:
         self.y -= 3
         if self.y < -8:
             bullet_list.remove(self)
-        for asteroid in [asteroid for asteroid in asteroid_list if asteroid not in self.things_hit]:
-            self.check_collision(asteroid)
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 0, 0, self.xsize, self.ysize, 0)

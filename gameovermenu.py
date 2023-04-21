@@ -25,7 +25,7 @@ class GameOverMenu:
         reset_framecount()
         set_game_state("MENU")
         
-        gameManager.timeofdeath = -100
+        gameManager.time_of_death = -100
         gameManager.explosion = None
         gameManager.paused = False
         

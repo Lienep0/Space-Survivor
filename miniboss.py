@@ -4,8 +4,8 @@ from bullets import bullet_list
 from constants import (CROSSHAIR_HITBOX_CORRECTION, CROSSHAIR_SPEED,
                        GAME_WIDTH, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT,
                        MINIBOSS_HP)
-from functions import move_towards, round_collision
-from particles import ExplodingBulletsImpact, MinibossShotLine, particle_list
+from functions import move_towards
+from particles import MinibossShotLine, particle_list
 from player import player
 
 
@@ -25,22 +25,6 @@ class Miniboss:
             self.shoot_projectiles()
             for projectile in self.projectiles_list:
                 projectile.update()
-
-            self.manage_collisions()
-
-    def manage_collisions(self):
-        for bullet in [bullet for bullet in bullet_list if miniboss not in bullet.things_hit]:
-            if round_collision(self.x + self.size/2, self.y + self.size/2, 
-                                    (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
-                                    self.size/2 + 2):
-                bullet.collide(miniboss)
-                bullet.things_hit.append(miniboss)
-            
-        for explosion in [particle for particle in particle_list if type(particle) == ExplodingBulletsImpact and miniboss not in particle.things_hit]:
-            if round_collision(self.x + self.size/2 + 1, self.y + self.size/2 + 1, 
-                                    explosion.x, explosion.y, explosion.radius):
-                self.take_damage(explosion.damage)
-                explosion.things_hit.append(self)
 
     def shoot_projectiles(self):
         if self.timer % 60 == 0:
@@ -102,9 +86,6 @@ class MinibossProjectile():
     def update(self):
         self.x += self.movement
         self.y += 1.5
-        if round_collision(self.x + self.size / 2, self.y + self.size / 2, player.x + player.size / 2, player.y + player.size / 2, 5):
-            player.take_damage()
-            miniboss.projectiles_list.remove(self)
     
     def draw(self):
         pyxel.circ(self.x, self.y, self.size, 4)
