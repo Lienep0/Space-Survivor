@@ -26,12 +26,12 @@ class Asteroid:
         self.parameters.hp -= damage
         if self.parameters.hp <= 0:
             spawn_pickups(self)
-            asteroid_list.remove(self)
+            if self in asteroid_list: asteroid_list.remove(self)
 
     def update(self):
         self.y += self.speed
         if self.y > GAME_HEIGHT + self.parameters.size:
-            asteroid_list.remove(self)
+            if self in asteroid_list: asteroid_list.remove(self)
             
     def draw(self):
         pyxel.blt(self.x, self.y, 0, self.parameters.spritexcoord, self.parameters.spriteycoord, self.parameters.size, self.parameters.size, 0)

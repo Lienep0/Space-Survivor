@@ -54,7 +54,7 @@ class ExplodingBulletsImpact:
         self.y = y
         self.timer = 0
         self.radius = 0
-        self.damage = damage * 2
+        self.damage = damage
         self.things_hit= []
 
     def update(self):

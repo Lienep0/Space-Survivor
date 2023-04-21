@@ -47,6 +47,7 @@ def check_collisions():
             if asteroid not in explosion.things_hit and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
                                                                         asteroid.y + (asteroid.parameters.size/2 - .5), 
                                                                         explosion.x, explosion.y, explosion.radius):
+                asteroid.take_damage(explosion.damage)
                 explosion.things_hit.append(asteroid)
 
     # Bullet Collisisons // Looping over both bullets and asteroids is inefficient, but allows multiple bullets to hit the same asteroid at the same time

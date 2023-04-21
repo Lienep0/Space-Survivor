@@ -48,7 +48,7 @@ class Player:
                                       damage= BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"]),
                                       piercing= random() <= PIERCING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Piercing"]),
                                       exploding= len([x for x in self.inventory if x.name == "Explosions"]),
-                                      crit= True or random() <= CRITICAL_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Crit"])))
+                                      crit= random() <= CRITICAL_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Crit"])))
 
         self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])
         if self.hasQuadShot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
