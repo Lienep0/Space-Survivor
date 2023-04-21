@@ -11,6 +11,7 @@
 # TODO : Add attacks to miniboss (spread shot pattern ?)
 # TODO : Add level up sfx
 # TODO : Mini-invertory when game is paused
+# TODO : Dynamic Health Upgrade Weight based on player hp ?
 
 # Imperative
 # TODO : Upgrades that increases size but also doubles damage
@@ -22,7 +23,6 @@
 # TODO : GAMEMANAGER
 
 # Optionnal
-# TODO : Dynamic Health Upgrade Weight based on player hp ?
 # TODO : Add music
 # TODO : Controls Tutorial Menu ? (otherwise just put in readme) Maybe only open on first time game start
 # TODO : Spinning asteroids
