@@ -5,12 +5,11 @@ import pyxel
 from bombs import Bomb, bombs_list
 from bullets import Bullet, bullet_list
 from constants import (BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
-                       DAMAGE_UPGRADE_BOOST, EXPLODING_UPGRADE_CHANCE,
-                       FIRE_RATE_UPGRADE_BOOST, PICKUP_SOUND,
+                       DAMAGE_UPGRADE_BOOST, CRITICAL_UPGRADE_CHANCE,
+                       FIRE_RATE_UPGRADE_BOOST,
                        PIERCING_UPGRADE_CHANCE, PLAYER_DAMAGE_SOUND, PLAYER_HP,
                        PLAYER_IFRAMES, PLAYER_STARTING_X, PLAYER_STARTING_Y,
                        QUAD_SHOT_FIRE_RATE_PENALTY)
-from pickups import pickup_list
 
 
 class Player:
@@ -48,7 +47,8 @@ class Player:
             bullet_list.append(Bullet(self.x + positions_list[0][i], self.y + positions_list[1][i], 
                                       damage= BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Damage"]),
                                       piercing= random() <= PIERCING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Piercing"]),
-                                      exploding= random() <= EXPLODING_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Explosions"])))
+                                      exploding= len([x for x in self.inventory if x.name == "Explosions"]),
+                                      crit= True or random() <= CRITICAL_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Crit"])))
 
         self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])
         if self.hasQuadShot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY

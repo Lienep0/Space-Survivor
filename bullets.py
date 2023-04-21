@@ -1,19 +1,20 @@
 import pyxel
 
-from constants import IMPACT_SOUND, EXPLODING_UPGRADE_DAMAGE_MULTIPLIER
+from constants import IMPACT_SOUND, CRITICAL_UPGRADE_DAMAGE_MULTIPLIER
 from particles import ExplodingBulletsImpact, Impact, particle_list
 
 bullet_list = []
 
 class Bullet:
-    def __init__(self, x, y, damage, piercing, exploding):
+    def __init__(self, x, y, damage, piercing, exploding, crit):
         self.x = x
         self.y = y
         self.xsize = 1
         self.ysize = 6
-        self.damage = damage * EXPLODING_UPGRADE_DAMAGE_MULTIPLIER if exploding else damage
+        self.damage = damage * CRITICAL_UPGRADE_DAMAGE_MULTIPLIER if crit else damage
         self.piercing = piercing
         self.exploding = exploding
+        self.crit = crit
         self.things_hit = []
             
     def collide(self, collider):
@@ -36,5 +37,8 @@ class Bullet:
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 0, 0, self.xsize, self.ysize, 0)
+
+        # Custom Visuals for different bullet types (stackable)
         if self.exploding: pyxel.rect(self.x, self.y, 1, 3, 8)
         if self.piercing: pyxel.rect(self.x, self.y + 4, 1, 2, 12)
+        if self.crit: pyxel.rect(self.x, self.y + 1, 1, 2, 11)
