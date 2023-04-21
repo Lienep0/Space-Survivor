@@ -10,7 +10,6 @@ from constants import (BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
                        PIERCING_UPGRADE_CHANCE, PLAYER_DAMAGE_SOUND, PLAYER_HP,
                        PLAYER_IFRAMES, PLAYER_STARTING_X, PLAYER_STARTING_Y,
                        QUAD_SHOT_FIRE_RATE_PENALTY)
-from functions import move_towards
 from pickups import pickup_list
 
 
@@ -26,8 +25,6 @@ class Player:
         if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
         if self.iFramesCooldown <= 0: 
             self.visible = True
-
-        self.attract_pickups()
     
     def take_damage(self):
         if self.iFramesCooldown <=0:
@@ -41,15 +38,6 @@ class Player:
     def use_bomb(self):
         self.number_of_bombs -= 1
         bomb_list.append(Bomb(self.x + 3, self.y + 3))
-
-    def attract_pickups(self):
-        for pickup in pickup_list:
-            if pickup.activated:
-                pickup.x, pickup.y, collected = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed, 5)
-                if collected:
-                    pyxel.play(2, PICKUP_SOUND)
-                    self.xp += 1
-                    pickup_list.remove(pickup)
 
     def shoot(self):
         pyxel.play(0, BULLET_SOUND)

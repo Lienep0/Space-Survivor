@@ -61,7 +61,6 @@ class ExplodingBulletsImpact:
         self.timer += 1
         self.radius = self.timer * 2.5
         if self.timer % 2 == 0: self.y += 1
-        self.hit_asteroids()
         if self.timer == EXPLODING_BULLET_RADIUS / 2.5:
             particle_list.remove(self)
 

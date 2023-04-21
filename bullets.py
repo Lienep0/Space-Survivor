@@ -23,7 +23,7 @@ class Bullet:
             particle_list.append(ExplodingBulletsImpact(self.x, self.y + 3, self.damage))
         else:
             pyxel.play(2, IMPACT_SOUND)
-            particle_list.append(Impact(self.x, self.y + 3))
+            particle_list.append(Impact(self.x, self.y + 4))
             collider.take_damage(self.damage)
         if self.piercing:
             self.things_hit.append(collider) 

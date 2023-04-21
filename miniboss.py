@@ -1,11 +1,6 @@
 import pyxel
 
-from bullets import bullet_list
-from constants import (CROSSHAIR_HITBOX_CORRECTION, CROSSHAIR_SPEED,
-                       GAME_WIDTH, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT,
-                       MINIBOSS_HP)
-from functions import move_towards
-from particles import MinibossShotLine, particle_list
+from constants import GAME_WIDTH, MINIBOSS_HEIGHT, MINIBOSS_HP
 from player import player
 
 
@@ -36,17 +31,9 @@ class Miniboss:
     def manage_crosshair(self):
         if self.crosshair is None and self.shoot_cooldown <= 0:
             self.crosshair = Crosshair(self.x, self.y)
-        elif self.crosshair is not None: 
-            self.crosshair.update()
-            if self.crosshair.hasHit and player.iFramesCooldown <= 0:
-                player.take_damage()
-                particle_list.append(MinibossShotLine(self.x + 8 + (self.sprite_offset/8), self.y + 8, player.x + 3, player.y))
-                self.crosshair = None
-                self.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
     def take_damage(self, damage):
         self.hp -= damage
-        print("ouch", damage)
         if self.hp <= 0:
             self.reset()
 
@@ -96,9 +83,6 @@ class Crosshair:
         self.y = y
         self.size = 16
         self.hasHit = False
-
-    def update(self):
-        self.x, self.y, self.hasHit = move_towards(self.x, self.y, player.x - self.size/4, player.y - self.size/4, CROSSHAIR_SPEED, 2 + CROSSHAIR_HITBOX_CORRECTION)
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 16, 0, 16, 16, 0)

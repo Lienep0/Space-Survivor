@@ -1,13 +1,17 @@
 import pyxel
 
-from player import player
-from miniboss import miniboss
-from bullets import bullet_list
-from pickups import pickup_list
-from bomb import bomb_list
 from asteroids import asteroid_list
-from constants import MAGNET_RANGE, MAGNET_UPGRADE_BOOST, ASTEROID_HITBOX_CORRECTION, MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT
-from particles import ExplodingBulletsImpact, particle_list
+from bomb import bomb_list
+from bullets import bullet_list
+from constants import (ASTEROID_HITBOX_CORRECTION, CROSSHAIR_HITBOX_CORRECTION,
+                       CROSSHAIR_SPEED, MAGNET_RANGE, MAGNET_UPGRADE_BOOST,
+                       MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT, PICKUP_SOUND)
+from miniboss import miniboss
+from particles import ExplodingBulletsImpact, MinibossShotLine, particle_list
+from pickups import pickup_list
+from player import player
+from globals import get_framecount
+
 
 def check_collisions():
 
@@ -16,6 +20,13 @@ def check_collisions():
     for pickup in pickup_list:
         if round_collision((player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), pickup.x + 1, pickup.y + 1, range):
             pickup.activated = True
+
+        if pickup.activated:
+            pickup.x, pickup.y, collected = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed, 5)
+            if collected:
+                pyxel.play(2, PICKUP_SOUND)
+                player.xp += 1
+                pickup_list.remove(pickup)
 
     if player.iFramesCooldown <= 0:
         for asteroid in asteroid_list:
@@ -30,6 +41,7 @@ def check_collisions():
             if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), 
                         (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
                         asteroid.parameters.size/2 + 3):
+                print(bullet, get_framecount())
                 bullet.collide(asteroid)
 
     # Bullet Explosions Collisions
@@ -38,6 +50,11 @@ def check_collisions():
             if round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5), explosion.x, explosion.y, explosion.radius):
                 asteroid.take_damage(explosion.damage)
                 explosion.things_hit.append(asteroid)
+
+        if miniboss.active and round_collision(miniboss.x + miniboss.size/2 + 1, miniboss.y + miniboss.size/2 + 1, 
+                            explosion.x, explosion.y, explosion.radius):
+            miniboss.take_damage(explosion.damage)
+            explosion.things_hit.append(miniboss)
 
     # Miniboss Collisions
     for projectile in miniboss.projectiles_list:
@@ -52,12 +69,16 @@ def check_collisions():
                                     miniboss.size/2 + 2):
                 bullet.collide(miniboss)
                 bullet.things_hit.append(miniboss)
-            
-        for explosion in [particle for particle in particle_list if type(particle) == ExplodingBulletsImpact and miniboss not in particle.things_hit]:
-            if round_collision(miniboss.x + miniboss.size/2 + 1, miniboss.y + miniboss.size/2 + 1, 
-                                    explosion.x, explosion.y, explosion.radius):
-                miniboss.take_damage(explosion.damage)
-                explosion.things_hit.append(miniboss)
+
+        if miniboss.crosshair is not None: 
+            miniboss.crosshair.x, miniboss.crosshair.y, miniboss.crosshair.hasHit = move_towards(miniboss.crosshair.x, miniboss.crosshair.y,
+                                                                                                 player.x - miniboss.crosshair.size/4, player.y - miniboss.crosshair.size/4,
+                                                                                                 CROSSHAIR_SPEED, 2 + CROSSHAIR_HITBOX_CORRECTION)
+            if miniboss.crosshair.hasHit and player.iFramesCooldown <= 0:
+                player.take_damage()
+                particle_list.append(MinibossShotLine(miniboss.x + 8 + (miniboss.sprite_offset/8), miniboss.y + 8, player.x + 3, player.y))
+                miniboss.crosshair = None
+                miniboss.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
     # Bomb collisions
     for bomb in bomb_list:
@@ -83,3 +104,13 @@ def round_collision(sprite1_x, sprite1_y, sprite2_x, sprite2_y, radius):
     if pyxel.sqrt(dx**2 + dy**2) <= radius:
         return True
     return False
+
+def move_towards(sprite1_x, sprite1_y, sprite2_x, sprite2_y, speed, max_diff):
+    dy = sprite2_y - sprite1_y
+    dx = sprite2_x - sprite1_x
+    if abs(dx) <= max_diff and abs(dy) <= max_diff: return sprite1_x, sprite1_y, True
+
+    angle = pyxel.atan2(dy, dx)
+    sprite1_x += pyxel.cos(angle) * speed
+    sprite1_y += pyxel.sin(angle) * speed
+    return sprite1_x, sprite1_y, False
