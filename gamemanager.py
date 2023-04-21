@@ -4,7 +4,7 @@ import pyxel
 
 from asteroids import Asteroid, asteroid_list
 from bombs import bombs_list
-from bullets import bullet_list
+from bullets import bullet_list, bullet_list_buffer
 from collisionmanager import check_collisions
 from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
                        ASTEROIDS, GAME_WIDTH, LEVEL_UP_SOUND, MAX_LEVEL,
@@ -68,9 +68,13 @@ class GameManager:
                 element.update()
 
             check_collisions()
+
             self.check_for_death()
 
         ui.update()
+
+        for bullet in bullet_list_buffer:
+            if bullet in bullet_list: bullet_list.remove(bullet)
 
     def draw(self):
         if player.active:

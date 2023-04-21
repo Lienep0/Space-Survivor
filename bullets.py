@@ -4,6 +4,7 @@ from constants import IMPACT_SOUND, CRITICAL_UPGRADE_DAMAGE_MULTIPLIER
 from particles import ExplodingBulletsImpact, Impact, particle_list
 
 bullet_list = []
+bullet_list_buffer = []
 
 class Bullet:
     def __init__(self, x, y, damage, piercing, exploding, crit):
@@ -28,12 +29,12 @@ class Bullet:
         if self.piercing:
             self.things_hit.append(collider) 
         elif self in bullet_list:
-            bullet_list.remove(self)
+            bullet_list_buffer.append(self)
 
     def update(self):
         self.y -= 3
         if self.y < -8:
-            bullet_list.remove(self)
+            bullet_list_buffer.append(self)
 
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 0, 0, self.xsize, self.ysize, 0)
