@@ -9,12 +9,12 @@
 # TODO : Move inputs to InputManager (not a class, just a function in a script)
 # TODO : Make Bomb able to hit miniboss
 # TODO : Add attacks to miniboss (spread shot pattern ?)
+# TODO : Add level up sfx
 
 # Imperative
 # TODO : Upgrades that increases size but also doubles damage
 # TODO : Add exploding bullet sfx
 # TODO : Mini-invertory when game is paused
-# TODO : Add level up sfx
 # TODO : High Score Tracker
 # TODO : Score System
 # TODO : Wave Counter UI/Behavior
