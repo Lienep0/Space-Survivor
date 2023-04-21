@@ -5,8 +5,9 @@ import pyxel
 from asteroids import Asteroid, asteroid_list
 from bullets import bullet_list
 from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
-                       ASTEROIDS, GAME_WIDTH, MAX_LEVEL, PLAYER_DEATH_SOUND,
-                       PLAYER_DEATHFREEZE_DURATION, XP_REQUIREMENTS)
+                       ASTEROIDS, GAME_WIDTH, LEVEL_UP_SOUND, MAX_LEVEL,
+                       PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
+                       XP_REQUIREMENTS)
 from gameinputmanager import manage_inputs
 from globals import get_framecount, set_state, update_framecount
 from mainmenu import mainMenu
@@ -23,6 +24,7 @@ class GameManager:
 
     def check_player_upgrade(self, player):
         if player.level < MAX_LEVEL and player.xp >= XP_REQUIREMENTS[player.level]:
+            pyxel.play(2, LEVEL_UP_SOUND)
             player.xp = 0
             player.level += 1
             set_state("UPGRADEMENU")
@@ -87,7 +89,7 @@ class GameManager:
             particle.draw()
 
         ui.draw()
-        
+
         if self.paused: pyxel.blt(28, 30, 0, 0, 112, 48, 8, 0) # PAUSED
 
     def reset(self):
