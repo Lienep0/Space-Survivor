@@ -33,7 +33,7 @@ class Ui:
             pyxel.blt(12, 32, 0, 0, 120, 67, 8, 0) # INVENTORY:
 
             for i in range(lenght):
-                pyxel.blt(13 + i % 8 * 10, 43 + i // 8 * 10, 2, player.inventory[i].coords[0]/2, 32 + player.inventory[i].coords[1]/2, 8, 8, 0)
+                pyxel.blt(13 + i % 8 * 10, 43 + i // 8 * 10, 2, player.inventory[i].coords[0]/2, 32 + player.inventory[i].coords[1]/2, 8, 8, 0) # Upgrades
 
             if lenght >= 1: pyxel.rectb(12 + self.cursor_position[0] * 10, 42 + self.cursor_position[1] * 10, 10, 10, 7) # Cursor
 
