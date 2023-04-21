@@ -57,7 +57,7 @@ class UpgradeMenu:
         
         if chosen_upgrade.instant_effect:
             if chosen_upgrade.name == "Bomb": player.number_of_bombs = 2
-            if chosen_upgrade.name == "Health": player.hp = max(MAXIMUM_HEALTH, player.hp + 2)
+            if chosen_upgrade.name == "Health": player.hp = min(MAXIMUM_HEALTH, player.hp + 2)
 
         self.hasgeneratedupgrades = False
         self.upgradescursorposition = 0
