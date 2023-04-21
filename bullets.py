@@ -1,7 +1,6 @@
 import pyxel
 
-from asteroids import asteroid_list
-from constants import IMPACT_SOUND
+from constants import IMPACT_SOUND, EXPLODING_UPGRADE_DAMAGE_MULTIPLIER
 from particles import ExplodingBulletsImpact, Impact, particle_list
 
 bullet_list = []
@@ -12,7 +11,7 @@ class Bullet:
         self.y = y
         self.xsize = 1
         self.ysize = 6
-        self.damage = damage
+        self.damage = damage * EXPLODING_UPGRADE_DAMAGE_MULTIPLIER if exploding else damage
         self.piercing = piercing
         self.exploding = exploding
         self.things_hit = []

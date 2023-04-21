@@ -1,7 +1,9 @@
 from constants import (DAMAGE_UPGRADE_BOOST, DASH_UPGRADE_SPEED_BOOST,
-                       EXPLODING_UPGRADE_CHANCE, FIRE_RATE_UPGRADE_BOOST,
-                       MAGNET_UPGRADE_BOOST, MAXIMUM_HEALTH,
-                       PIERCING_UPGRADE_CHANCE, QUAD_SHOT_FIRE_RATE_PENALTY)
+                       EXPLODING_UPGRADE_CHANCE,
+                       EXPLODING_UPGRADE_DAMAGE_MULTIPLIER,
+                       FIRE_RATE_UPGRADE_BOOST, MAGNET_UPGRADE_BOOST,
+                       MAXIMUM_HEALTH, PIERCING_UPGRADE_CHANCE,
+                       QUAD_SHOT_FIRE_RATE_PENALTY)
 
 upgrade_dic = {}
 
@@ -18,13 +20,13 @@ class Upgrade:
 upgrade_dic["Damage"] = Upgrade("Damage", ["Boosts your damage", f"by {DAMAGE_UPGRADE_BOOST}"], 0, 0, False, False, 1)
 upgrade_dic["Fire Rate"] = Upgrade("Fire Rate", ["Boosts your fire", f"rate by {FIRE_RATE_UPGRADE_BOOST}"], 16, 0, False, False, 1)
 upgrade_dic["Magnet"] = Upgrade("Magnet", ["Boosts your magnet", f"range by {MAGNET_UPGRADE_BOOST}"], 0, 16, False, False, 1)
-upgrade_dic["Explosions"] = Upgrade("Explosions", [f"+{int(EXPLODING_UPGRADE_CHANCE * 100)}% chance to", "Fire an explosive", "shot that deals", "Double damage !"], 48, 0, False, False, .7)
+upgrade_dic["Explosions"] = Upgrade("Explosions", [f"+{int(EXPLODING_UPGRADE_CHANCE * 100)}% chance to", "Fire an explosive", "shot that deals", f"x{EXPLODING_UPGRADE_DAMAGE_MULTIPLIER} damage !"], 48, 0, False, False, .7)
 upgrade_dic["Piercing"] = Upgrade("Piercing", [f"+{int(PIERCING_UPGRADE_CHANCE * 100)}% chance to", "Fire an piercing", "shot that goes", "through asteroids"], 64, 0, False, False, .4)
 
 # Unique Upgrades
 upgrade_dic["Dash"] = Upgrade("Dash", ["Adds the ability to", "Dash by holding", f"Shift. (+{DASH_UPGRADE_SPEED_BOOST} speed)"], 16, 16, True, False, .5)
 upgrade_dic["Quad Shot"] = Upgrade("Quad Shot", ["You fire Twice as", "Many bullets. Fire", "rate is reduced", f"by {-int((1 - QUAD_SHOT_FIRE_RATE_PENALTY) * 100)}%"], 48, 16, True, False, .1)
-upgrade_dic["Explosive Shield"] = Upgrade("Explosive Shield", ["The next time you", "get hit, use", "a bomb instead"], 64, 16, True, False, 10000)
+upgrade_dic["Explosive Shield"] = Upgrade("Explosive Shield", ["The next time you", "get hit, use", "a bomb instead"], 64, 16, True, False, .5)
 
 # Instant Upgrades
 upgrade_dic["Bomb"] = Upgrade("Bomb", ["Gives you a bomb", "That can clear all", "asteroids. Activate", "by pressing B."], 32, 0, False, True, 0)
