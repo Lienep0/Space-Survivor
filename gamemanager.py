@@ -60,15 +60,11 @@ class GameManager:
 
             if player.active:
                 manage_inputs()
-
-                for bomb in bombs_list:
-                    bomb.update()
-
                 player.update()
 
             if miniboss.active: miniboss.update()
 
-            for element in asteroid_list + particle_list + bullet_list + pickup_list:
+            for element in asteroid_list + particle_list + bullet_list + pickup_list + bombs_list:
                 element.update()
 
             check_collisions()
@@ -78,11 +74,8 @@ class GameManager:
 
     def draw(self):
         if player.active:
-            for element in asteroid_list + bullet_list + pickup_list:
+            for element in asteroid_list + bullet_list + pickup_list + bombs_list:
                 element.draw()
-
-            for bomb in bombs_list:
-                bomb.draw()
 
             player.draw()
 
