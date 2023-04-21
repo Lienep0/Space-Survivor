@@ -2,7 +2,7 @@ import pyxel
 
 from constants import BOMB_BOSS_DAMAGE, BOMB_DAMAGE, BOMB_SOUND
 
-bomb_list = []
+bombs_list = []
 
 class Bomb():
     def __init__(self,x,y):
@@ -20,7 +20,7 @@ class Bomb():
         self.radius = self.timer * 6
 
         if self.timer >= 22:
-            bomb_list.remove(self)
+            bombs_list.remove(self)
 
     def draw(self):
         pyxel.circb(self.x, self.y, self.radius, 8 + self.timer % 3)

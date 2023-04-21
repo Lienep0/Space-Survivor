@@ -3,7 +3,7 @@ from random import randint
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
-from bomb import bomb_list
+from bombs import bombs_list
 from bullets import bullet_list
 from collisionmanager import check_collisions
 from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
@@ -61,7 +61,7 @@ class GameManager:
             if player.active:
                 manage_inputs()
 
-                for bomb in bomb_list:
+                for bomb in bombs_list:
                     bomb.update()
 
                 player.update()
@@ -81,7 +81,7 @@ class GameManager:
             for element in asteroid_list + bullet_list + pickup_list:
                 element.draw()
 
-            for bomb in bomb_list:
+            for bomb in bombs_list:
                 bomb.draw()
 
             player.draw()

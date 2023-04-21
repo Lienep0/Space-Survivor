@@ -2,7 +2,7 @@ from random import random
 
 import pyxel
 
-from bomb import Bomb, bomb_list
+from bombs import Bomb, bombs_list
 from bullets import Bullet, bullet_list
 from constants import (BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
                        DAMAGE_UPGRADE_BOOST, EXPLODING_UPGRADE_CHANCE,
@@ -37,7 +37,7 @@ class Player:
     
     def use_bomb(self):
         self.number_of_bombs -= 1
-        bomb_list.append(Bomb(self.x + 3, self.y + 3))
+        bombs_list.append(Bomb(self.x + 3, self.y + 3))
 
     def shoot(self):
         pyxel.play(0, BULLET_SOUND)

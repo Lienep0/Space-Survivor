@@ -1,7 +1,7 @@
 import pyxel
 
 from asteroids import asteroid_list
-from bomb import bomb_list
+from bombs import bombs_list
 from bullets import bullet_list
 from constants import (ASTEROID_HITBOX_CORRECTION, CROSSHAIR_HITBOX_CORRECTION,
                        CROSSHAIR_SPEED, MAGNET_RANGE, MAGNET_UPGRADE_BOOST,
@@ -89,7 +89,7 @@ def check_collisions():
                 miniboss.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
     # Bomb collisions
-    for bomb in bomb_list:
+    for bomb in bombs_list:
         for asteroid in asteroid_list:
             if asteroid not in bomb.things_hit and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
                                                                    asteroid.y + (asteroid.parameters.size/2 - .5), 
