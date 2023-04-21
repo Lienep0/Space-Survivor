@@ -4,7 +4,7 @@ import pyxel
 
 from constants import (BOMB_UPGRADE_WEIGHT, CRITICAL_UPGRADE_CHANCE,
                        HEALTH_UPGRADE_WEIGHT, PIERCING_UPGRADE_CHANCE,
-                       PLAYER_IFRAMES)
+                       PLAYER_IFRAMES, MAXIMUM_HEALTH)
 from globals import set_game_state
 from player import player
 from upgrades import upgrade_dic
@@ -56,8 +56,8 @@ class UpgradeMenu:
         if chosen_upgrade.is_unique: upgrade_dic.pop(chosen_upgrade.name)
         
         if chosen_upgrade.instant_effect:
-            if chosen_upgrade.name == "Bomb": player.number_of_bombs += 1
-            if chosen_upgrade.name == "Health": player.hp += 1
+            if chosen_upgrade.name == "Bomb": player.number_of_bombs = 2
+            if chosen_upgrade.name == "Health": player.hp = max(MAXIMUM_HEALTH, player.hp + 2)
 
         self.hasgeneratedupgrades = False
         self.upgradescursorposition = 0

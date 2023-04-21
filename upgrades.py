@@ -30,8 +30,8 @@ upgrade_dic["Quad Shot"] = Upgrade("Quad Shot", ["You fire Twice as", "Many bull
 upgrade_dic["Explosive Shield"] = Upgrade("Explosive Shield", ["The next time you", "get hit, use", "a bomb instead"], 64, 16, True, False, .5)
 
 # Instant Upgrades
-upgrade_dic["Bomb"] = Upgrade("Bomb", ["Gives you a bomb", "That can clear all", "asteroids. Activate", "by pressing B."], 32, 0, False, True, 0)
-upgrade_dic["Health"] = Upgrade("Health", ["Heals you 1 HP", f"Maximum is {MAXIMUM_HEALTH}"], 32, 16, False, True, 0)
+upgrade_dic["Bomb"] = Upgrade("Bomb", ["Refills your bombs.", "They can clear all", "asteroids. Activate", "by pressing B."], 32, 0, False, True, 0)
+upgrade_dic["Health"] = Upgrade("Health", ["Heals you up to 2 HP", f"Maximum is {MAXIMUM_HEALTH}"], 32, 16, False, True, 0)
 
 # from player import player
 # player.inventory.extend(upgrade_dic.values( ))
