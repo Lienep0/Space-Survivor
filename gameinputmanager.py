@@ -13,6 +13,7 @@ from mainmenu import mainMenu
 from miniboss import miniboss
 from player import player
 from ui import ui
+from upgrades import upgrade_dic
 
 
 def pause_input():
@@ -53,6 +54,8 @@ def manage_inputs():
     if pyxel.btnp(pyxel.KEY_M):
         miniboss.reset()
         miniboss.active = True
+    if pyxel.btnp(pyxel.KEY_U):
+        player.inventory.extend(upgrade_dic.values())
     if pyxel.btnp(pyxel.KEY_X):
         player.xp += 10
     if pyxel.btnp(pyxel.KEY_V) and player.number_of_bombs < MAX_NUMBER_OF_BOMBS:
