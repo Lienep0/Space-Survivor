@@ -25,17 +25,14 @@ class GameOverMenu:
         reset_framecount()
         set_game_state("MENU")
         
-        gameManager.time_of_death = -100
-        gameManager.explosion = None
-        gameManager.paused = False
-        
         asteroid_list.clear()
         asteroid_list.clear()
         bullet_list.clear()
         pickup_list.clear()
         particle_list.clear()
 
-        miniboss.reset()
         player.reset()
+        miniboss.reset()
+        gameManager.reset()
 
 gameOverMenu = GameOverMenu()
