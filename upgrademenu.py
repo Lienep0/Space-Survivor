@@ -12,8 +12,8 @@ from upgrades import upgrade_dic
 
 class UpgradeMenu:
     def __init__(self):
-        self.hasgeneratedupgrades = False
-        self.upgradescursorposition = 0
+        self.has_generated_upgrades = False
+        self.upgrades_cursor_position = 0
 
     def choose_upgrade(self, upgrade_pool):
         # Calculate the cumulative probabilities
@@ -40,39 +40,39 @@ class UpgradeMenu:
         if player.crit_chance * CRITICAL_UPGRADE_CHANCE > 1: upgrade_dic["Crit"].weight = 0
         if player.piercing_chance * PIERCING_UPGRADE_CHANCE > 1: upgrade_dic["Piercing"].weight = 0
 
-        upgrade_dic_values = [x for x in upgrade_dic.values()]
+        upgrade_dic_values = [upgrade for upgrade in upgrade_dic.values()]
         for _ in range(3):
             current_upgrade_list.append(self.choose_upgrade(upgrade_dic_values))
 
-        self.hasgeneratedupgrades = True
+        self.has_generated_upgrades = True
     
     def confirm_upgrade(self):
-        chosen_upgrade = current_upgrade_list[self.upgradescursorposition + 1]
+        chosen_upgrade = current_upgrade_list[self.upgrades_cursor_position + 1]
 
         player.inventory.append(chosen_upgrade)
 
         if chosen_upgrade.is_unique: upgrade_dic.pop(chosen_upgrade.name)
         
-        if chosen_upgrade.instant_effect:
+        if chosen_upgrade.has_instant_effect:
             if chosen_upgrade.name == "Bomb": player.number_of_bombs = 2
             if chosen_upgrade.name == "Health": player.hp = min(MAXIMUM_HEALTH, player.hp + 2)
 
-        self.hasgeneratedupgrades = False
-        self.upgradescursorposition = 0
+        self.has_generated_upgrades = False
+        self.upgrades_cursor_position = 0
 
-        player.iFramesCooldown = PLAYER_IFRAMES
+        player.iframes_cooldown = PLAYER_IFRAMES
         player.check_upgrades()
 
         set_game_state("GAME")
         
     def update(self):
-        if not self.hasgeneratedupgrades:
+        if not self.has_generated_upgrades:
             self.generate_upgrades()
         
-        if pyxel.btnp(LEFT_KEY) and self.upgradescursorposition >= 0:
-            self.upgradescursorposition -= 1
-        if pyxel.btnp(RIGHT_KEY) and self.upgradescursorposition <= 0:
-            self.upgradescursorposition += 1
+        if pyxel.btnp(LEFT_KEY) and self.upgrades_cursor_position >= 0:
+            self.upgrades_cursor_position -= 1
+        if pyxel.btnp(RIGHT_KEY) and self.upgrades_cursor_position <= 0:
+            self.upgrades_cursor_position += 1
     
     def draw(self):
         pyxel.text(13, 30, "Select your upgrade :", 7)
@@ -81,10 +81,10 @@ class UpgradeMenu:
         pyxel.blt(45, 50, 2, current_upgrade_list[1].coords[0], current_upgrade_list[1].coords[1], 16, 16, 0) # UPGRADE 2
         pyxel.blt(65, 50, 2, current_upgrade_list[2].coords[0], current_upgrade_list[2].coords[1], 16, 16, 0) # UPGRADE 3
         
-        for i in range(len(current_upgrade_list[self.upgradescursorposition + 1].description)): # DESCRIPTION LINES
-            pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgradescursorposition + 1].description[i], 7)
+        for i in range(len(current_upgrade_list[self.upgrades_cursor_position + 1].description)): # DESCRIPTION LINES
+            pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgrades_cursor_position + 1].description[i], 7)
 
-        pyxel.rectb(43 + 20 * self.upgradescursorposition, 48, 20, 20, 7) #CURSOR
+        pyxel.rectb(43 + 20 * self.upgrades_cursor_position, 48, 20, 20, 7) #CURSOR
 
         if pyxel.btnp(pyxel.KEY_SPACE):
             self.confirm_upgrade()

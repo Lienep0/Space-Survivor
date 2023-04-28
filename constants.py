@@ -41,6 +41,7 @@ BOMB_UPGRADE_WEIGHT = [1.5, .5, 0] # The weight of the bomb upgrade in the pool,
 MAXIMUM_HEALTH = len(HEALTH_UPGRADE_WEIGHT)
 
 # Asteroids
+ASTEROID_SPEED = 1
 ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
 ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border of the screen, in pixels
 ASTEROID_HITBOX_CORRECTION = 0 # How generous the asteroid hitbox is. The higher, the less generous. Default is 0

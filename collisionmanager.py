@@ -29,7 +29,7 @@ def check_collisions():
 
     # Ateroid Collisions
     for asteroid in list(asteroid_list):
-        if player.iFramesCooldown <= 0 and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5),
+        if player.iframes_cooldown <= 0 and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), asteroid.y + (asteroid.parameters.size/2 - .5),
                                                             (player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), 
                                                             asteroid.parameters.size/2 + 3 - ASTEROID_HITBOX_CORRECTION):
                 player.take_damage()
@@ -41,7 +41,7 @@ def check_collisions():
                                asteroid.parameters.size/2 + 3):
                 bullet.collide(asteroid)
         
-        for explosion in [x for x in particle_list if type(x) == ExplodingBulletsImpact]:
+        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact]:
             if asteroid not in explosion.things_hit and round_collision(asteroid.x + (asteroid.parameters.size/2 - .5), 
                                                                         asteroid.y + (asteroid.parameters.size/2 - .5), 
                                                                         explosion.x, explosion.y, explosion.radius):
@@ -62,7 +62,7 @@ def check_collisions():
                 bullet.collide(miniboss)
                 bullet.things_hit.append(miniboss)
         
-        for explosion in [x for x in particle_list if type(x) == ExplodingBulletsImpact]:
+        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact]:
             if round_collision(miniboss.x + miniboss.size/2 + 1, miniboss.y + miniboss.size/2 + 1, 
                                 explosion.x, explosion.y, explosion.radius):
                 miniboss.take_damage(explosion.damage)
@@ -72,7 +72,7 @@ def check_collisions():
             miniboss.crosshair.x, miniboss.crosshair.y, miniboss.crosshair.hasHit = move_towards(miniboss.crosshair.x, miniboss.crosshair.y,
                                                                                                  player.x - miniboss.crosshair.size/4, player.y - miniboss.crosshair.size/4,
                                                                                                  CROSSHAIR_SPEED, 2 + CROSSHAIR_HITBOX_CORRECTION)
-            if miniboss.crosshair.hasHit and player.iFramesCooldown <= 0:
+            if miniboss.crosshair.hasHit and player.iframes_cooldown <= 0:
                 player.take_damage()
                 particle_list.append(MinibossShotLine(miniboss.x + 8 + (miniboss.sprite_offset/8), miniboss.y + 8, player.x + 3, player.y))
                 miniboss.crosshair = None

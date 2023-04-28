@@ -1,13 +1,10 @@
-from random import randint
-
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
 from bombs import bombs_list
 from bullets import bullet_list
 from collisionmanager import check_collisions
-from constants import (ASTEROID_COOLDOWN, ASTEROID_OFFSET_FROM_BORDERS,
-                       ASTEROIDS, GAME_WIDTH, LEVEL_UP_SOUND, MAX_LEVEL,
+from constants import (ASTEROID_COOLDOWN, ASTEROIDS, LEVEL_UP_SOUND, MAX_LEVEL,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
                        XP_REQUIREMENTS)
 from gameinputmanager import manage_inputs, pause_input
@@ -45,8 +42,7 @@ class GameManager:
     def spawn_asteroids(self):
         if mainMenu.asteroid_toggle:
             if get_framecount() % ASTEROID_COOLDOWN == 0:
-                asteroid_list.append(Asteroid(randint(
-                    ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"]- ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["SMALL_ASTEROID"]["type"]))
+                asteroid_list.append(Asteroid(ASTEROIDS["SMALL_ASTEROID"]["type"]))
 
     def update(self):
         update_framecount()

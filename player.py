@@ -18,14 +18,14 @@ class Player:
 
     def update(self):
         self.fireRateCooldown -= 1
-        self.iFramesCooldown -= 1
+        self.iframes_cooldown -= 1
 
-        if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
-        if self.iFramesCooldown <= 0: self.visible = True
+        if self.iframes_cooldown >= 0 and self.iframes_cooldown % 4 == 0: self.visible = not self.visible
+        if self.iframes_cooldown <= 0: self.visible = True
     
     def take_damage(self):
-        if self.iFramesCooldown <=0:
-            self.iFramesCooldown = PLAYER_IFRAMES
+        if self.iframes_cooldown <=0:
+            self.iframes_cooldown = PLAYER_IFRAMES
             if self.has_explosive_shield and player.number_of_bombs >= 1:
                 self.use_bomb()
             else:    
@@ -89,6 +89,6 @@ class Player:
         self.xp = 0
 
         self.fireRateCooldown = 0
-        self.iFramesCooldown = 0
+        self.iframes_cooldown = 0
         
 player = Player()

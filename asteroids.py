@@ -1,14 +1,15 @@
+from random import randint
+
 import pyxel
 
-from constants import GAME_HEIGHT, ASTEROIDS
+from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROID_SPEED, ASTEROIDS,
+                       GAME_HEIGHT, GAME_WIDTH)
 from pickups import spawn_pickups
 
 asteroid_list = []
 
 class Asteroid:
-    def __init__(self, x, type):
-        self.x = x
-        self.speed = 1
+    def __init__(self, type):
         self.type = type
 
         if self.type == ASTEROIDS["SMALL_ASTEROID"]["type"]:
@@ -20,7 +21,9 @@ class Asteroid:
         else:
             raise Exception("Invalid Asteroid Type")
         
+        self.x = randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - self.parameters.size - ASTEROID_OFFSET_FROM_BORDERS)
         self.y = -self.parameters.size
+        self.speed = ASTEROID_SPEED
 
     def take_damage(self, damage):
         self.parameters.hp -= damage

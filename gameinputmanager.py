@@ -63,9 +63,7 @@ def manage_inputs():
         set_game_state("GAMEOVER")
     if pyxel.btnp(ASTEROID_SPAWN_KEY): 
         mainMenu.asteroid_toggle = not mainMenu.asteroid_toggle
-    if pyxel.btnp(MINIBOSS_SPAWN_KEY):
-        miniboss.reset()
-        miniboss.active = True
+        
     if pyxel.btnp(GIVE_UPGRADES_KEY):
         player.inventory.extend(upgrade_dic.values())
         player.check_upgrades()
@@ -73,12 +71,13 @@ def manage_inputs():
         player.xp += 10
     if pyxel.btnp(GIVE_BOMB_KEY) and player.number_of_bombs < MAX_NUMBER_OF_BOMBS:
         player.number_of_bombs += 1
+
+    if pyxel.btnp(MINIBOSS_SPAWN_KEY):
+        miniboss.reset()
+        miniboss.active = True
     if pyxel.btnp(SMALL_ASTEROID_KEY): 
-        asteroid_list.append(Asteroid(randint(
-            ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["SMALL_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS),ASTEROIDS["SMALL_ASTEROID"]["type"]))
+        asteroid_list.append(Asteroid(ASTEROIDS["SMALL_ASTEROID"]["type"]))
     if pyxel.btnp(MEDIUM_ASTEROID_KEY): 
-        asteroid_list.append(Asteroid(randint(
-            ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["MEDIUM_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
+        asteroid_list.append(Asteroid(ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
     if pyxel.btnp(LARGE_ASTEROID_KEY): 
-        asteroid_list.append(Asteroid(randint(
-            ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - ASTEROIDS["LARGE_ASTEROID"]["size"] - ASTEROID_OFFSET_FROM_BORDERS), ASTEROIDS["LARGE_ASTEROID"]["type"]))
+        asteroid_list.append(Asteroid(ASTEROIDS["LARGE_ASTEROID"]["type"]))
