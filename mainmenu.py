@@ -2,7 +2,7 @@ import pyxel
 
 from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, ASTEROID_SPAWN_KEY
 from globals import set_game_state
-from scoremanager import scores
+from Antonin.scoremanager import scores
 
 
 class MainMenu:
