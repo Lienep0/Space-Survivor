@@ -19,12 +19,12 @@ class Player:
     def update(self):
         self.fireRateCooldown -= 1
         self.iFramesCooldown -= 1
-        self.hasQuadShot = len([x for x in self.inventory if x.name == "Quad Shot"])
+        self.has_quad_shot = bool(len([x for x in self.inventory if x.name == "Quad Shot"]))
 
         if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
         if self.iFramesCooldown <= 0: 
             self.visible = True
-        if self.wasbig == True:
+        if self.is_big == True:
             self.size = 16
     
     def take_damage(self):
@@ -43,7 +43,7 @@ class Player:
     def shoot(self):
         pyxel.play(0, BULLET_SOUND)
 
-        if self.hasQuadShot: positions_list = [[0,2,5,7],[3,0,0,3]]
+        if self.has_quad_shot: positions_list = [[0,2,5,7],[3,0,0,3]]
         else: positions_list = [[1,6],[0,0]]
         for i in range(len(positions_list[0])):
             bullet_list.append(Bullet(self.x + positions_list[0][i], self.y + positions_list[1][i], 
@@ -53,11 +53,11 @@ class Player:
                                       crit= random() <= CRITICAL_UPGRADE_CHANCE * len([x for x in self.inventory if x.name == "Crit"])))
 
         self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * len([x for x in self.inventory if x.name == "Fire Rate"])
-        if self.hasQuadShot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
+        if self.has_quad_shot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
 
     def draw(self):   
         if self.visible:
-            pyxel.blt(self.x, self.y, 0, self.hasQuadShot * 8 + self.wasbig * self.hasQuadShot * 8 + 64, self.wasbig * 8, self.size, self.size, 0)
+            pyxel.blt(self.x, self.y, 0, self.has_quad_shot * 8 + self.is_big * self.has_quad_shot * 8 + 64, self.is_big * 8, self.size, self.size, 0)
             if self.isDashing: 
                 pyxel.pset(player.x + 1, player.y + 9, 10)
                 pyxel.pset(player.x + 6, player.y + 9, 10) # Player Ship Dashes                
@@ -76,7 +76,7 @@ class Player:
         self.inventory = []
         self.number_of_bombs = START_NUMBER_OF_BOMBS
         self.isDashing = False
-        self.hasQuadShot = False
-        self.wasbig = True
+        self.has_quad_shot = False
+        self.is_big = True
         
 player = Player()
