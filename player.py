@@ -24,6 +24,8 @@ class Player:
         if self.iFramesCooldown >= 0 and self.iFramesCooldown % 4 == 0: self.visible = not self.visible
         if self.iFramesCooldown <= 0: 
             self.visible = True
+        if self.wasbig == True:
+            self.size = 16
     
     def take_damage(self):
         if self.iFramesCooldown <=0:
@@ -55,10 +57,7 @@ class Player:
 
     def draw(self):   
         if self.visible:
-            if self.hasQuadShot:
-                pyxel.blt(self.x, self.y, 2, 24, 40, self.size, self.size, 0) # Quad Shot Player Ship
-            else :
-                pyxel.blt(self.x, self.y, 0, 0, 8, self.size, self.size, 0) # Player Ship
+            pyxel.blt(self.x, self.y, 0, self.hasQuadShot * 8 + self.wasbig * self.hasQuadShot * 8 + 64, self.wasbig * 8, self.size, self.size, 0)
             if self.isDashing: 
                 pyxel.pset(player.x + 1, player.y + 9, 10)
                 pyxel.pset(player.x + 6, player.y + 9, 10) # Player Ship Dashes                
@@ -78,5 +77,6 @@ class Player:
         self.number_of_bombs = START_NUMBER_OF_BOMBS
         self.isDashing = False
         self.hasQuadShot = False
+        self.wasbig = True
         
 player = Player()
