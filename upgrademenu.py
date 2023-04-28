@@ -14,6 +14,7 @@ class UpgradeMenu:
     def __init__(self):
         self.has_generated_upgrades = False
         self.upgrades_cursor_position = 0
+        self.available_upgrades = dict(upgrade_dic)
 
     def choose_upgrade(self, upgrade_pool):
         # Calculate the cumulative probabilities
@@ -35,14 +36,14 @@ class UpgradeMenu:
         current_upgrade_list = []
 
         # Dynamic weight handling
-        upgrade_dic["Health"].weight = HEALTH_UPGRADE_WEIGHT[player.hp - 1]
-        upgrade_dic["Bomb"].weight = BOMB_UPGRADE_WEIGHT[player.number_of_bombs]
-        if player.crit_chance * CRITICAL_UPGRADE_CHANCE > 1: upgrade_dic["Crit"].weight = 0
-        if player.piercing_chance * PIERCING_UPGRADE_CHANCE > 1: upgrade_dic["Piercing"].weight = 0
+        self.available_upgrades["Health"].weight = HEALTH_UPGRADE_WEIGHT[player.hp - 1]
+        self.available_upgrades["Bomb"].weight = BOMB_UPGRADE_WEIGHT[player.number_of_bombs]
+        if player.crit_chance * CRITICAL_UPGRADE_CHANCE > 1: self.available_upgrades["Crit"].weight = 0
+        if player.piercing_chance * PIERCING_UPGRADE_CHANCE > 1: self.available_upgrades["Piercing"].weight = 0
 
-        upgrade_dic_values = [upgrade for upgrade in upgrade_dic.values()]
+        abailable_upgrades_values = [upgrade for upgrade in self.available_upgrades.values()]
         for _ in range(3):
-            current_upgrade_list.append(self.choose_upgrade(upgrade_dic_values))
+            current_upgrade_list.append(self.choose_upgrade(abailable_upgrades_values))
 
         self.has_generated_upgrades = True
     
@@ -51,7 +52,7 @@ class UpgradeMenu:
 
         player.inventory.append(chosen_upgrade)
 
-        if chosen_upgrade.is_unique: upgrade_dic.pop(chosen_upgrade.name)
+        if chosen_upgrade.is_unique: self.available_upgrades.pop(chosen_upgrade.name)
         
         if chosen_upgrade.has_instant_effect:
             if chosen_upgrade.name == "Bomb": player.number_of_bombs = 2
