@@ -77,6 +77,6 @@ class Player:
         self.number_of_bombs = START_NUMBER_OF_BOMBS
         self.isDashing = False
         self.has_quad_shot = False
-        self.is_big = True
+        self.is_big = False
         
 player = Player()
