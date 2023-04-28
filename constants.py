@@ -1,3 +1,5 @@
+import pyxel
+
 # Main
 GAME_WIDTH = 104
 GAME_HEIGHT = 149
@@ -49,21 +51,44 @@ ASTEROIDS = {
     "LARGE_ASTEROID": {"type": 2, "size": 32, "coords": [0, 32], "hp": 24, "xp": 16}
 }
 
-#Miniboss
+# Miniboss
 MINIBOSS_HP = 100
 MINIBOSS_HEIGHT = 20
 MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-shoot after shooting 
 CROSSHAIR_SPEED = 1.25
 CROSSHAIR_HITBOX_CORRECTION = 0 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
 
-# XP
+# Xp
 XP_REQUIREMENTS = [30, 40, 50, 60, 70, 80] # Number of xp required to level up per level
 MAX_LEVEL = len(XP_REQUIREMENTS)
 
-#Ui
+# Ui
 BOTTOM_UI_BAR_SIZE = 10
 
-#Sounds
+# Controls
+LEFT_KEY = pyxel.KEY_LEFT
+RIGHT_KEY = pyxel.KEY_RIGHT
+UP_KEY = pyxel.KEY_UP
+DOWN_KEY = pyxel.KEY_DOWN
+
+SHOOT_KEY = pyxel.KEY_SPACE
+DASH_KEY = pyxel.KEY_SHIFT
+BOMB_KEY = pyxel.KEY_B
+
+PAUSE_KEY = pyxel.KEY_TAB
+RESET_KEY = pyxel.KEY_R
+
+GIVE_XP_KEY = pyxel.KEY_X
+GIVE_UPGRADES_KEY = pyxel.KEY_U
+GIVE_BOMB_KEY = pyxel.KEY_V
+
+ASTEROID_SPAWN_KEY = pyxel.KEY_A
+MINIBOSS_SPAWN_KEY = pyxel.KEY_M
+SMALL_ASTEROID_KEY = pyxel.KEY_1
+MEDIUM_ASTEROID_KEY = pyxel.KEY_2
+LARGE_ASTEROID_KEY = pyxel.KEY_3
+
+# Sounds
 BULLET_SOUND = 0
 IMPACT_SOUND = 1
 PICKUP_SOUND = 2

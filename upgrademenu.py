@@ -4,7 +4,7 @@ import pyxel
 
 from constants import (BOMB_UPGRADE_WEIGHT, CRITICAL_UPGRADE_CHANCE,
                        HEALTH_UPGRADE_WEIGHT, PIERCING_UPGRADE_CHANCE,
-                       PLAYER_IFRAMES, MAXIMUM_HEALTH)
+                       PLAYER_IFRAMES, MAXIMUM_HEALTH, LEFT_KEY, RIGHT_KEY)
 from globals import set_game_state
 from player import player
 from upgrades import upgrade_dic
@@ -69,9 +69,9 @@ class UpgradeMenu:
         if not self.hasgeneratedupgrades:
             self.generate_upgrades()
         
-        if pyxel.btnp(pyxel.KEY_LEFT) and self.upgradescursorposition >= 0:
+        if pyxel.btnp(LEFT_KEY) and self.upgradescursorposition >= 0:
             self.upgradescursorposition -= 1
-        if pyxel.btnp(pyxel.KEY_RIGHT) and self.upgradescursorposition <= 0:
+        if pyxel.btnp(RIGHT_KEY) and self.upgradescursorposition <= 0:
             self.upgradescursorposition += 1
     
     def draw(self):

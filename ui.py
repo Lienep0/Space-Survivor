@@ -1,10 +1,11 @@
 import pyxel
 
-from constants import (BOTTOM_UI_BAR_SIZE, GAME_HEIGHT, GAME_WIDTH, MAX_LEVEL,
-                       MAX_NUMBER_OF_BOMBS, XP_REQUIREMENTS, MINIBOSS_HP)
+from constants import (BOTTOM_UI_BAR_SIZE, DOWN_KEY, GAME_HEIGHT, GAME_WIDTH,
+                       LEFT_KEY, MAX_LEVEL, MAX_NUMBER_OF_BOMBS, MINIBOSS_HP,
+                       RIGHT_KEY, UP_KEY, XP_REQUIREMENTS)
+from globals import get_paused_state
 from miniboss import miniboss
 from player import player
-from globals import get_paused_state
 
 
 class Ui:
@@ -16,14 +17,14 @@ class Ui:
         lenght = len(player.inventory)
 
         if get_paused_state():
-            if pyxel.btnp(pyxel.KEY_LEFT) and self.cursor_position[0] > 0:
-                self.cursor_position[0] -= 1
-            if pyxel.btnp(pyxel.KEY_UP) and self.cursor_position[1] > 0:
-                self.cursor_position[1] -= 1
-            if pyxel.btnp(pyxel.KEY_RIGHT) and self.cursor_position[0] < min(7, lenght - 1 - 8 * self.cursor_position[1]):
+            if pyxel.btnp(RIGHT_KEY) and self.cursor_position[0] < min(7, lenght - 1 - 8 * self.cursor_position[1]):
                 self.cursor_position[0] += 1
-            if pyxel.btnp(pyxel.KEY_DOWN) and (self.cursor_position[1] + 1) * 8 + self.cursor_position[0] < lenght:
+            if pyxel.btnp(LEFT_KEY) and self.cursor_position[0] > 0:
+                self.cursor_position[0] -= 1
+            if pyxel.btnp(DOWN_KEY) and (self.cursor_position[1] + 1) * 8 + self.cursor_position[0] < lenght:
                 self.cursor_position[1] += 1
+            if pyxel.btnp(UP_KEY) and self.cursor_position[1] > 0:
+                self.cursor_position[1] -= 1
 
     def draw(self):
         if get_paused_state():

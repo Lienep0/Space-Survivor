@@ -1,6 +1,6 @@
 import pyxel
 
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y
+from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, ASTEROID_SPAWN_KEY
 from globals import set_game_state
 from scoremanager import scores
 
@@ -12,7 +12,7 @@ class MainMenu:
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE):
             set_game_state("GAME")
-        if pyxel.btnp(pyxel.KEY_A):
+        if pyxel.btnp(ASTEROID_SPAWN_KEY):
             self.asteroid_toggle = not self.asteroid_toggle
         if pyxel.btnp(pyxel.KEY_9):
             scores.update()
