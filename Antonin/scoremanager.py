@@ -3,7 +3,7 @@ import pyxel
 
 class scoreManager:
     def __init__(self):
-        self.data = json.load(open("scores.json", "r"))
+        self.data = json.load(open("Antonin/scores.json", "r"))
         self.dic_data = {}
 
         for value in self.data.values():
@@ -18,7 +18,7 @@ class scoreManager:
             self.update({z , {"name" : key, "score" : value}})
             i += 1
 
-        json.dump(self.data, open("scores.json", "w"))
+        json.dump(self.data, open("Antonin/scores.json", "w"))
     
     def draw(self):
         i = 0 # Pareil. [i] tu peux l'appeler [offset] par exemple
@@ -34,7 +34,7 @@ class scoreManager:
                      "player 2": {"name": "XXX", "score": "000000"},
                      "player 3": {"name": "XXX", "score": "000000"}}
         
-        json.dump(self.data, open("scores.json", "w"))
+        json.dump(self.data, open("Antonin/scores.json", "w"))
 
 
 scores = scoreManager()
