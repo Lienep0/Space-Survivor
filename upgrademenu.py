@@ -37,10 +37,8 @@ class UpgradeMenu:
         # Dynamic weight handling
         upgrade_dic["Health"].weight = HEALTH_UPGRADE_WEIGHT[player.hp - 1]
         upgrade_dic["Bomb"].weight = BOMB_UPGRADE_WEIGHT[player.number_of_bombs]
-        if len([x for x in player.inventory if x.name == "Crit"]) * CRITICAL_UPGRADE_CHANCE > 1: 
-            upgrade_dic["Crit"].weight = 0
-        if len([x for x in player.inventory if x.name == "Piercing"]) * PIERCING_UPGRADE_CHANCE > 1: 
-            upgrade_dic["Piercing"].weight = 0
+        if player.crit_chance * CRITICAL_UPGRADE_CHANCE > 1: upgrade_dic["Crit"].weight = 0
+        if player.piercing_chance * PIERCING_UPGRADE_CHANCE > 1: upgrade_dic["Piercing"].weight = 0
 
         upgrade_dic_values = [x for x in upgrade_dic.values()]
         for _ in range(3):
@@ -61,7 +59,9 @@ class UpgradeMenu:
 
         self.hasgeneratedupgrades = False
         self.upgradescursorposition = 0
+
         player.iFramesCooldown = PLAYER_IFRAMES
+        player.check_upgrades()
 
         set_game_state("GAME")
         

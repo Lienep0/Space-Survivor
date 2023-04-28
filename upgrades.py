@@ -8,18 +8,20 @@ from constants import (CRITICAL_UPGRADE_CHANCE,
 upgrade_dic = {}
 
 class Upgrade:
-    def __init__(self, name, description, xcoord, ycoord, is_unique, instant_effect, weight):
+    def __init__(self, name, description, xcoord, ycoord, is_unique, has_instant_effect, weight):
         self.name = name
         self.description = description
         self.coords = [xcoord, ycoord]
         self.is_unique = is_unique
-        self.instant_effect = instant_effect
+        self.has_instant_effect = has_instant_effect
         self.weight = weight
 
 # Normal Upgrades
 upgrade_dic["Damage"] = Upgrade("Damage", ["Boosts your damage", f"by {DAMAGE_UPGRADE_BOOST}"], 0, 0, False, False, 1)
 upgrade_dic["Fire Rate"] = Upgrade("Fire Rate", ["Boosts your fire", f"rate by {FIRE_RATE_UPGRADE_BOOST}"], 16, 0, False, False, 1)
 upgrade_dic["Magnet"] = Upgrade("Magnet", ["Boosts your magnet", f"range by {MAGNET_UPGRADE_BOOST}"], 0, 16, False, False, 1)
+
+# Chance upgrades
 upgrade_dic["Piercing"] = Upgrade("Piercing", [f"+{int(PIERCING_UPGRADE_CHANCE * 100)}% chance to", "Fire an piercing", "shot that goes", "through asteroids"], 64, 0, False, False, .7)
 upgrade_dic["Crit"] = Upgrade("Crit", [f"+{int(CRITICAL_UPGRADE_CHANCE * 100)}% chance to", "Fire an critical", "shot that deals", f"x{CRITICAL_UPGRADE_DAMAGE_MULTIPLIER} damage !"], 80, 0, False, False, .7)
 

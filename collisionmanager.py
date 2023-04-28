@@ -15,7 +15,7 @@ from player import player
 def check_collisions():
 
     # Player Collisions
-    range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * len([x for x in player.inventory if x.name == "Magnet"])
+    range = MAGNET_RANGE + MAGNET_UPGRADE_BOOST * player.magnet_range_mod
     for pickup in list(pickup_list):
         if round_collision((player.x + (player.size/2 - .5)), (player.y + (player.size/2 - .5)), pickup.x + 1, pickup.y + 1, range):
             pickup.activated = True

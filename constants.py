@@ -3,7 +3,6 @@ GAME_WIDTH = 104
 GAME_HEIGHT = 149
 FPS = 30
 TITLE = "Space Survivor"
-ALPHABET_LIST = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
 # Player
 PLAYER_STARTING_X = 48
