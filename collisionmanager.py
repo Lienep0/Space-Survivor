@@ -49,18 +49,22 @@ def check_collisions():
                 explosion.things_hit.append(asteroid)
 
     # Miniboss Collisions
-    for projectile in list(miniboss.projectiles_list):
-        if round_collision(projectile.x + projectile.size / 2, projectile.y + projectile.size / 2, player.x + player.size / 2, player.y + player.size / 2, 5):
-            player.take_damage()
-            miniboss.projectiles_list.remove(projectile)
-
     if not miniboss.y <= MINIBOSS_HEIGHT:
+        for projectile in list(miniboss.projectiles_list):
+            if round_collision(projectile.x + projectile.size / 2, projectile.y + projectile.size / 2, player.x + player.size / 2, player.y + player.size / 2, 5):
+                player.take_damage()
+                miniboss.projectiles_list.remove(projectile)
+
+        if round_collision(miniboss.x + miniboss.size/2, miniboss.y + miniboss.size/2, 
+                                    player.x + player.size / 2, player.y + player.size / 2, 
+                                    miniboss.size/2 + 2):
+            player.take_damage()
+
         for bullet in [bullet for bullet in bullet_list if miniboss not in bullet.things_hit]:
             if round_collision(miniboss.x + miniboss.size/2, miniboss.y + miniboss.size/2, 
-                                    (bullet.x + (bullet.xsize/2 - .5)), (bullet.y + (bullet.ysize/2 - .5)), 
+                                    bullet.x + bullet.xsize / 2, bullet.y + bullet.ysize / 2, 
                                     miniboss.size/2 + 2):
                 bullet.collide(miniboss)
-                bullet.things_hit.append(miniboss)
         
         for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact]:
             if round_collision(miniboss.x + miniboss.size/2 + 1, miniboss.y + miniboss.size/2 + 1, 
