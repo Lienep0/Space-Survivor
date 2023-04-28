@@ -22,7 +22,7 @@ class MainMenu:
         pyxel.text(30, 75, "XXX  000000", 7)
         pyxel.text(30, 85, "XXX  000000", 7)
         pyxel.text(10, 105, "Press SPACE to Start !", 7)
-        pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 0, 8, 8, 8, 0) #PLAYER
+        pyxel.blt(PLAYER_STARTING_X, PLAYER_STARTING_Y, 0, 64, 0, 8, 8, 0) #PLAYER
         if self.asteroid_toggle:
             pyxel.circ(5, 5, 3, 11)
         else:
