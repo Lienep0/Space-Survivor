@@ -1,20 +1,22 @@
 import json
 import pyxel
 from player import player
+from constants import ALPHABET
 
 class scoreManager:
     def __init__(self):
         self.data = json.load(open("Antonin/scores.json", "r"))
         self.dic_data = {}
+        self.leter_amstr = [0,0,0]
 
         for value in self.data.values():
-            self.dic_data[str(value["name"])] = int(value["score"])
-
+            self.dic_data[str(value["name"])] = value["score"]
 
     def update(self):
         size = 0
-        self.dic_data[scoreManager.input_name()] = player.level
-        dict(sorted(self.dic_data.items(), key=lambda item: item[1], reverse=True))
+        name_player = scoreManager.input_name()
+        self.dic_data[name_player] = player.level
+        dict(sorted(self.dic_data.items(), key=lambda item: int(item[1]), reverse=True))
         for name in self.dic_data.keys():
             size += 1
             if size > 3:
@@ -41,6 +43,7 @@ class scoreManager:
             i += 1
 
         json.dump(self.data, open("Antonin/scores.json", "w"))
+        self.__init__()
     
     def draw(self):
         offset = 0
@@ -57,8 +60,26 @@ class scoreManager:
                      "player 3": {"name": "XXX", "score": "000000"}}
         
         json.dump(self.data, open("Antonin/scores.json", "w"))
+        self.__init__()
 
     def input_name(self):
-        pass
+        name_player = ""
+        for i in range(self.leter_amstr):
+            pyxel.blt(i * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
+            pyxel.blt(i * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
+            exit = False
+            while not exit:
+                if pyxel.btn(pyxel.KEY_DOWN):
+                    self.leter_amstr[i] = (self.leter_amstr[i]-1)%26
+                elif pyxel.btn(pyxel.KEY_UP):
+                    self.leter_amstr[i] = (self.leter_amstr[i]+1)%26
+                elif pyxel.btn(pyxel.KEY_SPACE):
+                    name_player += ALPHABET[self.leter_amstr[i]]
+                    exit = True
+        return name_player
+    
+    def draw_input_name(self):
+        for i in range(self.leter_amstr):
+            pyxel.blt(i * 12 + 36, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
 
 scores = scoreManager()
