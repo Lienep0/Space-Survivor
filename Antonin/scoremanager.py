@@ -8,15 +8,36 @@ class scoreManager:
         self.dic_data = {}
 
         for value in self.data.values():
-            self.dic_data[str(value["name"])] = value["score"]
+            self.dic_data[str(value["name"])] = int(value["score"])
 
 
     def update(self):
+        size = 0
+        self.dic_data[scoreManager.input_name()] = player.level
+        dict(sorted(self.dic_data.items(), key=lambda item: item[1], reverse=True))
+        for name in self.dic_data.keys():
+            size += 1
+            if size > 3:
+                self.dic_data.pop(name)
+        
+        score_str = ""
+        size = 0
+        for name, score in self.dic_data.items() :
+            for _ in str(score):
+                size += 1
+            if size > 6:
+                score_str = "Win The Game"
+            else:
+                size = 6 - size
+                for i in range(size):
+                    score_str += "0"
+                score_str += str(score)
+
         i = 1
         for name, score in self.dic_data.items() : 
             z = "player" # Pareil.
             z += " " + str(i)
-            self.update({z , {"name" : name, "score" : score}})
+            self.data[z] = {"name" : name, "score" : score}
             i += 1
 
         json.dump(self.data, open("Antonin/scores.json", "w"))
@@ -37,5 +58,7 @@ class scoreManager:
         
         json.dump(self.data, open("Antonin/scores.json", "w"))
 
+    def input_name(self):
+        pass
 
 scores = scoreManager()
