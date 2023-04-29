@@ -35,7 +35,7 @@ class scoreManager:
 
         i = 1
         for name, score in self.dic_data.items() : 
-            z = "player" # Pareil.
+            z = "player" # Je sais toujours pas ce que cette variable fait
             z += " " + str(i)
             self.data[z] = {"name" : name, "score" : score}
             i += 1
@@ -45,7 +45,7 @@ class scoreManager:
     def draw(self):
         offset = 0
         for name in self.dic_data.keys(): 
-            pyxel.rect(30, 65 + offset , 12 , 8 , 0)
+            pyxel.rect(30, 65 + offset , 12 , 8 , 0) # Quand tu dessines des trucs avec pyxel hésite pas à mettre en commentaire ce que tu dessines, c'est mieux pour s'y retrouver
             pyxel.rect(50, 65 + offset , 24 , 8 , 0)
             pyxel.text(30, 65 + offset, name , 7)
             pyxel.text(50, 65 + offset, str(self.dic_data[name]) , 7)
