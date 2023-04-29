@@ -17,7 +17,7 @@ class scoreManager:
 
     def update(self):
         size = 0
-        name_player = scoreManager.input_name()
+        name_player = self.input_name()
         self.dic_data[name_player] = player.level
         dict(sorted(self.dic_data.items(), key=lambda item: int(item[1]), reverse=True))
         for name in self.dic_data.keys():
@@ -26,9 +26,9 @@ class scoreManager:
                 self.dic_data.pop(name)
         
         score_str = ""
-        size = 0
         for name, score in self.dic_data.items() :
-            for _ in str(score):
+            size = 0
+            for i in str(score):
                 size += 1
             if size > 6:
                 score_str = "Win The Game"
@@ -37,10 +37,14 @@ class scoreManager:
                 for i in range(size):
                     score_str += "0"
                 score_str += str(score)
+                print(size)
+                print(score_str)
+            self.dic_data[name] = score_str
+            
 
         i = 1
         for name, score in self.dic_data.items() : 
-            z = "player" # Je sais toujours pas ce que cette variable fait
+            z = "player" # variable servant a mêtre dans le .json player 1, 2, ...
             z += " " + str(i)
             self.data[z] = {"name" : name, "score" : score}
             i += 1
@@ -51,7 +55,7 @@ class scoreManager:
     def draw(self):
         offset = 0
         for name in self.dic_data.keys(): 
-            pyxel.rect(30, 65 + offset , 12 , 8 , 0) # Quand tu dessines des trucs avec pyxel hésite pas à mettre en commentaire ce que tu dessines, c'est mieux pour s'y retrouver
+            pyxel.rect(30, 65 + offset , 12 , 8 , 0) # rectangle noir pour cacher ce qu'il y'a de base car il faut sur l'écrant start si il n'y a pas de high scor il faut quand même afficher des 0
             pyxel.rect(50, 65 + offset , 24 , 8 , 0)
             pyxel.text(30, 65 + offset, name , 7)
             pyxel.text(50, 65 + offset, str(self.dic_data[name]) , 7)
@@ -67,7 +71,7 @@ class scoreManager:
 
     def input_name(self):
         name_player = ""
-        for i in range(self.leter_amstr):
+        for i in range(len(self.leter_amstr)):
             pyxel.blt(i * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
             pyxel.blt(i * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
             exit = False
@@ -82,7 +86,7 @@ class scoreManager:
         return name_player
     
     def draw_input_name(self):
-        for i in range(self.leter_amstr):
+        for i in range(len(self.leter_amstr)):
             pyxel.blt(i * 12 + 36, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
 
 scores = scoreManager()
