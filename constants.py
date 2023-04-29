@@ -1,12 +1,10 @@
 import pyxel
-import string
 
 # Main
 GAME_WIDTH = 104
 GAME_HEIGHT = 149
 FPS = 30
 TITLE = "Space Survivor"
-ALPHABET = string.ascii_uppercase()
 
 # Player
 PLAYER_STARTING_X = 48

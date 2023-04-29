@@ -1,7 +1,10 @@
 import json
+import string
+
 import pyxel
+
 from player import player
-from constants import ALPHABET
+
 
 class scoreManager:
     def __init__(self):
@@ -74,7 +77,7 @@ class scoreManager:
                 elif pyxel.btn(pyxel.KEY_UP):
                     self.leter_amstr[i] = (self.leter_amstr[i]+1)%26
                 elif pyxel.btn(pyxel.KEY_SPACE):
-                    name_player += ALPHABET[self.leter_amstr[i]]
+                    name_player += string.ascii_uppercase[self.leter_amstr[i]]
                     exit = True
         return name_player
     
