@@ -6,7 +6,7 @@ GAME_WIDTH = 104
 GAME_HEIGHT = 149
 FPS = 30
 TITLE = "Space Survivor"
-ALPHABET = list(string.ascii_uppercase())
+ALPHABET = string.ascii_uppercase()
 
 # Player
 PLAYER_STARTING_X = 48
