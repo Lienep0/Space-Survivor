@@ -1,5 +1,6 @@
 import json
 import pyxel
+from player import player
 
 class scoreManager:
     def __init__(self):
@@ -12,22 +13,22 @@ class scoreManager:
 
     def update(self):
         i = 1
-        for key, value in self.dic_data.items() : # Pourquoi t'appelle ça key, value ?? Appelle ça name, score plutôt.
+        for name, score in self.dic_data.items() : 
             z = "player" # Pareil.
             z += " " + str(i)
-            self.update({z , {"name" : key, "score" : value}})
+            self.update({z , {"name" : name, "score" : score}})
             i += 1
 
         json.dump(self.data, open("Antonin/scores.json", "w"))
     
     def draw(self):
-        i = 0 # Pareil. [i] tu peux l'appeler [offset] par exemple
-        for key in self.dic_data.keys(): # Pareil ici je sais pas ce que c'est censé représenter mais donne un vrai nom stp.
-            pyxel.rect(30, 65 + i , 12 , 8 , 0)
-            pyxel.rect(50, 65 + i , 24 , 8 , 0)
-            pyxel.text(30, 65 + i, key , 7)
-            pyxel.text(50, 65 + i, str(self.dic_data[key]) , 7)
-            i += 10
+        offset = 0
+        for name in self.dic_data.keys(): 
+            pyxel.rect(30, 65 + offset , 12 , 8 , 0)
+            pyxel.rect(50, 65 + offset , 24 , 8 , 0)
+            pyxel.text(30, 65 + offset, name , 7)
+            pyxel.text(50, 65 + offset, str(self.dic_data[name]) , 7)
+            offset += 10
 
     def reset(self):
         self.data = {"player 1": {"name": "XXX", "score": "000000"},
