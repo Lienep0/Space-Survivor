@@ -16,6 +16,7 @@ from particles import PlayerExplosion, particle_list
 from pickups import pickup_list
 from player import player
 from ui import ui
+from upgrademenu import upgradeMenu
 
 
 class GameManager:
@@ -27,6 +28,7 @@ class GameManager:
             pyxel.play(2, LEVEL_UP_SOUND)
             player.xp = 0
             player.level += 1
+            upgradeMenu.generate_upgrades()
             set_game_state("UPGRADEMENU")
 
     def check_for_death(self):

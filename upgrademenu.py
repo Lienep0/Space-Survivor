@@ -12,7 +12,6 @@ from upgrades import upgrade_dic
 
 class UpgradeMenu:
     def __init__(self):
-        self.has_generated_upgrades = False
         self.upgrades_cursor_position = 0
         self.available_upgrades = dict(upgrade_dic)
 
@@ -44,8 +43,6 @@ class UpgradeMenu:
         abailable_upgrades_values = [upgrade for upgrade in self.available_upgrades.values()]
         for _ in range(3):
             current_upgrade_list.append(self.choose_upgrade(abailable_upgrades_values))
-
-        self.has_generated_upgrades = True
     
     def confirm_upgrade(self):
         chosen_upgrade = current_upgrade_list[self.upgrades_cursor_position + 1]
@@ -67,9 +64,6 @@ class UpgradeMenu:
         set_game_state("GAME")
         
     def update(self):
-        if not self.has_generated_upgrades:
-            self.generate_upgrades()
-        
         if pyxel.btnp(LEFT_KEY) and self.upgrades_cursor_position >= 0:
             self.upgrades_cursor_position -= 1
         if pyxel.btnp(RIGHT_KEY) and self.upgrades_cursor_position <= 0:
