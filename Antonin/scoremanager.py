@@ -6,7 +6,7 @@ import pyxel
 from player import player
 
 
-class scoreManager:
+class ScoreManager:
     def __init__(self):
         self.data = json.load(open("Antonin/scores.json", "r"))
         self.dic_data = {}
@@ -87,6 +87,6 @@ class scoreManager:
     
     def draw_input_name(self):
         for i in range(len(self.leter_amstr)):
-            pyxel.blt(i * 12 + 36, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
+            pyxel.blt(40 + i * 8, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
 
-scores = scoreManager()
+scoreManager = ScoreManager()

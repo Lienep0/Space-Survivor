@@ -2,7 +2,7 @@ import pyxel
 
 from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y, ASTEROID_SPAWN_KEY
 from globals import set_game_state
-from Antonin.scoremanager import scores
+from Antonin.scoremanager import scoreManager
 
 
 class MainMenu:
@@ -15,9 +15,9 @@ class MainMenu:
         if pyxel.btnp(ASTEROID_SPAWN_KEY):
             self.asteroid_toggle = not self.asteroid_toggle
         if pyxel.btnp(pyxel.KEY_9):
-            scores.update()
+            scoreManager.update()
         if pyxel.btnp(pyxel.KEY_8):
-            scores.reset()
+            scoreManager.reset()
 
     def draw(self):
         if self.asteroid_toggle:
@@ -34,7 +34,7 @@ class MainMenu:
         pyxel.text(30, 65, "XXX  000000", 7)
         pyxel.text(30, 75, "XXX  000000", 7)
         pyxel.text(30, 85, "XXX  000000", 7)
-        scores.draw()
+        scoreManager.draw()
 
         pyxel.text(10, 105, "Press SPACE to Start !", 7)
 

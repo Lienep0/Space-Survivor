@@ -8,13 +8,13 @@ from miniboss import miniboss
 from particles import particle_list
 from pickups import pickup_list
 from player import player
-from Antonin.scoremanager import scores
+from Antonin.scoremanager import scoreManager
 
 class GameOverMenu:
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE): 
             self.reset_game()
-            scores.update()
+            scoreManager.update()
 
 
     def draw(self):
@@ -22,7 +22,7 @@ class GameOverMenu:
         pyxel.blt(20, 36, 1, 0, 16, 64, 16) #OVER
         pyxel.text(24, 100, "Press SPACE to", 7)
         pyxel.text(22, 110, "go back to MENU", 7)
-        scores.draw_input_name()
+        scoreManager.draw_input_name()
 
     def reset_game(self):
         reset_framecount()
