@@ -96,6 +96,6 @@ class MinibossExplosionParticle:
             self = None
 
     def draw(self):
+        pyxel.circb(self.x, self.y, self.timer * 2, 8 + self.timer % 3)
         if self.timer % 5 == 0:
             pyxel.cls(7)
-        pyxel.circb(self.x, self.y, self.timer * 2, 8 + self.timer % 3)

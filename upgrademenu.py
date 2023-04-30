@@ -43,6 +43,8 @@ class UpgradeMenu:
         abailable_upgrades_values = [upgrade for upgrade in self.available_upgrades.values()]
         for _ in range(3):
             current_upgrade_list.append(self.choose_upgrade(abailable_upgrades_values))
+
+        self.upgrades_cursor_position = 0
     
     def confirm_upgrade(self):
         chosen_upgrade = current_upgrade_list[self.upgrades_cursor_position + 1]
@@ -56,7 +58,6 @@ class UpgradeMenu:
             if chosen_upgrade.name == "Health": player.hp = min(MAXIMUM_HEALTH, player.hp + 2)
 
         self.has_generated_upgrades = False
-        self.upgrades_cursor_position = 0
 
         player.iframes_cooldown = PLAYER_IFRAMES
         player.check_upgrades()
