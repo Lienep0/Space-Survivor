@@ -26,9 +26,9 @@ class ScoreManager:
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_DOWN):
-            self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr]-1)%26
-        elif pyxel.btnp(pyxel.KEY_UP):
             self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr]+1)%26
+        elif pyxel.btnp(pyxel.KEY_UP):
+            self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr]-1)%26
         elif pyxel.btnp(pyxel.KEY_SPACE):
             self.name_player += string.ascii_uppercase[self.leter_amstr[self.ileter_amstr]]
             self.ileter_amstr += 1
@@ -41,8 +41,8 @@ class ScoreManager:
     def draw(self):
         for i in range(len(self.leter_amstr)):
             pyxel.blt(36 + i * 12, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
-        pyxel.blt(self.ileter_amstr * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
-        pyxel.blt(self.ileter_amstr * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
+        pyxel.blt(36 + self.ileter_amstr * 12, 70, 1, 0, 40, 8, 8, 0)
+        pyxel.blt(36 + self.ileter_amstr * 12, 85, 1, 0, 48, 8, 8, 0)
         pyxel.text(20, 20,"Enter your name", 7)
         pyxel.text(20, 36, "Your score:", 7) 
         pyxel.text(64, 36, str(player.level) , 7) 
@@ -56,8 +56,9 @@ class ScoreManager:
         dict(sorted(self.dic_data.items(), key=lambda item: int(item[1]), reverse=True))
         for name in self.dic_data.keys():
             size += 1
-            if size > 3:
-                self.dic_data.pop(name)
+        While size < 4:
+            self.dic_data.pop(name)
+            size -= 1
         
         score_str = ""
         for name, score in self.dic_data.items() :
