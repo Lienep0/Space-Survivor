@@ -7,6 +7,7 @@ from globals import get_game_state, get_paused_state
 from mainmenu import mainMenu
 from stars import generate_stars, star_list
 from upgrademenu import upgradeMenu
+from Antonin.scoremanager import scoreManager
 
 
 class Main:
@@ -33,6 +34,8 @@ class Main:
             gameOverMenu.update()
         elif self.state == "UPGRADEMENU":
             upgradeMenu.update()
+        elif self.state == "SCOREMENU":
+            scoreManager.update()
 
     def draw(self):
         pyxel.cls(0)
@@ -48,6 +51,8 @@ class Main:
             gameOverMenu.draw()
         elif self.state == "UPGRADEMENU":
             upgradeMenu.draw()
+        elif self.state == "SCOREMENU":
+            scoreManager.draw()
     
 if __name__ == "__main__":
     game = Main()

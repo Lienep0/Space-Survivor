@@ -3,8 +3,7 @@ from random import randint
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
-from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROID_SPAWN_KEY,
-                       ASTEROIDS, BOMB_KEY, BOTTOM_UI_BAR_SIZE, DASH_KEY,
+from constants import (ASTEROID_SPAWN_KEY, ASTEROIDS, BOMB_KEY, BOTTOM_UI_BAR_SIZE, DASH_KEY,
                        DASH_UPGRADE_SPEED_BOOST, DOWN_KEY, GAME_HEIGHT,
                        GAME_WIDTH, GIVE_BOMB_KEY, GIVE_UPGRADES_KEY,
                        GIVE_XP_KEY, LARGE_ASTEROID_KEY, LEFT_KEY,
@@ -12,8 +11,7 @@ from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROID_SPAWN_KEY,
                        MINIBOSS_SPAWN_KEY, PAUSE_KEY, PLAYER_DASH_SOUND,
                        PLAYER_SPEED, RESET_KEY, RIGHT_KEY, SHOOT_KEY,
                        SMALL_ASTEROID_KEY, UP_KEY)
-from globals import change_pause_status, set_game_state
-from mainmenu import mainMenu
+from globals import change_pause_status, set_game_state, change_asteroid_toggle
 from miniboss import miniboss
 from player import player
 from ui import ui
@@ -59,10 +57,10 @@ def manage_inputs():
         player.use_bomb()
 
     # Dev Shortcuts
+    if pyxel.btnp(ASTEROID_SPAWN_KEY): 
+        change_asteroid_toggle()
     if pyxel.btnp(RESET_KEY):
         set_game_state("GAMEOVER")
-    if pyxel.btnp(ASTEROID_SPAWN_KEY): 
-        mainMenu.asteroid_toggle = not mainMenu.asteroid_toggle
         
     if pyxel.btnp(GIVE_UPGRADES_KEY):
         player.inventory.extend(upgrade_dic.values())

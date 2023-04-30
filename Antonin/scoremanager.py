@@ -3,6 +3,13 @@ import string
 
 import pyxel
 
+from asteroids import asteroid_list
+from bullets import bullet_list
+from gamemanager import gameManager
+from globals import reset_framecount, set_game_state
+from miniboss import miniboss
+from particles import particle_list
+from pickups import pickup_list
 from player import player
 
 
@@ -68,22 +75,35 @@ class ScoreManager:
 
     def input_name(self):
         name_player = ""
-        for i in range(len(self.leter_amstr)):
-            exit = False
-            while not exit:
-                pyxel.blt(i * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
-                pyxel.blt(i * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
-                if pyxel.btn(pyxel.KEY_DOWN):
-                    self.leter_amstr[i] = (self.leter_amstr[i]-1)%26
-                elif pyxel.btn(pyxel.KEY_UP):
-                    self.leter_amstr[i] = (self.leter_amstr[i]+1)%26
-                elif pyxel.btn(pyxel.KEY_SPACE):
-                    name_player += string.ascii_uppercase[self.leter_amstr[i]]
-                    exit = True
+        # for i in range(len(self.leter_amstr)):
+        #     while True:
+        #         pyxel.blt(i * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
+        #         pyxel.blt(i * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
+        #         if pyxel.btn(pyxel.KEY_DOWN):
+        #             self.leter_amstr[i] = (self.leter_amstr[i]-1)%26
+        #         elif pyxel.btn(pyxel.KEY_UP):
+        #             self.leter_amstr[i] = (self.leter_amstr[i]+1)%26
+        #         elif pyxel.btn(pyxel.KEY_SPACE):
+        #             name_player += string.ascii_uppercase[self.leter_amstr[i]]
+        #             break
         return name_player
     
     def draw_input_name(self):
         for i in range(len(self.leter_amstr)):
             pyxel.blt(40 + i * 8, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
+
+    def reset_game(self):
+        reset_framecount()
+        set_game_state("MENU")
+        
+        asteroid_list.clear()
+        asteroid_list.clear()
+        bullet_list.clear()
+        pickup_list.clear()
+        particle_list.clear()
+
+        player.reset()
+        miniboss.reset()
+        gameManager.reset()
 
 scoreManager = ScoreManager()

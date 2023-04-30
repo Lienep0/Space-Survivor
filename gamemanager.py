@@ -9,8 +9,7 @@ from constants import (ASTEROID_COOLDOWN, ASTEROIDS, LEVEL_UP_SOUND, MAX_LEVEL,
                        XP_REQUIREMENTS)
 from gameinputmanager import manage_inputs, pause_input
 from globals import (get_framecount, get_paused_state, set_game_state,
-                     update_framecount)
-from mainmenu import mainMenu
+                     update_framecount, get_asteroid_toggle)
 from miniboss import miniboss
 from particles import PlayerExplosion, particle_list
 from pickups import pickup_list
@@ -42,7 +41,7 @@ class GameManager:
             set_game_state("GAMEOVER")
 
     def spawn_asteroids(self):
-        if mainMenu.asteroid_toggle:
+        if get_asteroid_toggle():
             if get_framecount() % ASTEROID_COOLDOWN == 0:
                 asteroid_list.append(Asteroid(ASTEROIDS["SMALL_ASTEROID"]["type"]))
 

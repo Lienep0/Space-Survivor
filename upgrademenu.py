@@ -68,6 +68,8 @@ class UpgradeMenu:
             self.upgrades_cursor_position -= 1
         if pyxel.btnp(RIGHT_KEY) and self.upgrades_cursor_position <= 0:
             self.upgrades_cursor_position += 1
+        if pyxel.btnp(pyxel.KEY_SPACE):
+            self.confirm_upgrade()
     
     def draw(self):
         pyxel.text(13, 30, "Select your upgrade :", 7)
@@ -81,7 +83,5 @@ class UpgradeMenu:
 
         pyxel.rectb(43 + 20 * self.upgrades_cursor_position, 48, 20, 20, 7) #CURSOR
 
-        if pyxel.btnp(pyxel.KEY_SPACE):
-            self.confirm_upgrade()
 
 upgradeMenu = UpgradeMenu()
