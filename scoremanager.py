@@ -56,7 +56,7 @@ class ScoreManager:
         dict(sorted(self.dic_data.items(), key=lambda item: int(item[1]), reverse=True))
         for name in self.dic_data.keys():
             size += 1
-        While size < 4:
+        while size < 4:
             self.dic_data.pop(name)
             size -= 1
         
