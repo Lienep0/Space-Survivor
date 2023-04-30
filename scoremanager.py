@@ -16,19 +16,21 @@ from player import player
 class ScoreManager:
     def __init__(self):
         self.data = json.load(open("scores.json", "r"))
-        self.dic_data = {}
-        self.leter_amstr = [0,0,0]
-        self.ileter_amstr = 0
-        self.name_player = ""
+        self.list_data = []
+        self.letter_ids = [0,0,0]
+        self.cursor_position = 0
+        self.player_name = ""
 
-        for value in self.data.values():
-            self.dic_data[str(value["name"])] = value["score"]
+        for value in self.data[1].values():
+            self.list_data.append((str(value["name"]) ,value["score"]))
+        for _ in range(len(self.list_data) - 3):
+            self.list_data.pop()
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_DOWN):
-            self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr] - 1) % 26
+            self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] + 1) % 26
         elif pyxel.btnp(pyxel.KEY_UP):
-            self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr] + 1) % 26
+            self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] - 1) % 26
         elif pyxel.btnp(pyxel.KEY_SPACE):
             self.name_player += string.ascii_uppercase[self.leter_amstr[self.ileter_amstr]]
             self.ileter_amstr += 1
@@ -49,53 +51,48 @@ class ScoreManager:
 
 
     def update_json(self):
-        size = 0
-        name_player = self.name_player
-        self.name_player=""
-        self.dic_data[name_player] = player.level
-        dict(sorted(self.dic_data.items(), key=lambda item: int(item[1]), reverse=True))
-        for name in self.dic_data.keys():
-            size += 1
-            if size > 3:
-                self.dic_data.pop(name)
-        
         score_str = ""
-        for name, score in self.dic_data.items() :
-            size = 0
-            for i in str(score):
-                size += 1
-            if size > 6:
-                score_str = "Win The Game"
-            else:
-                size = 6 - size
-                score_str += "0" * size
-                score_str += str(score)
-            self.dic_data[name] = score_str
-            score_str = ""
+        size = len(str(player.score))
+        if size < 6:
+            size = 6 - size
+            score_str += "0" * size
+        score_str += str(player.score)
+
+        self.list_data.append((self.player_name,str(score_str)))
+        self.player_name=""
+        self.list_data = sorted(self.list_data, key=lambda x: int(x[1]), reverse=True)
+
+        i = len(self.data[0])
+        player_name = "player" # variable servant a mêtre dans le .json player 1, 2, ...
+        player_name += " " + str(i)
+        self.data[0][player_name] = {("name" : self.player_name, "score" : str(score_str))}
+        
+        
+        while len(self.list_data) > 3:
+            self.list_data.pop()
 
         i = 1
-        for name, score in self.dic_data.items() : 
-            z = "player" # variable servant a mêtre dans le .json player 1, 2, ...
-            z += " " + str(i)
-            self.data[z] = {"name" : name, "score" : score}
+        for player_in_list in self.list_data : 
+            player_name = "player" # variable servant a mêtre dans le .json player 1, 2, ...
+            player_name += " " + str(i)
+            self.data[1][player_name] = {"name" : player_in_list[0], "score" : player_in_list[1]}
             i += 1
+        
 
         json.dump(self.data, open("scores.json", "w"))
         self.__init__()
     
     def draw_menu(self):
         offset = 0
-        for name in self.dic_data.keys(): 
+        for player_in_list in self.list_data: 
             pyxel.rect(30, 65 + offset , 12 , 8 , 0) # rectangle noir pour cacher ce qu'il y'a de base car il faut sur l'écrant start si il n'y a pas de high scor il faut quand même afficher des 0
             pyxel.rect(50, 65 + offset , 24 , 8 , 0)
-            pyxel.text(30, 65 + offset, name , 7)
-            pyxel.text(50, 65 + offset, str(self.dic_data[name]) , 7)
+            pyxel.text(30, 65 + offset, player_in_list[0] , 7)
+            pyxel.text(50, 65 + offset, player_in_list[1] , 7)
             offset += 10
 
     def reset(self):
-        self.data = {"player 1": {"name": "XXX", "score": "000000"},
-                     "player 2": {"name": "XXX", "score": "000000"},
-                     "player 3": {"name": "XXX", "score": "000000"}}
+        self.data = [{},{"player 1": {"name": "XXX", "score": "000000"}, "player 2": {"name": "AAA", "score": "000000"}, "player 3": {"name": "XXX", "score": "000000"}}]
         
         json.dump(self.data, open("scores.json", "w"))
         self.__init__()
