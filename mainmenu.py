@@ -1,12 +1,14 @@
 import pyxel
 
-from constants import PLAYER_STARTING_X, PLAYER_STARTING_Y
-from globals import set_game_state, get_asteroid_toggle
+from constants import ASTEROID_SPAWN_KEY, PLAYER_STARTING_X, PLAYER_STARTING_Y
+from globals import change_asteroid_toggle, get_asteroid_toggle, set_game_state
 from scoremanager import scoreManager
 
 
 class MainMenu:
     def update(self):
+        if pyxel.btnp(ASTEROID_SPAWN_KEY): 
+            change_asteroid_toggle()
         if pyxel.btnp(pyxel.KEY_SPACE):
             set_game_state("GAME")
         if pyxel.btnp(pyxel.KEY_8):

@@ -25,9 +25,8 @@ class ScoreManager:
         self.player_name = ""
 
         for value in self.data[1].values():
-            self.list_data.append((str(value["name"]) ,value["score"]))
-        for _ in range(len(self.list_data) - 3):
-            self.list_data.pop()
+            self.list_data.append((str(value["name"]), value["score"]))
+        self.list_data = self.list_data[:3]
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_DOWN):
@@ -41,7 +40,6 @@ class ScoreManager:
             self.cursor_position = 0
             self.update_json()
             self.reset_game()
-
         
     def draw(self):
         for i in range(len(self.letter_ids)):
@@ -50,8 +48,7 @@ class ScoreManager:
         pyxel.blt(36 + self.cursor_position * 12, 85, 1, 0, 48, 8, 8, 0)
         pyxel.text(20, 20,"Enter your name", 7)
         pyxel.text(20, 36, "Your score:", 7) 
-        pyxel.text(64, 36, str(player.level) , 7) 
-
+        pyxel.text(64, 36, str(player.score) , 7) 
 
     def update_json(self):
         score_str = ""
@@ -93,7 +90,7 @@ class ScoreManager:
             offset += 10
 
     def reset_data(self):
-        self.data = [{},{"player 1": {"name": "XXX", "score": "000000"}, "player 2": {"name": "XXX", "score": "000000"}, "player 3": {"name": "XXX", "score": "000000"}}]
+        self.data = [{}, {"player 1": {"name": "XXX", "score": "000000"}, "player 2": {"name": "XXX", "score": "000000"}, "player 3": {"name": "XXX", "score": "000000"}}]
         
         json.dump(self.data, open("scores.json", "w"))
         self.reset()

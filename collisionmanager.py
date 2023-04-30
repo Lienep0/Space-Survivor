@@ -5,9 +5,11 @@ from bombs import bombs_list
 from bullets import bullet_list
 from constants import (ASTEROID_HITBOX_CORRECTION, CROSSHAIR_HITBOX_CORRECTION,
                        CROSSHAIR_SPEED, MAGNET_RANGE, MAGNET_UPGRADE_BOOST,
-                       MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT, PICKUP_SOUND)
+                       MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT, PICKUP_SCORE,
+                       PICKUP_SOUND)
 from miniboss import miniboss
-from particles import ExplodingBulletsImpact, MinibossShotLine, particle_list
+from particles import (ExplodingBulletsImpact, MinibossShotLine, ScoreParticle,
+                       particle_list)
 from pickups import pickup_list
 from player import player
 
@@ -24,7 +26,10 @@ def check_collisions():
             pickup.x, pickup.y, collected = move_towards(pickup.x, pickup.y, player.x + 3, player.y + 3, pickup.speed, 5)
             if collected:
                 pyxel.play(2, PICKUP_SOUND)
+                particle_list.append(ScoreParticle(player.x + player.size / 2, player.y - 6, PICKUP_SCORE))
+                player.score += PICKUP_SCORE
                 player.xp += 1
+                player.pickups_collected += 1
                 pickup_list.remove(pickup)
 
     # Ateroid Collisions

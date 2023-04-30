@@ -85,9 +85,12 @@ class Player:
         self.hp = PLAYER_HP
         self.number_of_bombs = START_NUMBER_OF_BOMBS
         
-        self.level = 0
         self.xp = 0
+        self.level = 0
         self.score = 0
+        self.pickups_collected = 0
+        self.asteroids_destroyed = 0
+        self.minibosses_destroyed = 0
 
         self.fireRateCooldown = 0
         self.iframes_cooldown = 0

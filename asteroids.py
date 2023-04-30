@@ -4,7 +4,9 @@ import pyxel
 
 from constants import (ASTEROID_OFFSET_FROM_BORDERS, ASTEROID_SPEED, ASTEROIDS,
                        GAME_HEIGHT, GAME_WIDTH)
+from particles import ScoreParticle, particle_list
 from pickups import spawn_pickups
+from player import player
 
 asteroid_list = []
 
@@ -28,6 +30,9 @@ class Asteroid:
     def take_damage(self, damage):
         self.parameters.hp -= damage
         if self.parameters.hp <= 0:
+            player.score += self.parameters.score
+            player.asteroids_destroyed += 1
+            particle_list.append(ScoreParticle(self.x + self.parameters.size / 2, self.y - 2, self.parameters.score))
             spawn_pickups(self)
             if self in asteroid_list: asteroid_list.remove(self)
 
@@ -47,3 +52,4 @@ class AsteroidParameters:
         self.spriteycoord = parameters["coords"][1]
         self.hp = parameters["hp"]
         self.xp = parameters["xp"]
+        self.score = parameters["score"]

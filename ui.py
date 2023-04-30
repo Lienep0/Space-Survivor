@@ -56,7 +56,10 @@ class Ui:
             pyxel.rect(3, 3, miniboss.hp * (GAME_WIDTH - 6) / MINIBOSS_HP, 6, 8)
 
         if player.active:
-            # UI background
+            # Score
+            pyxel.text(2, 2, f"SCORE: {player.score}", 7)
+
+            # UI bottom bar
             pyxel.rect(0, GAME_HEIGHT - BOTTOM_UI_BAR_SIZE, GAME_WIDTH, BOTTOM_UI_BAR_SIZE, 1)
 
             # Xp

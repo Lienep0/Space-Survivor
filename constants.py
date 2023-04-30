@@ -19,6 +19,8 @@ BULLET_COOLDOWN = 10
 MAGNET_RANGE = 15
 EXPLODING_BULLET_RADIUS = 20
 
+PICKUP_SCORE = 10
+
 # Bomb
 START_NUMBER_OF_BOMBS = 2
 MAX_NUMBER_OF_BOMBS = 2
@@ -47,13 +49,14 @@ ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border
 ASTEROID_HITBOX_CORRECTION = 0 # How generous the asteroid hitbox is. The higher, the less generous. Default is 0
 
 ASTEROIDS = {
-    "SMALL_ASTEROID": {"type": 0, "size": 8, "coords": [8, 0], "hp": 6, "xp": 1},
-    "MEDIUM_ASTEROID": {"type": 1, "size": 16, "coords" :[48, 16], "hp": 12, "xp": 8},
-    "LARGE_ASTEROID": {"type": 2, "size": 32, "coords": [0, 32], "hp": 24, "xp": 16}
+    "SMALL_ASTEROID": {"type": 0, "size": 8, "coords": [8, 0], "hp": 6, "xp": 1, "score": 100},
+    "MEDIUM_ASTEROID": {"type": 1, "size": 16, "coords" :[48, 16], "hp": 12, "xp": 8, "score": 500},
+    "LARGE_ASTEROID": {"type": 2, "size": 32, "coords": [0, 32], "hp": 24, "xp": 16, "score": 1000}
 }
 
 # Miniboss
 MINIBOSS_HP = 100
+MINIBOSS_SCORE = 2000
 MINIBOSS_HEIGHT = 20
 MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-shoot after shooting 
 CROSSHAIR_SPEED = 1.25

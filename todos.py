@@ -13,14 +13,17 @@
 # TODO : Mini-invertory when game is paused
 # TODO : Dynamic Health Upgrade Weight based on player hp ?
 # TODO : Player can clip through borders with enough speed
+# TODO : High Score name Inputter
+# TODO : High Score Tracker
+# TODO : Score System
 
 # Imperative
 # TODO : Upgrades that increases size but also doubles damage
+# TODO : Better Score UI
+# TODO : Better Game Over UI
+# TODO : Add exploding Miniboss sfx
 # TODO : Add exploding bullet sfx
-# TODO : High Score Tracker
-# TODO : Score System
 # TODO : Wave Counter UI/Behavior
-# TODO : High Score name Inputter
 # TODO : GAMEMANAGER
 
 # Optionnal
