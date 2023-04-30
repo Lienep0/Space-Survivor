@@ -29,14 +29,34 @@ class ScoreManager:
         self.list_data = self.list_data[:3]
 
     def update(self):
+        # if pyxel.btnp(pyxel.KEY_DOWN):
+        #     self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] + 1) % 26
+        # if pyxel.btnp(pyxel.KEY_UP):
+        #     self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] - 1) % 26
+        # if pyxel.btnp(pyxel.KEY_SPACE):
+        #     self.player_name += string.ascii_uppercase[self.letter_ids[self.cursor_position]]
+        #     self.cursor_position += 1
+        # 
+        # if self.cursor_position == 3:
+        #     self.cursor_position = 0
+        #     self.update_json()
+        #     self.reset_game()
+
+        # À voir ce que tu préfères, moi je préfère ma méthode perso
+
         if pyxel.btnp(pyxel.KEY_DOWN):
             self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] + 1) % 26
-        elif pyxel.btnp(pyxel.KEY_UP):
+        if pyxel.btnp(pyxel.KEY_UP):
             self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] - 1) % 26
-        elif pyxel.btnp(pyxel.KEY_SPACE):
-            self.player_name += string.ascii_uppercase[self.letter_ids[self.cursor_position]]
+        if pyxel.btnp(pyxel.KEY_LEFT) and self.cursor_position >= 1:
+            self.cursor_position -= 1
+        if (pyxel.btnp(pyxel.KEY_RIGHT) or pyxel.btnp(pyxel.KEY_SPACE)) and self.cursor_position <= 1:
             self.cursor_position += 1
-        if self.cursor_position == 3:
+
+        if pyxel.btnp(pyxel.KEY_SPACE) and self.cursor_position == 2:
+            for letter_id in self.letter_ids:
+                self.player_name += string.ascii_uppercase[letter_id]
+
             self.cursor_position = 0
             self.update_json()
             self.reset_game()
