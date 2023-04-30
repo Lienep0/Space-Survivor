@@ -77,7 +77,6 @@ class ScoreManager:
             player_name += " " + str(i)
             self.data[1][player_name] = {"name" : player_in_list[0], "score" : player_in_list[1]}
             i += 1
-        
 
         json.dump(self.data, open("scores.json", "w"))
         self.__init__()
