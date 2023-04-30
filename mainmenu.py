@@ -10,7 +10,7 @@ class MainMenu:
         if pyxel.btnp(pyxel.KEY_SPACE):
             set_game_state("GAME")
         if pyxel.btnp(pyxel.KEY_8):
-            scoreManager.reset()
+            scoreManager.reset_data()
 
     def draw(self):
         if get_asteroid_toggle():
