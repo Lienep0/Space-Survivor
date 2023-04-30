@@ -15,6 +15,9 @@ from player import player
 
 class ScoreManager:
     def __init__(self):
+        self.reset()
+
+    def reset(self):
         self.data = json.load(open("scores.json", "r"))
         self.list_data = []
         self.letter_ids = [0,0,0]
@@ -78,22 +81,22 @@ class ScoreManager:
             i += 1
 
         json.dump(self.data, open("scores.json", "w"))
-        self.__init__()
+        self.reset()
     
     def draw_menu(self):
         offset = 0
         for player_in_list in self.list_data: 
-            pyxel.rect(30, 65 + offset , 12 , 8 , 0) # rectangle noir pour cacher ce qu'il y'a de base car il faut sur l'écrant start si il n'y a pas de high scor il faut quand même afficher des 0
-            pyxel.rect(50, 65 + offset , 24 , 8 , 0)
-            pyxel.text(30, 65 + offset, player_in_list[0] , 7)
-            pyxel.text(50, 65 + offset, player_in_list[1] , 7)
+            pyxel.rect(30, 65 + offset, 12, 8, 0) # rectangle noir pour cacher ce qu'il y'a de base car il faut sur l'écrant start si il n'y a pas de high scor il faut quand même afficher des 0
+            pyxel.rect(50, 65 + offset, 24, 8, 0)
+            pyxel.text(30, 65 + offset, player_in_list[0], 7)
+            pyxel.text(50, 65 + offset, player_in_list[1], 7)
             offset += 10
 
-    def reset(self):
+    def reset_data(self):
         self.data = [{},{"player 1": {"name": "XXX", "score": "000000"}, "player 2": {"name": "XXX", "score": "000000"}, "player 3": {"name": "XXX", "score": "000000"}}]
         
         json.dump(self.data, open("scores.json", "w"))
-        self.__init__()
+        self.reset()
 
     def reset_game(self):
         reset_framecount()
