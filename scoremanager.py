@@ -32,19 +32,19 @@ class ScoreManager:
         elif pyxel.btnp(pyxel.KEY_UP):
             self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] - 1) % 26
         elif pyxel.btnp(pyxel.KEY_SPACE):
-            self.name_player += string.ascii_uppercase[self.leter_amstr[self.ileter_amstr]]
-            self.ileter_amstr += 1
-        if self.ileter_amstr == 3:
-            self.ileter_amstr = 0
+            self.player_name += string.ascii_uppercase[self.letter_ids[self.cursor_position]]
+            self.cursor_position += 1
+        if self.cursor_position == 3:
+            self.cursor_position = 0
             self.update_json()
             self.reset_game()
 
         
     def draw(self):
-        for i in range(len(self.leter_amstr)):
-            pyxel.blt(36 + i * 12, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
-        pyxel.blt(36 + self.ileter_amstr * 12, 70, 1, 0, 40, 8, 8, 0)
-        pyxel.blt(36 + self.ileter_amstr * 12, 85, 1, 0, 48, 8, 8, 0)
+        for i in range(len(self.letter_ids)):
+            pyxel.blt(36 + i * 12, 78, 1, self.letter_ids[i] * 8, 32, 8, 8, 0)
+        pyxel.blt(36 + self.cursor_position * 12, 70, 1, 0, 40, 8, 8, 0)
+        pyxel.blt(36 + self.cursor_position * 12, 85, 1, 0, 48, 8, 8, 0)
         pyxel.text(20, 20,"Enter your name", 7)
         pyxel.text(20, 36, "Your score:", 7) 
         pyxel.text(64, 36, str(player.level) , 7) 
@@ -59,13 +59,12 @@ class ScoreManager:
         score_str += str(player.score)
 
         self.list_data.append((self.player_name,str(score_str)))
-        self.player_name=""
         self.list_data = sorted(self.list_data, key=lambda x: int(x[1]), reverse=True)
 
         i = len(self.data[0])
         player_name = "player" # variable servant a mêtre dans le .json player 1, 2, ...
         player_name += " " + str(i)
-        self.data[0][player_name] = {("name" : self.player_name, "score" : str(score_str))}
+        self.data[0][player_name] = {"name" : self.player_name, "score" : str(score_str)}
         
         
         while len(self.list_data) > 3:
@@ -91,7 +90,7 @@ class ScoreManager:
             offset += 10
 
     def reset(self):
-        self.data = [{},{"player 1": {"name": "XXX", "score": "000000"}, "player 2": {"name": "AAA", "score": "000000"}, "player 3": {"name": "XXX", "score": "000000"}}]
+        self.data = [{},{"player 1": {"name": "XXX", "score": "000000"}, "player 2": {"name": "XXX", "score": "000000"}, "player 3": {"name": "XXX", "score": "000000"}}]
         
         json.dump(self.data, open("scores.json", "w"))
         self.__init__()
