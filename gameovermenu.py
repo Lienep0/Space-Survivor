@@ -12,9 +12,9 @@ from Antonin.scoremanager import scoreManager
 
 class GameOverMenu:
     def update(self):
+        scoreManager.update()
         if pyxel.btnp(pyxel.KEY_SPACE): 
             self.reset_game()
-            scoreManager.update()
 
 
     def draw(self):

@@ -34,13 +34,10 @@ class ScoreManager:
                 score_str = "Win The Game"
             else:
                 size = 6 - size
-                for i in range(size):
-                    score_str += "0"
+                score_str += "0" * size
                 score_str += str(score)
-                print(size)
-                print(score_str)
             self.dic_data[name] = score_str
-            
+            score_str = ""
 
         i = 1
         for name, score in self.dic_data.items() : 
@@ -72,10 +69,10 @@ class ScoreManager:
     def input_name(self):
         name_player = ""
         for i in range(len(self.leter_amstr)):
-            pyxel.blt(i * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
-            pyxel.blt(i * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
             exit = False
             while not exit:
+                pyxel.blt(i * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
+                pyxel.blt(i * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
                 if pyxel.btn(pyxel.KEY_DOWN):
                     self.leter_amstr[i] = (self.leter_amstr[i]-1)%26
                 elif pyxel.btn(pyxel.KEY_UP):
