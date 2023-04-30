@@ -17,32 +17,32 @@ class ScoreManager:
     def __init__(self):
         self.data = json.load(open("scores.json", "r"))
         self.dic_data = {}
-        self.leter_amstr = [0,0,0]
-        self.ileter_amstr = 0
-        self.name_player = ""
+        self.letter_ids = [0,0,0]
+        self.cursor_position = 0
+        self.player_name = ""
 
         for value in self.data.values():
             self.dic_data[str(value["name"])] = value["score"]
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_DOWN):
-            self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr]+1)%26
+            self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position]+1)%26
         elif pyxel.btnp(pyxel.KEY_UP):
-            self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr]-1)%26
+            self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position]-1)%26
         elif pyxel.btnp(pyxel.KEY_SPACE):
-            self.name_player += string.ascii_uppercase[self.leter_amstr[self.ileter_amstr]]
-            self.ileter_amstr += 1
-        if self.ileter_amstr == 3:
-            self.ileter_amstr = 0
+            self.player_name += string.ascii_uppercase[self.letter_ids[self.cursor_position]]
+            self.cursor_position += 1
+        if self.cursor_position == 3:
+            self.cursor_position = 0
             self.update_json()
             self.reset_game()
 
         
     def draw(self):
-        for i in range(len(self.leter_amstr)):
-            pyxel.blt(36 + i * 12, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
-        pyxel.blt(36 + self.ileter_amstr * 12, 70, 1, 0, 40, 8, 8, 0)
-        pyxel.blt(36 + self.ileter_amstr * 12, 85, 1, 0, 48, 8, 8, 0)
+        for i in range(len(self.letter_ids)):
+            pyxel.blt(36 + i * 12, 78, 1, self.letter_ids[i] * 8, 32, 8, 8, 0)
+        pyxel.blt(36 + self.cursor_position * 12, 70, 1, 0, 40, 8, 8, 0)
+        pyxel.blt(36 + self.cursor_position * 12, 85, 1, 0, 48, 8, 8, 0)
         pyxel.text(20, 20,"Enter your name", 7)
         pyxel.text(20, 36, "Your score:", 7) 
         pyxel.text(64, 36, str(player.level) , 7) 
@@ -50,13 +50,13 @@ class ScoreManager:
 
     def update_json(self):
         size = 0
-        name_player = self.name_player
-        self.name_player=""
+        name_player = self.player_name
+        self.player_name=""
         self.dic_data[name_player] = player.level
         dict(sorted(self.dic_data.items(), key=lambda item: int(item[1]), reverse=True))
         for name in self.dic_data.keys():
             size += 1
-        while size < 4:
+        while size <= 3:
             self.dic_data.pop(name)
             size -= 1
         
@@ -65,20 +65,17 @@ class ScoreManager:
             size = 0
             for i in str(score):
                 size += 1
-            if size > 6:
-                score_str = "Win The Game"
-            else:
-                size = 6 - size
-                score_str += "0" * size
-                score_str += str(score)
+            size = 6 - size
+            score_str += "0" * size
+            score_str += str(score)
             self.dic_data[name] = score_str
             score_str = ""
 
         i = 1
         for name, score in self.dic_data.items() : 
-            z = "player" # variable servant a mêtre dans le .json player 1, 2, ...
-            z += " " + str(i)
-            self.data[z] = {"name" : name, "score" : score}
+            player_name = "player" # variable servant a mêtre dans le .json player 1, 2, ...
+            player_name += " " + str(i)
+            self.data[player_name] = {"name" : name, "score" : score}
             i += 1
 
         json.dump(self.data, open("scores.json", "w"))
