@@ -87,6 +87,7 @@ class Player:
         
         self.level = 0
         self.xp = 0
+        self.score = 0
 
         self.fireRateCooldown = 0
         self.iframes_cooldown = 0
