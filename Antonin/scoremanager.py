@@ -18,13 +18,37 @@ class ScoreManager:
         self.data = json.load(open("Antonin/scores.json", "r"))
         self.dic_data = {}
         self.leter_amstr = [0,0,0]
+        self.ileter_amstr = 0
+        self.name_player = ""
 
         for value in self.data.values():
             self.dic_data[str(value["name"])] = value["score"]
 
     def update(self):
+        if pyxel.btnp(pyxel.KEY_DOWN):
+            self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr]-1)%26
+        elif pyxel.btnp(pyxel.KEY_UP):
+            self.leter_amstr[self.ileter_amstr] = (self.leter_amstr[self.ileter_amstr]+1)%26
+        elif pyxel.btnp(pyxel.KEY_SPACE):
+            self.name_player += string.ascii_uppercase[self.leter_amstr[self.ileter_amstr]]
+            self.ileter_amstr += 1
+        if self.ileter_amstr == 3:
+            self.ileter_amstr = 0
+            self.update_json()
+            self.reset_game()
+
+        
+    def draw(self):
+        for i in range(len(self.leter_amstr)):
+            pyxel.blt(40 + i * 8, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
+        pyxel.blt(self.ileter_amstr * 8 + 36, 70, 1, 0, 40, 8, 8, 0)
+        pyxel.blt(self.ileter_amstr * 8 + 36, 85, 1, 0, 48, 8, 8, 0)
+
+
+    def update_json(self):
         size = 0
-        name_player = self.input_name()
+        name_player = self.name_player
+        self.name_player=""
         self.dic_data[name_player] = player.level
         dict(sorted(self.dic_data.items(), key=lambda item: int(item[1]), reverse=True))
         for name in self.dic_data.keys():
@@ -56,7 +80,7 @@ class ScoreManager:
         json.dump(self.data, open("Antonin/scores.json", "w"))
         self.__init__()
     
-    def draw(self):
+    def draw_menu(self):
         offset = 0
         for name in self.dic_data.keys(): 
             pyxel.rect(30, 65 + offset , 12 , 8 , 0) # rectangle noir pour cacher ce qu'il y'a de base car il faut sur l'écrant start si il n'y a pas de high scor il faut quand même afficher des 0
@@ -72,25 +96,6 @@ class ScoreManager:
         
         json.dump(self.data, open("Antonin/scores.json", "w"))
         self.__init__()
-
-    def input_name(self):
-        name_player = ""
-        # for i in range(len(self.leter_amstr)):
-        #     while True:
-        #         pyxel.blt(i * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
-        #         pyxel.blt(i * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
-        #         if pyxel.btn(pyxel.KEY_DOWN):
-        #             self.leter_amstr[i] = (self.leter_amstr[i]-1)%26
-        #         elif pyxel.btn(pyxel.KEY_UP):
-        #             self.leter_amstr[i] = (self.leter_amstr[i]+1)%26
-        #         elif pyxel.btn(pyxel.KEY_SPACE):
-        #             name_player += string.ascii_uppercase[self.leter_amstr[i]]
-        #             break
-        return name_player
-    
-    def draw_input_name(self):
-        for i in range(len(self.leter_amstr)):
-            pyxel.blt(40 + i * 8, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
 
     def reset_game(self):
         reset_framecount()

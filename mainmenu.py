@@ -29,7 +29,7 @@ class MainMenu:
         pyxel.text(30, 65, "XXX  000000", 7)
         pyxel.text(30, 75, "XXX  000000", 7)
         pyxel.text(30, 85, "XXX  000000", 7)
-        scoreManager.draw()
+        scoreManager.draw_menu()
 
         pyxel.text(10, 105, "Press SPACE to Start !", 7)
 
