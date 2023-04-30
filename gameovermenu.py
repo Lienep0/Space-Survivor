@@ -15,7 +15,7 @@ class GameOverMenu:
     def draw(self):
         pyxel.blt(20, 20, 1, 0, 0, 64, 16) #GAME
         pyxel.blt(20, 36, 1, 0, 16, 64, 16) #OVER
-        pyxel.text(24, 100, "Press SPACE to", 7)
-        pyxel.text(22, 110, "go back to MENU", 7)
+        pyxel.text(24, 100, "Wait for enter your", 7)
+        pyxel.text(22, 110, "name in classment", 7)
 
 gameOverMenu = GameOverMenu()

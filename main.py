@@ -7,7 +7,7 @@ from globals import get_game_state, get_paused_state
 from mainmenu import mainMenu
 from stars import generate_stars, star_list
 from upgrademenu import upgradeMenu
-from Antonin.scoremanager import scoreManager
+from scoremanager import scoreManager
 
 
 class Main:

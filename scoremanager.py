@@ -15,7 +15,7 @@ from player import player
 
 class ScoreManager:
     def __init__(self):
-        self.data = json.load(open("Antonin/scores.json", "r"))
+        self.data = json.load(open("scores.json", "r"))
         self.dic_data = {}
         self.leter_amstr = [0,0,0]
         self.ileter_amstr = 0
@@ -40,9 +40,12 @@ class ScoreManager:
         
     def draw(self):
         for i in range(len(self.leter_amstr)):
-            pyxel.blt(40 + i * 8, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
-        pyxel.blt(self.ileter_amstr * 8 + 36, 70, 1, 0, 40, 8, 8, 0)
-        pyxel.blt(self.ileter_amstr * 8 + 36, 85, 1, 0, 48, 8, 8, 0)
+            pyxel.blt(36 + i * 12, 78, 1, self.leter_amstr[i] * 8, 32, 8, 8, 0)
+        pyxel.blt(self.ileter_amstr * 12 + 36, 70, 1, 0, 40, 8, 8, 0)
+        pyxel.blt(self.ileter_amstr * 12 + 36, 85, 1, 0, 48, 8, 8, 0)
+        pyxel.text(20, 20,"Enter your name", 7)
+        pyxel.text(20, 36, "Your score:", 7) 
+        pyxel.text(64, 36, str(player.level) , 7) 
 
 
     def update_json(self):
@@ -77,7 +80,7 @@ class ScoreManager:
             self.data[z] = {"name" : name, "score" : score}
             i += 1
 
-        json.dump(self.data, open("Antonin/scores.json", "w"))
+        json.dump(self.data, open("scores.json", "w"))
         self.__init__()
     
     def draw_menu(self):
@@ -94,7 +97,7 @@ class ScoreManager:
                      "player 2": {"name": "XXX", "score": "000000"},
                      "player 3": {"name": "XXX", "score": "000000"}}
         
-        json.dump(self.data, open("Antonin/scores.json", "w"))
+        json.dump(self.data, open("scores.json", "w"))
         self.__init__()
 
     def reset_game(self):
