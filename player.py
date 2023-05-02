@@ -3,7 +3,7 @@ from random import random
 import pyxel
 
 from bombs import Bomb, bombs_list
-from bullets import Bullet, bullet_list
+from bullets import Big_Bullet, Bullet, bullet_list
 from constants import (BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
                        CRITICAL_UPGRADE_CHANCE, DAMAGE_UPGRADE_BOOST,
                        FIRE_RATE_UPGRADE_BOOST, PIERCING_UPGRADE_CHANCE,
@@ -39,10 +39,16 @@ class Player:
     def shoot(self):
         pyxel.play(0, BULLET_SOUND)
 
-        if self.has_quad_shot: positions_list = [[0,2,5,7], [3,0,0,3]]
+        if self.is_big and not self.has_quad_shot: positions_list = [[2,12], [0,0]]
+        elif self.is_big and self.has_quad_shot: positions_list = [[0,4,10,14], [4,0,0,4]]
+        elif not self.is_big and self.has_quad_shot: positions_list = [[0,2,5,7], [3,0,0,3]]
         else: positions_list = [[1,6], [0,0]]
+
+        if self.is_big: bullet_type = Big_Bullet
+        else : bullet_type = Bullet
+
         for i in range(len(positions_list[0])):
-            bullet_list.append(Bullet(self.x + positions_list[0][i], self.y + positions_list[1][i], 
+            bullet_list.append(bullet_type(self.x + positions_list[0][i], self.y + positions_list[1][i], 
                                       damage= BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * self.damage_mod,
                                       exploding= self.bullets_explode,
                                       piercing= random() <= PIERCING_UPGRADE_CHANCE * self.piercing_chance,
@@ -60,6 +66,7 @@ class Player:
 
     def check_upgrades(self):
         self.is_big = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Big"]))
+        self.size = 16 if self.is_big else 8
         self.has_quad_shot = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Quad Shot"]))
         self.has_explosive_shield = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosive Shield"]))
         self.bullets_explode = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosions"]))
@@ -80,7 +87,6 @@ class Player:
         
         self.x = PLAYER_STARTING_X
         self.y = PLAYER_STARTING_Y
-        self.size = 16 if self.is_big else 8
 
         self.hp = PLAYER_HP
         self.number_of_bombs = START_NUMBER_OF_BOMBS

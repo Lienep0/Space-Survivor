@@ -39,6 +39,7 @@ class Miniboss:
             particle_list.extend([ScoreParticle(self.x + self.size / 2, self.y - 2, MINIBOSS_SCORE),
                                   MinibossExplosionParticle(self.x + self.size / 2, self.y + self.size / 2)])
             player.minibosses_destroyed += 1
+            player.score += MINIBOSS_SCORE
             self.reset()
 
     def draw(self):

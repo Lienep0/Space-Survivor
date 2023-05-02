@@ -79,11 +79,12 @@ def check_collisions():
 
         if miniboss.crosshair is not None: 
             miniboss.crosshair.x, miniboss.crosshair.y, miniboss.crosshair.hasHit = move_towards(miniboss.crosshair.x, miniboss.crosshair.y,
-                                                                                                 player.x - miniboss.crosshair.size/4, player.y - miniboss.crosshair.size/4,
-                                                                                                 CROSSHAIR_SPEED, 2 + CROSSHAIR_HITBOX_CORRECTION)
+                                                                                                 player.x + 4 * ((player.size - 16) // 8), 
+                                                                                                 player.y + 4 * ((player.size - 16) // 8),
+                                                                                                 CROSSHAIR_SPEED, player.size / 4 + CROSSHAIR_HITBOX_CORRECTION)
             if miniboss.crosshair.hasHit and player.iframes_cooldown <= 0:
                 player.take_damage()
-                particle_list.append(MinibossShotLine(miniboss.x + 8 + (miniboss.sprite_offset/8), miniboss.y + 8, player.x + 3, player.y))
+                particle_list.append(MinibossShotLine(miniboss.x + 8 + (miniboss.sprite_offset/8), miniboss.y + 8, player.x + player.size / 2, player.y))
                 miniboss.crosshair = None
                 miniboss.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
