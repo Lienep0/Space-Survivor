@@ -15,9 +15,9 @@ class GameOverMenu:
 
         pyxel.text(10, 70, f"LEVEL: {player.level}", 7)
         pyxel.text(10, 80, f"SCORE: {player.score}", 7)
-        pyxel.text(10, 90, f"PICKUPS COLLECTED: {player.pickups_collected}", 7)
-        pyxel.text(10, 100, f"ASTEROIDS DESTROYED: {player.asteroids_destroyed}", 7)
-        pyxel.text(10, 110, f"MINIBOSSES DEFEATED: {player.minibosses_destroyed}", 7)
+        pyxel.text(10, 90, f"PICKUPS: {player.pickups_collected}", 7)
+        pyxel.text(10, 100, f"ASTEROIDS: {player.asteroids_destroyed}", 7)
+        pyxel.text(10, 110, f"MINIBOSSES: {player.minibosses_destroyed}", 7)
         pyxel.text(8, GAME_HEIGHT - 14, "PRESS SPACE TO CONTINUE", 7)
 
 gameOverMenu = GameOverMenu()
