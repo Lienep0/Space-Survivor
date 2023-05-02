@@ -16,13 +16,13 @@
 # TODO : High Score name Inputter
 # TODO : High Score Tracker
 # TODO : Score System
+# TODO : Upgrades that increases size but also doubles damage
 
 # Imperative
-# TODO : Upgrades that increases size but also doubles damage
-# TODO : Better Score UI
-# TODO : Better Game Over UI
 # TODO : Add exploding Miniboss sfx
 # TODO : Add exploding bullet sfx
+# TODO : Better Score UI
+# TODO : Better Game Over UI
 # TODO : Wave Counter UI/Behavior
 # TODO : GAMEMANAGER
 

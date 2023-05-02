@@ -1,6 +1,6 @@
 import pyxel
 
-from constants import GAME_WIDTH, MINIBOSS_HEIGHT, MINIBOSS_HP, MINIBOSS_SCORE
+from constants import GAME_WIDTH, MINIBOSS_HEIGHT, MINIBOSS_HP, MINIBOSS_SCORE, MINIBOSS_DEATH_SOUND
 from particles import MinibossExplosionParticle, ScoreParticle, particle_list
 from player import player
 
@@ -36,6 +36,7 @@ class Miniboss:
     def take_damage(self, damage):
         self.hp -= damage
         if self.hp <= 0:
+            pyxel.play(0, MINIBOSS_DEATH_SOUND)
             particle_list.extend([ScoreParticle(self.x + self.size / 2, self.y - 2, MINIBOSS_SCORE),
                                   MinibossExplosionParticle(self.x + self.size / 2, self.y + self.size / 2)])
             player.minibosses_destroyed += 1

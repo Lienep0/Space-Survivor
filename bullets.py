@@ -1,6 +1,6 @@
 import pyxel
 
-from constants import IMPACT_SOUND, CRITICAL_UPGRADE_DAMAGE_MULTIPLIER, BIG_UPGRADE_DAMAGE_MULTIPLIER
+from constants import IMPACT_SOUND, CRITICAL_UPGRADE_DAMAGE_MULTIPLIER, BIG_UPGRADE_DAMAGE_MULTIPLIER, EXPLODING_BULLET_IMPACT_SOUND
 from particles import ExplodingBulletsImpact, Impact, particle_list
 
 bullet_list = []
@@ -19,7 +19,7 @@ class Bullet:
             
     def collide(self, collider):
         if self.exploding:
-            pyxel.play(2, IMPACT_SOUND) # TODO : Change to explosive impact sound
+            pyxel.play(2, EXPLODING_BULLET_IMPACT_SOUND) # TODO : Change to explosive impact sound
             particle_list.append(ExplodingBulletsImpact(self.x, self.y + 3, self.damage))
         else:
             pyxel.play(2, IMPACT_SOUND)
@@ -58,7 +58,7 @@ class Big_Bullet:
             
     def collide(self, collider):
         if self.exploding:
-            pyxel.play(2, IMPACT_SOUND) # TODO : Change to explosive impact sound
+            pyxel.play(2, EXPLODING_BULLET_IMPACT_SOUND) # TODO : Change to explosive impact sound
             particle_list.append(ExplodingBulletsImpact(self.x, self.y + 3, self.damage))
         else:
             pyxel.play(2, IMPACT_SOUND)
