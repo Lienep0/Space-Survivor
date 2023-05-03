@@ -8,7 +8,7 @@ from constants import (CROSSHAIR_HITBOX_CORRECTION, CROSSHAIR_SPEED,
                        MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT, PICKUP_SCORE,
                        PICKUP_SOUND)
 from miniboss import miniboss
-from particles import (ExplodingBulletsImpact, MinibossShotLine, ScoreParticle,
+from particles import (ExplodingBulletsImpact, ScoreParticle,
                        particle_list)
 from pickups import pickup_list
 from player import player
@@ -73,10 +73,7 @@ def check_collisions():
                                                                                                  player.y + player.radius - miniboss.crosshair.radius,
                                                                                                  CROSSHAIR_SPEED, CROSSHAIR_HITBOX_CORRECTION)
             if miniboss.crosshair.hasHit and player.iframes_cooldown <= 0:
-                player.take_damage()
-                particle_list.append(MinibossShotLine(miniboss.x + 8 + (miniboss.sprite_offset/8), miniboss.y + 8, player.x + player.radius, player.y))
-                miniboss.crosshair = None
-                miniboss.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
+                miniboss.shoot_crosshair()
 
     # Bomb collisions
     for bomb in list(bombs_list):

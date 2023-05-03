@@ -1,7 +1,10 @@
 import pyxel
 
-from constants import GAME_WIDTH, MINIBOSS_HEIGHT, MINIBOSS_HP, MINIBOSS_SCORE, MINIBOSS_DEATH_SOUND, MINIBOSS_ENTRANCE_TIMER
-from particles import MinibossExplosionParticle, ScoreParticle, particle_list
+from constants import (GAME_WIDTH, MINIBOSS_DEATH_SOUND,
+                       MINIBOSS_ENTRANCE_TIMER, MINIBOSS_FIRE_COOLDOWN,
+                       MINIBOSS_HEIGHT, MINIBOSS_HP, MINIBOSS_SCORE)
+from particles import (MinibossExplosionParticle, MinibossShotLine,
+                       ScoreParticle, particle_list)
 from player import player
 
 
@@ -30,6 +33,12 @@ class Miniboss:
 
             for i in pattern:
                 self.projectiles_list.append(MinibossProjectile(self.x + self.offset, self.y + self.size - 3, i))
+
+    def shoot_crosshair(self):
+        player.take_damage()
+        particle_list.append(MinibossShotLine(self.x + 8 + (self.sprite_offset/8), self.y + 8, player.x + player.radius, player.y))
+        self.crosshair = None
+        self.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
 
     def manage_crosshair(self):
         if self.crosshair is None and self.shoot_cooldown <= 0:
