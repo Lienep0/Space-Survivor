@@ -9,6 +9,8 @@ class Pickup: # Collectible pour augmenter le score/l'xp
     def __init__(self,x,y):
         self.x = x
         self.y = y
+        self.size = 4
+        self.radius = (self.size - 1) / 2
         self.activated = False
         self.speed = 3
 

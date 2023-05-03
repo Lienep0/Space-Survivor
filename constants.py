@@ -47,7 +47,6 @@ MAXIMUM_HEALTH = len(HEALTH_UPGRADE_WEIGHT)
 ASTEROID_SPEED = 1
 ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
 ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border of the screen, in pixels
-ASTEROID_HITBOX_CORRECTION = 0 # How generous the asteroid hitbox is. The higher, the less generous. Default is 0
 
 ASTEROIDS = {
     "SMALL_ASTEROID": {"type": 0, "size": 8, "coords": [8, 0], "hp": 6, "xp": 1, "score": 100},
@@ -63,7 +62,7 @@ MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-s
 MINIBOSS_ENTRANCE_TIMER = 90
 
 CROSSHAIR_SPEED = 1.25
-CROSSHAIR_HITBOX_CORRECTION = 1 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
+CROSSHAIR_HITBOX_CORRECTION = 3 # How generous the crosshair hitbox is. The higher, the less generous. Default is 3. Full crosshair is 10.
 
 # Xp
 XP_REQUIREMENTS = [30, 40, 50, 60, 70, 80] # Number of xp required to level up per level

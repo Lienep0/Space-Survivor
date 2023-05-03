@@ -61,6 +61,7 @@ class Miniboss:
     def reset(self):
         self.active = False
         self.size = 16
+        self.radius = (self.size - 1) / 2
         self.x = (GAME_WIDTH - self.size)/2
         self.y = -self.size
         self.hp = MINIBOSS_HP
@@ -78,7 +79,8 @@ class MinibossProjectile():
     def __init__(self,x,y,movement):
         self.x = x
         self.y = y
-        self.size = 2
+        self.size = 4
+        self.radius = (self.size - 1) / 2
         self.movement = movement
 
     def update(self):
@@ -86,13 +88,14 @@ class MinibossProjectile():
         self.y += 1.5
     
     def draw(self):
-        pyxel.circ(self.x, self.y, self.size, 4)
+        pyxel.blt(self.x, self.y, 0, 3, 4, 4, 4, 0)
 
 class Crosshair:
     def __init__(self,x,y):
         self.x = x
         self.y = y
         self.size = 16
+        self.radius = (self.size - 1) / 2
         self.hasHit = False
 
     def draw(self):

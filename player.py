@@ -68,6 +68,8 @@ class Player:
     def check_upgrades(self):
         self.is_big = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Big"]))
         self.size = 16 if self.is_big else 8
+        self.radius = (self.size - 1) / 2
+
         self.has_quad_shot = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Quad Shot"]))
         self.has_explosive_shield = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosive Shield"]))
         self.bullets_explode = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosions"]))

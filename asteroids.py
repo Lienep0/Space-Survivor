@@ -48,6 +48,7 @@ class Asteroid:
 class AsteroidParameters:
     def __init__(self,parameters):
         self.size = parameters["size"]
+        self.radius = (self.size - 1) / 2
         self.spritexcoord = parameters["coords"][0]
         self.spriteycoord = parameters["coords"][1]
         self.hp = parameters["hp"]
