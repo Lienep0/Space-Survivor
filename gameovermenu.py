@@ -3,10 +3,12 @@ import pyxel
 from globals import set_game_state
 from player import player
 from constants import GAME_HEIGHT
+from scoremanager import scoreManager
 
 class GameOverMenu:
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE):
+            scoreManager.current_score = str(player.score)
             set_game_state("SCOREMENU")
 
     def draw(self):

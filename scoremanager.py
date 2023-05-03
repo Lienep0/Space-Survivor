@@ -19,32 +19,31 @@ class ScoreManager:
 
     def reset(self):
         self.data = json.load(open("scores.json", "r"))
-        self.list_data = []
+        self.high_scores = []
         self.letter_ids = [0,0,0]
         self.cursor_position = 0
         self.player_name = ""
 
         for value in self.data[1].values():
-            self.list_data.append((str(value["name"]), value["score"]))
-        self.list_data = self.list_data[:3]
+            self.high_scores.append((str(value["name"]), value["score"]))
+        self.high_scores = self.high_scores[:3]
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE) and self.cursor_position == 2:
             for letter_id in self.letter_ids:
                 self.player_name += string.ascii_uppercase[letter_id]
 
-            self.cursor_position = 0
             self.update_json()
             self.reset_game()
 
-        if pyxel.btnp(pyxel.KEY_DOWN):
+        elif pyxel.btnp(pyxel.KEY_DOWN):
             self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] + 1) % 26
-        if pyxel.btnp(pyxel.KEY_UP):
+        elif pyxel.btnp(pyxel.KEY_UP):
             self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] - 1) % 26
 
-        if pyxel.btnp(pyxel.KEY_LEFT) and self.cursor_position >= 1:
+        elif pyxel.btnp(pyxel.KEY_LEFT) and self.cursor_position >= 1:
             self.cursor_position -= 1
-        if (pyxel.btnp(pyxel.KEY_RIGHT) or pyxel.btnp(pyxel.KEY_SPACE)) and self.cursor_position <= 1:
+        elif (pyxel.btnp(pyxel.KEY_RIGHT) or pyxel.btnp(pyxel.KEY_SPACE)) and self.cursor_position <= 1:
             self.cursor_position += 1
 
     def draw(self):
@@ -56,29 +55,24 @@ class ScoreManager:
 
         pyxel.text(20, 20,"Enter your name", 7)
         pyxel.text(20, 36, "Your score:", 7) 
-        pyxel.text(64, 36, str(player.score) , 7) 
+        pyxel.text(64, 36, self.current_score, 7) 
 
     def update_json(self):
-        score_str = ""
-        size = len(str(player.score))
-        if size < 6:
-            size = 6 - size
-            score_str += "0"
-        score_str += str(player.score)
+        if len(self.current_score) > 6:
+            self.current_score = "0" * (6 - len(self.current_score)) + self.current_score
 
-        self.list_data.append((self.player_name,str(score_str)))
-        self.list_data = sorted(self.list_data, key=lambda x: int(x[1]), reverse=True)
+        self.high_scores.append((self.player_name, self.current_score))
+        self.high_scores = sorted(self.high_scores, key=lambda x: int(x[1]), reverse=True)
 
         player_name = "player" 
         player_name += " " + str(len(self.data[0]))
-        self.data[0][player_name] = {"name" : self.player_name, "score" : str(score_str)}
+        self.data[0][player_name] = {"name" : self.player_name, "score" : self.current_score}
         
-        
-        while len(self.list_data) > 3:
-            self.list_data.pop()
+        while len(self.high_scores) > 3:
+            self.high_scores.pop()
 
         i = 1
-        for player_in_list in self.list_data : 
+        for player_in_list in self.high_scores : 
             player_name = "player"
             player_name += " " + str(i)
             self.data[1][player_name] = {"name" : player_in_list[0], "score" : player_in_list[1]}
@@ -89,7 +83,7 @@ class ScoreManager:
     
     def draw_menu(self):
         offset = 0
-        for player_in_list in self.list_data: 
+        for player_in_list in self.high_scores: 
             pyxel.rect(30, 65 + offset, 12, 8, 0) # rectangle noir pour cacher ce qu'il y'a de base car il faut sur l'écrant start si il n'y a pas de high scor il faut quand même afficher des 0
             pyxel.rect(50, 65 + offset, 24, 8, 0)
             pyxel.text(30, 65 + offset, player_in_list[0], 7)
