@@ -8,8 +8,8 @@ from constants import (ASTEROID_COOLDOWN, ASTEROIDS, LEVEL_UP_SOUND, MAX_LEVEL,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
                        XP_REQUIREMENTS)
 from gameinputmanager import manage_inputs, pause_input
-from globals import (get_framecount, get_paused_state, set_game_state,
-                     update_framecount, get_asteroid_toggle)
+from globals import (get_asteroid_toggle, get_framecount, get_paused_state,
+                     set_game_state, update_framecount)
 from miniboss import miniboss
 from particles import PlayerExplosion, particle_list
 from pickups import pickup_list
