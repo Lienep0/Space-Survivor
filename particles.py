@@ -81,7 +81,7 @@ class ScoreParticle:
             particle_list.remove(self)
 
     def draw(self):
-        pyxel.text(self.x - len(self.score) * 4 / 2, self.y, self.score, 7)
+        pyxel.text(self.x - len(self.score) * 4 / 2, self.y - 2, self.score, 7)
 
 class MinibossExplosionParticle:
     def __init__(self,x,y):

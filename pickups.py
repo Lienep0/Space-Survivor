@@ -24,7 +24,7 @@ class Pickup: # Collectible pour augmenter le score/l'xp
 
     def collect(self):
         pyxel.play(2, PICKUP_SOUND)
-        particle_list.append(ScoreParticle(player.x + player.radius, player.y - 6, PICKUP_SCORE))
+        particle_list.append(ScoreParticle(player.x + player.radius, player.y - 4, PICKUP_SCORE))
         player.score += PICKUP_SCORE
         player.xp += 1
         player.pickups_collected += 1

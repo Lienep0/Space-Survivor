@@ -32,7 +32,7 @@ class Asteroid:
         if self.parameters.hp <= 0:
             player.score += self.parameters.score
             player.asteroids_destroyed += 1
-            particle_list.append(ScoreParticle(self.x + self.parameters.size / 2, self.y - 2, self.parameters.score))
+            particle_list.append(ScoreParticle(self.x + self.parameters.size / 2, self.y, self.parameters.score))
             spawn_pickups(self)
             if self in asteroid_list: asteroid_list.remove(self)
 

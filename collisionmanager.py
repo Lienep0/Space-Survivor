@@ -31,8 +31,7 @@ def check_collisions():
                 player.take_damage()
 
         for bullet in list(bullet_list):
-            bullet_radius = (bullet.xsize - 1) / 2
-            if asteroid not in bullet.things_hit and round_collision(asteroid.x, asteroid.y, bullet.x, bullet.y, asteroid.parameters.radius, bullet_radius):
+            if asteroid not in bullet.things_hit and round_collision(asteroid.x, asteroid.y, bullet.x, bullet.y, asteroid.parameters.radius, bullet.radius):
                 bullet.collide(asteroid)
         
         for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact]:

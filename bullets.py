@@ -11,10 +11,11 @@ class Bullet:
         self.y = y
         self.xsize = 2 if big else 1
         self.ysize = 6
+        self.radius = (self.xsize - 1) / 2
         self.piercing = piercing
         self.exploding = exploding
         self.damage = damage * CRITICAL_UPGRADE_DAMAGE_MULTIPLIER if crit else damage
-        self.damage = self.damage * 2 if big else self.damage
+        self.damage = self.damage * BIG_UPGRADE_DAMAGE_MULTIPLIER if big else self.damage
         self.crit = crit
         self.things_hit = []
             

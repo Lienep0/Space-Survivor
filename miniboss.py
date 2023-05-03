@@ -32,7 +32,7 @@ class Miniboss:
             pattern = self.patterns[self.timer // 60 % len(self.patterns)] # Cycle through patterns
 
             for i in pattern:
-                self.projectiles_list.append(MinibossProjectile(self.x + self.offset, self.y + self.size - 3, i))
+                self.projectiles_list.append(MinibossProjectile(self.x + self.radius - 2, self.y + self.size - 3, i))
 
     def shoot_crosshair(self):
         player.take_damage()
@@ -48,8 +48,8 @@ class Miniboss:
         self.hp -= damage
         if self.hp <= 0:
             pyxel.play(0, MINIBOSS_DEATH_SOUND)
-            particle_list.extend([ScoreParticle(self.x + self.size / 2, self.y - 2, MINIBOSS_SCORE),
-                                  MinibossExplosionParticle(self.x + self.size / 2, self.y + self.size / 2)])
+            particle_list.extend([ScoreParticle(self.x + self.radius, self.y, MINIBOSS_SCORE),
+                                  MinibossExplosionParticle(self.x + self.radius, self.y + self.radius)])
             player.minibosses_destroyed += 1
             player.score += MINIBOSS_SCORE
             self.reset()
