@@ -8,7 +8,7 @@ from scoremanager import scoreManager
 class GameOverMenu:
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE):
-            scoreManager.current_score = str(player.score)
+            scoreManager.player_score = str(player.score)
             set_game_state("SCOREMENU")
 
     def draw(self):

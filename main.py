@@ -1,13 +1,20 @@
 import pyxel
 
+from asteroids import asteroid_list
+from bullets import bullet_list
 from constants import FPS, GAME_HEIGHT, GAME_WIDTH, TITLE
 from gamemanager import gameManager
 from gameovermenu import gameOverMenu
-from globals import get_game_state, get_paused_state
+from globals import (get_game_state, get_paused_state, reset_framecount,
+                     set_game_state)
 from mainmenu import mainMenu
+from miniboss import miniboss
+from particles import particle_list
+from pickups import pickup_list
+from player import player
+from scoremanager import scoreManager
 from stars import generate_stars, star_list
 from upgrademenu import upgradeMenu
-from scoremanager import scoreManager
 
 
 class Main:
@@ -36,6 +43,7 @@ class Main:
             upgradeMenu.update()
         elif self.state == "SCOREMENU":
             scoreManager.update()
+        else: reset_game()
 
     def draw(self):
         pyxel.cls(0)
@@ -53,6 +61,21 @@ class Main:
             upgradeMenu.draw()
         elif self.state == "SCOREMENU":
             scoreManager.draw()
+
+def reset_game():
+    reset_framecount()
+    set_game_state("MENU")
+    
+    asteroid_list.clear()
+    asteroid_list.clear()
+    bullet_list.clear()
+    pickup_list.clear()
+    particle_list.clear()
+
+    player.reset()
+    miniboss.reset()
+    gameManager.reset()
+    scoreManager.reset()
     
 if __name__ == "__main__":
     game = Main()
