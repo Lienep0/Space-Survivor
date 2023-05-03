@@ -25,11 +25,7 @@ class MainMenu:
         pyxel.blt(23, 24, 0, 0, 72, 64, 8, 0) #SURVIVOR
 
         pyxel.text(27, 48, "High scores :", 7)
-
-        pyxel.text(30, 65, "XXX  000000", 7)
-        pyxel.text(30, 75, "XXX  000000", 7)
-        pyxel.text(30, 85, "XXX  000000", 7)
-        scoreManager.draw_menu()
+        scoreManager.draw_scores()
 
         pyxel.text(10, 105, "Press SPACE to Start !", 7)
 
