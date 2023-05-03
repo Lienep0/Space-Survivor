@@ -60,6 +60,8 @@ MINIBOSS_HP = 100
 MINIBOSS_SCORE = 2000
 MINIBOSS_HEIGHT = 20
 MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-shoot after shooting 
+MINIBOSS_ENTRANCE_TIMER = 90
+
 CROSSHAIR_SPEED = 1.25
 CROSSHAIR_HITBOX_CORRECTION = 1 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
 
