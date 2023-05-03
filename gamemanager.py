@@ -6,14 +6,16 @@ from asteroids import Asteroid, asteroid_list
 from bombs import bombs_list
 from bullets import bullet_list
 from collisionmanager import check_collisions
-from constants import (ASTEROIDS, LEVEL_UP_SOUND, MAX_LEVEL,
+from constants import (ASTEROIDS, BOSS_WAVES, LEVEL_UP_SOUND, MAX_LEVEL,
+                       MINIBOSS_DEATH_SOUND, MINIBOSS_SCORE,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
                        XP_REQUIREMENTS)
 from gameinputmanager import manage_inputs, pause_input
 from globals import (get_asteroid_toggle, get_framecount, get_paused_state,
                      set_game_state, update_framecount)
 from miniboss import miniboss
-from particles import PlayerExplosion, particle_list
+from particles import (MinibossExplosionParticle, PlayerExplosion,
+                       ScoreParticle, particle_list)
 from pickups import pickup_list
 from player import player
 from ui import ui
@@ -29,23 +31,33 @@ class GameManager:
             pyxel.play(2, LEVEL_UP_SOUND)
             player.xp = 0
             player.level += 1
+
+            upgradeMenu.select_upgrade_cooldown = 0
             upgradeMenu.generate_upgrades()
             set_game_state("UPGRADEMENU")
 
     def check_for_death(self):
-        if player.hp <= 0 and self.time_of_death < 0:
-            particle_list.append(PlayerExplosion(player.x + 3, player.y + 3))
-            pyxel.play(0, PLAYER_DEATH_SOUND)
-            player.active = False
-            self.time_of_death = get_framecount()
-        
-        if self.time_of_death + PLAYER_DEATHFREEZE_DURATION == get_framecount() :
-            set_game_state("GAMEOVER")
+        if miniboss.hp <= 0:
+            pyxel.play(0, MINIBOSS_DEATH_SOUND)
+            particle_list.extend([ScoreParticle(miniboss.x + miniboss.radius, miniboss.y, MINIBOSS_SCORE),
+                                  MinibossExplosionParticle(miniboss.x + miniboss.radius, miniboss.y + miniboss.radius)])
+            player.minibosses_destroyed += 1
+            player.score += MINIBOSS_SCORE
+            miniboss.reset()
+
+        if player.hp <= 0 :
+            if self.time_of_death == -1:
+                particle_list.append(PlayerExplosion(player.x + 3, player.y + 3))
+                pyxel.play(0, PLAYER_DEATH_SOUND)
+                player.active = False
+                self.time_of_death = PLAYER_DEATHFREEZE_DURATION
+            else :
+                self.time_of_death -= 1
+                if self.time_of_death == 0: set_game_state("GAMEOVER")
 
     def spawn_asteroids(self):
         if get_asteroid_toggle():
             if self.asteroid_cooldown <= 0:
-                print("spawning")
                 cumulative_probs = []
                 total_prob = 0
                 for i in range(len(ASTEROIDS)):
@@ -60,15 +72,21 @@ class GameManager:
                         return
 
     def update(self):
-        
         pause_input()
         self.paused = get_paused_state()
 
         if not self.paused:
-            update_framecount()
+            if get_framecount() in BOSS_WAVES:
+                self.asteroid_cooldown = 0
+                update_framecount()
 
-            self.spawn_asteroids()
-            self.asteroid_cooldown -= 1
+                miniboss.reset()
+                miniboss.active = True
+
+            if not miniboss.active:
+                update_framecount()
+                self.spawn_asteroids()
+                self.asteroid_cooldown -= 1
 
             self.check_player_upgrade(player)
 
@@ -84,7 +102,7 @@ class GameManager:
             check_collisions()
             self.check_for_death()
 
-            ui.update()
+        ui.update()
 
     def draw(self):
         if player.active:
@@ -101,7 +119,7 @@ class GameManager:
         ui.draw()
 
     def reset(self):
-        self.time_of_death = -100
+        self.time_of_death = -1
         self.paused = False
         self.asteroid_cooldown = 0
 

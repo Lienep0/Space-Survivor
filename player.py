@@ -72,7 +72,7 @@ class Player:
 
         self.has_quad_shot = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Quad Shot"]))
         self.has_explosive_shield = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosive Shield"]))
-        self.bullets_explode = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosions"]))
+        self.bullets_explode = True or bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosions"]))
         self.has_dash = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Dash"]))
 
         self.crit_chance = len([upgrade for upgrade in self.inventory if upgrade.name == "Crit"])

@@ -34,9 +34,8 @@ def check_collisions():
             if asteroid not in bullet.things_hit and round_collision(asteroid.x, asteroid.y, bullet.x, bullet.y, asteroid.parameters.radius, bullet.radius):
                 bullet.collide(asteroid)
         
-        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact]:
-            if asteroid not in explosion.things_hit and round_collision(asteroid.x, asteroid.y, explosion.x, explosion.y, 
-                                                                        asteroid.parameters.radius, explosion.radius):
+        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact and asteroid not in explosion.things_hit]:
+            if round_collision(asteroid.x, asteroid.y, explosion.x, explosion.y, asteroid.parameters.radius, explosion.radius, custom_sprite2= False):
                 asteroid.take_damage(explosion.damage)
                 explosion.things_hit.append(asteroid)
 
@@ -54,10 +53,10 @@ def check_collisions():
             if round_collision(miniboss.x, miniboss.y, bullet.x, bullet.y, miniboss.radius, bullet.radius):
                 bullet.collide(miniboss)
         
-        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact]:
-            if round_collision(miniboss.x, miniboss.y, explosion.x, explosion.y, miniboss.radius, explosion.radius):
-                miniboss.take_damage(explosion.damage)
-                explosion.things_hit.append(miniboss)
+        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact and miniboss not in explosion.things_hit]:
+                if round_collision(miniboss.x, miniboss.y, explosion.x, explosion.y, miniboss.radius, explosion.radius, custom_sprite2= False):
+                    miniboss.take_damage(explosion.damage)
+                    explosion.things_hit.append(miniboss)
 
         if miniboss.crosshair is not None: 
             miniboss.crosshair.x, miniboss.crosshair.y, miniboss.crosshair.hasHit = move_towards(miniboss.crosshair.x, miniboss.crosshair.y,
@@ -69,8 +68,8 @@ def check_collisions():
 
     # Bomb collisions
     for bomb in list(bombs_list):
-        for asteroid in list(asteroid_list):
-            if asteroid not in bomb.things_hit and round_collision(asteroid.x, asteroid.y, bomb.x, bomb.y, asteroid.parameters.radius, bomb.radius, custom_sprite2= False):
+        for asteroid in [asteroid for asteroid in asteroid_list if asteroid not in bomb.things_hit]:
+            if round_collision(asteroid.x, asteroid.y, bomb.x, bomb.y, asteroid.parameters.radius, bomb.radius, custom_sprite2= False):
                 asteroid.take_damage(bomb.damage)
                 bomb.things_hit.append(asteroid)
 

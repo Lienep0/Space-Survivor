@@ -3,7 +3,7 @@ import pyxel
 from constants import (BOTTOM_UI_BAR_SIZE, DOWN_KEY, GAME_HEIGHT, GAME_WIDTH,
                        LEFT_KEY, MAX_LEVEL, MAX_NUMBER_OF_BOMBS, MINIBOSS_HP,
                        RIGHT_KEY, UP_KEY, XP_REQUIREMENTS, MINIBOSS_HEIGHT)
-from globals import get_paused_state
+from globals import get_paused_state, get_framecount
 from miniboss import miniboss
 from player import player
 
@@ -58,6 +58,9 @@ class Ui:
         if player.active:
             # Score
             pyxel.text(2, 2, f"SCORE: {player.score}", 7)
+
+            # Framecount : 
+            pyxel.text(2, 10, f"FRAMECOUNT: {get_framecount()}", 7)
 
             # UI bottom bar
             pyxel.rect(0, GAME_HEIGHT - BOTTOM_UI_BAR_SIZE, GAME_WIDTH, BOTTOM_UI_BAR_SIZE, 1)

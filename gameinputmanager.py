@@ -74,8 +74,8 @@ def manage_inputs():
         miniboss.reset()
         miniboss.active = True
     if pyxel.btnp(SMALL_ASTEROID_KEY): 
-        asteroid_list.append(Asteroid(ASTEROIDS["SMALL_ASTEROID"]["type"]))
+        asteroid_list.append(Asteroid(0,1))
     if pyxel.btnp(MEDIUM_ASTEROID_KEY): 
-        asteroid_list.append(Asteroid(ASTEROIDS["MEDIUM_ASTEROID"]["type"]))
+        asteroid_list.append(Asteroid(1,1))
     if pyxel.btnp(LARGE_ASTEROID_KEY): 
-        asteroid_list.append(Asteroid(ASTEROIDS["LARGE_ASTEROID"]["type"]))
+        asteroid_list.append(Asteroid(2,1))

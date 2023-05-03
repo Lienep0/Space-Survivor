@@ -3,8 +3,9 @@ from random import uniform
 import pyxel
 
 from constants import (BOMB_UPGRADE_WEIGHT, CRITICAL_UPGRADE_CHANCE,
-                       HEALTH_UPGRADE_WEIGHT, PIERCING_UPGRADE_CHANCE,
-                       PLAYER_IFRAMES, MAXIMUM_HEALTH, LEFT_KEY, RIGHT_KEY)
+                       HEALTH_UPGRADE_WEIGHT, LEFT_KEY, MAXIMUM_HEALTH,
+                       PIERCING_UPGRADE_CHANCE, PLAYER_IFRAMES, RIGHT_KEY,
+                       UPGRADE_MENU_COOLDOWN)
 from globals import set_game_state
 from player import player
 from upgrades import upgrade_dic
@@ -14,6 +15,7 @@ class UpgradeMenu:
     def __init__(self):
         self.upgrades_cursor_position = 0
         self.available_upgrades = dict(upgrade_dic)
+        self.select_upgrade_cooldown = 0
 
     def choose_upgrade(self, upgrade_pool):
         # Calculate the cumulative probabilities
@@ -65,24 +67,26 @@ class UpgradeMenu:
         set_game_state("GAME")
         
     def update(self):
+        self.select_upgrade_cooldown += 1
+
         if pyxel.btnp(LEFT_KEY) and self.upgrades_cursor_position >= 0:
             self.upgrades_cursor_position -= 1
         if pyxel.btnp(RIGHT_KEY) and self.upgrades_cursor_position <= 0:
             self.upgrades_cursor_position += 1
-        if pyxel.btnp(pyxel.KEY_SPACE):
-            self.confirm_upgrade()
+        if self.select_upgrade_cooldown >= UPGRADE_MENU_COOLDOWN:
+            if pyxel.btnp(pyxel.KEY_SPACE):
+                self.confirm_upgrade()
     
     def draw(self):
         pyxel.text(13, 30, "Select your upgrade :", 7)
 
-        pyxel.blt(25, 50, 2, current_upgrade_list[0].coords[0], current_upgrade_list[0].coords[1], 16, 16, 0) # UPGRADE 1
-        pyxel.blt(45, 50, 2, current_upgrade_list[1].coords[0], current_upgrade_list[1].coords[1], 16, 16, 0) # UPGRADE 2
-        pyxel.blt(65, 50, 2, current_upgrade_list[2].coords[0], current_upgrade_list[2].coords[1], 16, 16, 0) # UPGRADE 3
+        for i in range(3):
+            pyxel.blt(25 + i * 20, 50, 2, current_upgrade_list[i].coords[0], current_upgrade_list[i].coords[1], 16, 16, 0) # Upgrades
         
-        for i in range(len(current_upgrade_list[self.upgrades_cursor_position + 1].description)): # DESCRIPTION LINES
-            pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgrades_cursor_position + 1].description[i], 7)
+        for i in range(len(current_upgrade_list[self.upgrades_cursor_position + 1].description)):
+            pyxel.text(15, 75 + 10 * i, current_upgrade_list[self.upgrades_cursor_position + 1].description[i], 7) # Description
 
-        pyxel.rectb(43 + 20 * self.upgrades_cursor_position, 48, 20, 20, 7) #CURSOR
+        pyxel.rectb(43 + 20 * self.upgrades_cursor_position, 48, 20, 20, 7) #Cursor
 
 
 upgradeMenu = UpgradeMenu()

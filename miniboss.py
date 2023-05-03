@@ -1,10 +1,8 @@
 import pyxel
 
-from constants import (GAME_WIDTH, MINIBOSS_DEATH_SOUND,
-                       MINIBOSS_ENTRANCE_TIMER, MINIBOSS_FIRE_COOLDOWN,
-                       MINIBOSS_HEIGHT, MINIBOSS_HP, MINIBOSS_SCORE)
-from particles import (MinibossExplosionParticle, MinibossShotLine,
-                       ScoreParticle, particle_list)
+from constants import (GAME_WIDTH, MINIBOSS_ENTRANCE_TIMER,
+                       MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT, MINIBOSS_HP)
+from particles import MinibossShotLine, particle_list
 from player import player
 
 
@@ -46,13 +44,6 @@ class Miniboss:
 
     def take_damage(self, damage):
         self.hp -= damage
-        if self.hp <= 0:
-            pyxel.play(0, MINIBOSS_DEATH_SOUND)
-            particle_list.extend([ScoreParticle(self.x + self.radius, self.y, MINIBOSS_SCORE),
-                                  MinibossExplosionParticle(self.x + self.radius, self.y + self.radius)])
-            player.minibosses_destroyed += 1
-            player.score += MINIBOSS_SCORE
-            self.reset()
 
     def draw(self):
         if self.entrance_animation.timer < MINIBOSS_ENTRANCE_TIMER: self.entrance_animation.draw()
