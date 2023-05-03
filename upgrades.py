@@ -3,7 +3,7 @@ from constants import (CRITICAL_UPGRADE_CHANCE,
                        DAMAGE_UPGRADE_BOOST, DASH_UPGRADE_SPEED_BOOST,
                        FIRE_RATE_UPGRADE_BOOST, MAGNET_UPGRADE_BOOST,
                        MAXIMUM_HEALTH, PIERCING_UPGRADE_CHANCE,
-                       QUAD_SHOT_FIRE_RATE_PENALTY)
+                       QUAD_SHOT_FIRE_RATE_PENALTY, BIG_UPGRADE_DAMAGE_MULTIPLIER)
 
 upgrade_dic = {}
 
@@ -30,6 +30,7 @@ upgrade_dic["Explosions"] = Upgrade("Explosions", ["All your shots now", "explod
 upgrade_dic["Dash"] = Upgrade("Dash", ["Adds the ability to", "Dash by holding", f"Shift. (+{DASH_UPGRADE_SPEED_BOOST} speed)"], 16, 16, True, False, .5)
 upgrade_dic["Quad Shot"] = Upgrade("Quad Shot", ["You fire Twice as", "Many bullets. Fire", "rate is reduced", f"by {-int((1 - QUAD_SHOT_FIRE_RATE_PENALTY) * 100)}%"], 48, 16, True, False, .1)
 upgrade_dic["Explosive Shield"] = Upgrade("Explosive Shield", ["If you get hit and", "you still have a", "bomb, use a bomb", "instead"], 64, 16, True, False, .5)
+upgrade_dic["Big"] = Upgrade("Big", ["Increases your size", "but gives you", f"x{BIG_UPGRADE_DAMAGE_MULTIPLIER} damage in", "return!"], 80, 16, True, False, 1000)
 
 # Instant Upgrades
 upgrade_dic["Bomb"] = Upgrade("Bomb", ["Refills your bombs.", "They can clear all", "asteroids. Activate", "by pressing B."], 32, 0, False, True, 0)

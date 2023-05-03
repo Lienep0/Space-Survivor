@@ -2,7 +2,7 @@ import pyxel
 
 from constants import (BOTTOM_UI_BAR_SIZE, DOWN_KEY, GAME_HEIGHT, GAME_WIDTH,
                        LEFT_KEY, MAX_LEVEL, MAX_NUMBER_OF_BOMBS, MINIBOSS_HP,
-                       RIGHT_KEY, UP_KEY, XP_REQUIREMENTS)
+                       RIGHT_KEY, UP_KEY, XP_REQUIREMENTS, MINIBOSS_HEIGHT)
 from globals import get_paused_state
 from miniboss import miniboss
 from player import player
@@ -48,7 +48,7 @@ class Ui:
                 for i in range(description_lenght): # DESCRIPTION LINES
                     pyxel.text(15, 28 + window_offset + 10 * i, player.inventory[self.cursor_position[1] * 8 + self.cursor_position[0]].description[i], 7)
 
-        if miniboss.active:
+        if miniboss.y > MINIBOSS_HEIGHT:
             # Miniboss Healthbar Outline
             pyxel.rect(2, 2, GAME_WIDTH - 4, 8, 1)
 

@@ -36,6 +36,7 @@ CRITICAL_UPGRADE_CHANCE = 0.2
 CRITICAL_UPGRADE_DAMAGE_MULTIPLIER = 2
 PIERCING_UPGRADE_CHANCE = 0.2
 QUAD_SHOT_FIRE_RATE_PENALTY = 1.7
+BIG_UPGRADE_DAMAGE_MULTIPLIER = 2
 
 HEALTH_UPGRADE_WEIGHT = [3, 2, 1, 0] # The weight of the health upgrade in the pool, based on the player's health (1-4 hp)
 BOMB_UPGRADE_WEIGHT = [1.5, .5, 0] # The weight of the bomb upgrade in the pool, based on the player's number of bombs (0-2)
@@ -59,8 +60,10 @@ MINIBOSS_HP = 100
 MINIBOSS_SCORE = 2000
 MINIBOSS_HEIGHT = 20
 MINIBOSS_FIRE_COOLDOWN = 60 # Number of frames it takes for the miniboss to re-shoot after shooting 
+MINIBOSS_ENTRANCE_TIMER = 90
+
 CROSSHAIR_SPEED = 1.25
-CROSSHAIR_HITBOX_CORRECTION = 0 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
+CROSSHAIR_HITBOX_CORRECTION = 1 # How generous the crosshair hitbox is. The higher, the less generous. Default is 0. Full crosshair is 8.
 
 # Xp
 XP_REQUIREMENTS = [30, 40, 50, 60, 70, 80] # Number of xp required to level up per level
@@ -101,3 +104,5 @@ PLAYER_DAMAGE_SOUND = 4
 PLAYER_DASH_SOUND = 5
 BOMB_SOUND = 6
 LEVEL_UP_SOUND = 7
+MINIBOSS_DEATH_SOUND = 8
+EXPLODING_BULLET_IMPACT_SOUND = 9
