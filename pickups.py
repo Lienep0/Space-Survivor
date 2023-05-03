@@ -18,7 +18,7 @@ class Pickup: # Collectible pour augmenter le score/l'xp
             pickup_list.remove(self)
 
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, 2, 0, 4, 4, 0) # Customs
+        pyxel.blt(self.x, self.y, 0, 3, 0, 4, 4, 0)
 
 def spawn_pickups(asteroid):
     sqrtxp = int(pyxel.sqrt(asteroid.parameters.xp))

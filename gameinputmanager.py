@@ -26,9 +26,9 @@ def pause_input():
 
 def manage_inputs():
     # Dash
-    player.isDashing = pyxel.btn(DASH_KEY) and player.has_dash
-    if player.isDashing: pyxel.play(3, PLAYER_DASH_SOUND)
-    speed = PLAYER_SPEED + DASH_UPGRADE_SPEED_BOOST if player.isDashing else PLAYER_SPEED
+    player.is_dashing = pyxel.btn(DASH_KEY) and player.has_dash
+    if player.is_dashing: pyxel.play(3, PLAYER_DASH_SOUND)
+    speed = PLAYER_SPEED + DASH_UPGRADE_SPEED_BOOST if player.is_dashing else PLAYER_SPEED
 
     # Movement
     if pyxel.btn(RIGHT_KEY):

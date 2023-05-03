@@ -3,7 +3,7 @@ from random import random
 import pyxel
 
 from bombs import Bomb, bombs_list
-from bullets import Big_Bullet, Bullet, bullet_list
+from bullets import Bullet, bullet_list
 from constants import (BULLET_COOLDOWN, BULLET_DAMAGE, BULLET_SOUND,
                        CRITICAL_UPGRADE_CHANCE, DAMAGE_UPGRADE_BOOST,
                        FIRE_RATE_UPGRADE_BOOST, PIERCING_UPGRADE_CHANCE,
@@ -44,15 +44,13 @@ class Player:
         elif not self.is_big and self.has_quad_shot: positions_list = [[0,2,5,7], [3,0,0,3]]
         else: positions_list = [[1,6], [0,0]]
 
-        if self.is_big: bullet_type = Big_Bullet
-        else : bullet_type = Bullet
-
         for i in range(len(positions_list[0])):
-            bullet_list.append(bullet_type(self.x + positions_list[0][i], self.y + positions_list[1][i], 
+            bullet_list.append(Bullet(self.x + positions_list[0][i], self.y + positions_list[1][i], 
                                       damage= BULLET_DAMAGE + DAMAGE_UPGRADE_BOOST * self.damage_mod,
                                       exploding= self.bullets_explode,
                                       piercing= random() <= PIERCING_UPGRADE_CHANCE * self.piercing_chance,
-                                      crit= random() <= CRITICAL_UPGRADE_CHANCE * self.crit_chance))
+                                      crit= random() <= CRITICAL_UPGRADE_CHANCE * self.crit_chance,
+                                      big= self.is_big))
 
         self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * self.fire_rate_mod
         if self.has_quad_shot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
@@ -60,9 +58,12 @@ class Player:
     def draw(self):   
         if self.visible:
             pyxel.blt(self.x, self.y, 0, 64 + self.has_quad_shot * 8 + self.is_big * self.has_quad_shot * 8, self.is_big * 8, self.size, self.size, 0) # Player ship
-            if self.isDashing: 
+            if self.is_dashing and not self.is_big: 
                 pyxel.pset(player.x + 1, player.y + 9, 10)
-                pyxel.pset(player.x + 6, player.y + 9, 10) # Player ship dashes   
+                pyxel.pset(player.x + 6, player.y + 9, 10) # Player ship dashes
+            elif self.is_dashing and self.is_big:
+                pyxel.rect(player.x + 2, player.y + 18, 2, 2, 10)
+                pyxel.rect(player.x + 12, player.y + 18, 2, 2, 10) # Big player ship dashes
 
     def check_upgrades(self):
         self.is_big = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Big"]))
