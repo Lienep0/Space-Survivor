@@ -17,10 +17,11 @@
 # TODO : High Score Tracker
 # TODO : Score System
 # TODO : Upgrades that increases size but also doubles damage
-
-# Imperative
 # TODO : Add exploding Miniboss sfx
 # TODO : Add exploding bullet sfx
+
+# Imperative
+# TODO : Empty json file on GitHub
 # TODO : Better Score UI
 # TODO : Better Game Over UI
 # TODO : Wave Counter UI/Behavior
