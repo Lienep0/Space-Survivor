@@ -5,11 +5,9 @@ from bombs import bombs_list
 from bullets import bullet_list
 from constants import (CROSSHAIR_HITBOX_CORRECTION, CROSSHAIR_SPEED,
                        MAGNET_RANGE, MAGNET_UPGRADE_BOOST,
-                       MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT, PICKUP_SCORE,
-                       PICKUP_SOUND)
+                       MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT)
 from miniboss import miniboss
-from particles import (ExplodingBulletsImpact, ScoreParticle,
-                       particle_list)
+from particles import ExplodingBulletsImpact, particle_list
 from pickups import pickup_list
 from player import player
 
@@ -25,12 +23,7 @@ def check_collisions():
         if pickup.activated:
             pickup.x, pickup.y, collected = move_towards(pickup.x, pickup.y, player.x + player.radius - pickup.radius, player.y + player.radius - pickup.radius, pickup.speed, player.size)
             if collected:
-                pyxel.play(2, PICKUP_SOUND)
-                particle_list.append(ScoreParticle(player.x + player.radius, player.y - 6, PICKUP_SCORE))
-                player.score += PICKUP_SCORE
-                player.xp += 1
-                player.pickups_collected += 1
-                pickup_list.remove(pickup)
+                pickup.collect()
 
     # Ateroid Collisions
     for asteroid in list(asteroid_list):
@@ -80,6 +73,7 @@ def check_collisions():
         for asteroid in list(asteroid_list):
             if asteroid not in bomb.things_hit and round_collision(asteroid.x, asteroid.y, bomb.x, bomb.y, asteroid.parameters.radius, bomb.radius, custom_sprite2= False):
                 asteroid.take_damage(bomb.damage)
+                bomb.things_hit.append(asteroid)
 
         if miniboss.active and miniboss not in bomb.things_hit and round_collision(miniboss.x, miniboss.y, bomb.x, bomb.y, miniboss.radius, bomb.radius, custom_sprite2= False):
             miniboss.take_damage(bomb.bossdamage)
