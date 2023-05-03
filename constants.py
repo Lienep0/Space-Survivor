@@ -44,15 +44,12 @@ BOMB_UPGRADE_WEIGHT = [1.5, .5, 0] # The weight of the bomb upgrade in the pool,
 MAXIMUM_HEALTH = len(HEALTH_UPGRADE_WEIGHT)
 
 # Asteroids
-ASTEROID_SPEED = 1
-ASTEROID_COOLDOWN = 10 # How many frames it takes for an asteroid to spawn
-ASTEROID_OFFSET_FROM_BORDERS = 2 # How close an asteroid can spawn to the border of the screen, in pixels
-
-ASTEROIDS = {
-    "SMALL_ASTEROID": {"type": 0, "size": 8, "coords": [8, 0], "hp": 6, "xp": 1, "score": 100},
-    "MEDIUM_ASTEROID": {"type": 1, "size": 16, "coords" :[48, 16], "hp": 12, "xp": 8, "score": 500},
-    "LARGE_ASTEROID": {"type": 2, "size": 32, "coords": [0, 32], "hp": 24, "xp": 16, "score": 1000}
-}
+ASTEROID_OFFSET_FROM_BORDERS = 2 # How far an asteroid can spawn from the border of the screen, in pixels
+ASTEROIDS = [
+    {"size": 8, "coords": [8, 0], "hp": 6, "xp": 1, "score": 100, "cooldown": 30, "weight": 90},
+    {"size": 16, "coords" :[48, 16], "hp": 12, "xp": 8, "score": 500, "cooldown": 60, "weight": 8},
+    {"size": 32, "coords": [0, 32], "hp": 24, "xp": 16, "score": 1000, "cooldown": 90, "weight": 2}
+]
 
 # Miniboss
 MINIBOSS_HP = 100
@@ -65,7 +62,7 @@ CROSSHAIR_SPEED = 1.25
 CROSSHAIR_HITBOX_CORRECTION = 3 # How generous the crosshair hitbox is. The higher, the less generous. Default is 3. Full crosshair is 10.
 
 # Xp
-XP_REQUIREMENTS = [30, 40, 50, 60, 70, 80] # Number of xp required to level up per level
+XP_REQUIREMENTS = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 75] # Number of xp required to level up per level
 MAX_LEVEL = len(XP_REQUIREMENTS)
 
 # Ui

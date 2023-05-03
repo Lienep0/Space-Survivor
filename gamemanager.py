@@ -1,10 +1,12 @@
+from random import uniform
+
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
 from bombs import bombs_list
 from bullets import bullet_list
 from collisionmanager import check_collisions
-from constants import (ASTEROID_COOLDOWN, ASTEROIDS, LEVEL_UP_SOUND, MAX_LEVEL,
+from constants import (ASTEROIDS, LEVEL_UP_SOUND, MAX_LEVEL,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
                        XP_REQUIREMENTS)
 from gameinputmanager import manage_inputs, pause_input
@@ -42,17 +44,32 @@ class GameManager:
 
     def spawn_asteroids(self):
         if get_asteroid_toggle():
-            if get_framecount() % ASTEROID_COOLDOWN == 0:
-                asteroid_list.append(Asteroid(ASTEROIDS["SMALL_ASTEROID"]["type"]))
+            if self.asteroid_cooldown <= 0:
+                print("spawning")
+                cumulative_probs = []
+                total_prob = 0
+                for i in range(len(ASTEROIDS)):
+                    total_prob += ASTEROIDS[i]["weight"]
+                    cumulative_probs.append((i, total_prob))
+
+                rand_num = uniform(0, total_prob)
+                for variety, cum_prob in cumulative_probs:
+                    if rand_num < cum_prob:
+                        asteroid_list.append(Asteroid(variety, 1))
+                        self.asteroid_cooldown = ASTEROIDS[variety]["cooldown"]
+                        return
 
     def update(self):
-        update_framecount()
         
         pause_input()
         self.paused = get_paused_state()
 
         if not self.paused:
+            update_framecount()
+
             self.spawn_asteroids()
+            self.asteroid_cooldown -= 1
+
             self.check_player_upgrade(player)
 
             if player.active:
@@ -65,10 +82,9 @@ class GameManager:
                 element.update()
 
             check_collisions()
-
             self.check_for_death()
 
-        ui.update()
+            ui.update()
 
     def draw(self):
         if player.active:
@@ -87,5 +103,6 @@ class GameManager:
     def reset(self):
         self.time_of_death = -100
         self.paused = False
+        self.asteroid_cooldown = 0
 
 gameManager = GameManager()

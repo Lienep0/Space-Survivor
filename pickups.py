@@ -37,7 +37,7 @@ def spawn_pickups(asteroid):
     sqrtxp = int(pyxel.sqrt(asteroid.parameters.xp))
     for i in range(sqrtxp):
         for j in range(sqrtxp):
-            randoffset = asteroid.type * 2
+            randoffset = (asteroid.parameters.size // 8 - 1) * 2
             xoffset = randint(-randoffset, randoffset)
             yoffset = randint(-randoffset, randoffset)
             pickup_list.append(Pickup(asteroid.x + 2 + (i * 7) + xoffset, asteroid.y + 2 + (j * 7) + yoffset))
