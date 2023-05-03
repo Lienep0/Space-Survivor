@@ -48,6 +48,7 @@ class ScoreManager:
             self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] + 1) % 26
         if pyxel.btnp(pyxel.KEY_UP):
             self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] - 1) % 26
+
         if pyxel.btnp(pyxel.KEY_LEFT) and self.cursor_position >= 1:
             self.cursor_position -= 1
         if (pyxel.btnp(pyxel.KEY_RIGHT) or pyxel.btnp(pyxel.KEY_SPACE)) and self.cursor_position <= 1:
@@ -63,9 +64,11 @@ class ScoreManager:
         
     def draw(self):
         for i in range(len(self.letter_ids)):
-            pyxel.blt(36 + i * 12, 78, 1, self.letter_ids[i] * 8, 32, 8, 8, 0)
-        pyxel.blt(36 + self.cursor_position * 12, 70, 1, 0, 40, 8, 8, 0)
-        pyxel.blt(36 + self.cursor_position * 12, 85, 1, 0, 48, 8, 8, 0)
+            pyxel.blt(36 + i * 12, 78, 1, self.letter_ids[i] * 8, 32, 8, 8, 0) # Lettres
+
+        pyxel.blt(36 + self.cursor_position * 12, 70, 1, 0, 40, 8, 8, 0) # Flèche haut
+        pyxel.blt(36 + self.cursor_position * 12, 85, 1, 0, 48, 8, 8, 0) # Flèche bas
+
         pyxel.text(20, 20,"Enter your name", 7)
         pyxel.text(20, 36, "Your score:", 7) 
         pyxel.text(64, 36, str(player.score) , 7) 
@@ -75,15 +78,14 @@ class ScoreManager:
         size = len(str(player.score))
         if size < 6:
             size = 6 - size
-            score_str += "0" * size
+            score_str += "0"
         score_str += str(player.score)
 
         self.list_data.append((self.player_name,str(score_str)))
         self.list_data = sorted(self.list_data, key=lambda x: int(x[1]), reverse=True)
 
-        i = len(self.data[0])
-        player_name = "player" # variable servant a mêtre dans le .json player 1, 2, ...
-        player_name += " " + str(i)
+        player_name = "player" 
+        player_name += " " + str(len(self.data[0]))
         self.data[0][player_name] = {"name" : self.player_name, "score" : str(score_str)}
         
         
@@ -92,7 +94,7 @@ class ScoreManager:
 
         i = 1
         for player_in_list in self.list_data : 
-            player_name = "player" # variable servant a mêtre dans le .json player 1, 2, ...
+            player_name = "player"
             player_name += " " + str(i)
             self.data[1][player_name] = {"name" : player_in_list[0], "score" : player_in_list[1]}
             i += 1
