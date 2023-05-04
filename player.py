@@ -17,7 +17,7 @@ class Player:
         self.reset()
 
     def update(self):
-        self.fireRateCooldown -= 1
+        self.fire_rate_cooldown -= 1
         self.iframes_cooldown -= 1
 
         if self.iframes_cooldown >= 0 and self.iframes_cooldown % 4 == 0: self.visible = not self.visible
@@ -52,8 +52,8 @@ class Player:
                                       crit= random() <= CRITICAL_UPGRADE_CHANCE * self.crit_chance,
                                       big= self.is_big))
 
-        self.fireRateCooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * self.fire_rate_mod
-        if self.has_quad_shot: self.fireRateCooldown = self.fireRateCooldown * QUAD_SHOT_FIRE_RATE_PENALTY
+        self.fire_rate_cooldown = BULLET_COOLDOWN - FIRE_RATE_UPGRADE_BOOST * self.fire_rate_mod
+        if self.has_quad_shot: self.fire_rate_cooldown = self.fire_rate_cooldown * QUAD_SHOT_FIRE_RATE_PENALTY
 
     def draw(self):   
         if self.visible:
@@ -72,7 +72,7 @@ class Player:
 
         self.has_quad_shot = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Quad Shot"]))
         self.has_explosive_shield = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosive Shield"]))
-        self.bullets_explode = True or bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosions"]))
+        self.bullets_explode = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Explosions"]))
         self.has_dash = bool(len([upgrade for upgrade in self.inventory if upgrade.name == "Dash"]))
 
         self.crit_chance = len([upgrade for upgrade in self.inventory if upgrade.name == "Crit"])
@@ -101,7 +101,7 @@ class Player:
         self.asteroids_destroyed = 0
         self.minibosses_destroyed = 0
 
-        self.fireRateCooldown = 0
+        self.fire_rate_cooldown = 0
         self.iframes_cooldown = 0
         
 player = Player()

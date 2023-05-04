@@ -8,6 +8,11 @@ from player import player
 
 class Miniboss:
     def __init__(self):
+        self.patterns = [[-1.5,-.75,0,.75,1.5],
+                        [-1.125,-.375,.375,1.125]]
+        self.size = 16
+        self.radius = (self.size - 1) / 2
+        self.x = (GAME_WIDTH - self.size)/2
         self.reset()
 
     def update(self):
@@ -17,7 +22,7 @@ class Miniboss:
         else:
             if self.y <= MINIBOSS_HEIGHT: self.y += 1
             else:
-                self.shoot_cooldown -= 1
+                self.crosshair_cooldown -= 1
 
                 self.manage_crosshair()
 
@@ -36,10 +41,10 @@ class Miniboss:
         player.take_damage()
         particle_list.append(MinibossShotLine(self.x + 8 + (self.sprite_offset/8), self.y + 8, player.x + player.radius, player.y))
         self.crosshair = None
-        self.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
+        self.crosshair_cooldown = MINIBOSS_FIRE_COOLDOWN
 
     def manage_crosshair(self):
-        if self.crosshair is None and self.shoot_cooldown <= 0:
+        if self.crosshair is None and self.crosshair_cooldown <= 0:
             self.crosshair = Crosshair(self.x, self.y)
 
     def take_damage(self, damage):
@@ -60,19 +65,14 @@ class Miniboss:
 
     def reset(self):
         self.active = False
-        self.size = 16
-        self.radius = (self.size - 1) / 2
-        self.x = (GAME_WIDTH - self.size)/2
         self.y = -self.size
         self.hp = MINIBOSS_HP
         self.sprite_offset = 0
         self.crosshair = None
-        self.shoot_cooldown = 0
+        self.crosshair_cooldown = 0
         self.timer = 0
         self.projectiles_list = []
         self.offset = self.size / 2
-        self.patterns = [[-1.5,-.75,0,.75,1.5],
-                         [-1.125,-.375,.375,1.125]]
         self.entrance_animation = MinibossWarning()
 
 class MinibossProjectile():

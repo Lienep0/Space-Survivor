@@ -14,7 +14,7 @@ from gameinputmanager import manage_inputs, pause_input
 from globals import (get_asteroid_toggle, get_framecount, get_paused_state,
                      set_game_state, update_framecount)
 from miniboss import miniboss
-from particles import (MinibossExplosionParticle, PlayerExplosion,
+from particles import (MinibossExplosion, PlayerExplosion,
                        ScoreParticle, particle_list)
 from pickups import pickup_list
 from player import player
@@ -26,7 +26,7 @@ class GameManager:
     def __init__(self):
         self.reset()
 
-    def check_player_upgrade(self, player):
+    def check_upgrade(self, player):
         if player.level < MAX_LEVEL and player.xp >= XP_REQUIREMENTS[player.level]:
             pyxel.play(2, LEVEL_UP_SOUND)
             player.xp = 0
@@ -40,7 +40,7 @@ class GameManager:
         if miniboss.hp <= 0:
             pyxel.play(0, MINIBOSS_DEATH_SOUND)
             particle_list.extend([ScoreParticle(miniboss.x + miniboss.radius, miniboss.y, MINIBOSS_SCORE),
-                                  MinibossExplosionParticle(miniboss.x + miniboss.radius, miniboss.y + miniboss.radius)])
+                                  MinibossExplosion(miniboss.x + miniboss.radius, miniboss.y + miniboss.radius)])
             player.minibosses_destroyed += 1
             player.score += MINIBOSS_SCORE
             miniboss.reset()
@@ -73,9 +73,8 @@ class GameManager:
 
     def update(self):
         pause_input()
-        self.paused = get_paused_state()
 
-        if not self.paused:
+        if not get_paused_state():
             if get_framecount() in BOSS_WAVES:
                 self.asteroid_cooldown = 0
                 update_framecount()
@@ -88,7 +87,7 @@ class GameManager:
                 self.spawn_asteroids()
                 self.asteroid_cooldown -= 1
 
-            self.check_player_upgrade(player)
+            self.check_upgrade(player)
 
             if player.active:
                 manage_inputs()
@@ -120,7 +119,6 @@ class GameManager:
 
     def reset(self):
         self.time_of_death = -1
-        self.paused = False
         self.asteroid_cooldown = 0
 
 gameManager = GameManager()

@@ -33,7 +33,7 @@ class Main:
             for star in star_list:
                 star.update()
 
-        if self.state == "MENU":    
+        if self.state == "MENU":
             mainMenu.update()
         elif self.state == "GAME":
             gameManager.update()

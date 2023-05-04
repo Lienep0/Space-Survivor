@@ -48,7 +48,7 @@ class PlayerExplosion:
     def draw(self):
         pyxel.circb(self.x, self.y, self.timer // 2, 8 + self.timer % 3)
 
-class ExplodingBulletsImpact:
+class ExplodingImpact:
     def __init__(self,x,y,damage):
         self.x = x
         self.y = y
@@ -83,7 +83,7 @@ class ScoreParticle:
     def draw(self):
         pyxel.text(self.x - len(self.score) * 4 / 2, self.y - 2, self.score, 7)
 
-class MinibossExplosionParticle:
+class MinibossExplosion:
     def __init__(self,x,y):
         self.x = x
         self.y = y

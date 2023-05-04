@@ -3,7 +3,7 @@ from random import randint
 import pyxel
 
 from asteroids import Asteroid, asteroid_list
-from constants import (ASTEROID_SPAWN_KEY, ASTEROIDS, BOMB_KEY, BOTTOM_UI_BAR_SIZE, DASH_KEY,
+from constants import (ASTEROID_SPAWN_KEY, BOMB_KEY, BOTTOM_UI_BAR_SIZE, DASH_KEY,
                        DASH_UPGRADE_SPEED_BOOST, DOWN_KEY, GAME_HEIGHT,
                        GAME_WIDTH, GIVE_BOMB_KEY, GIVE_UPGRADES_KEY,
                        GIVE_XP_KEY, LARGE_ASTEROID_KEY, LEFT_KEY,
@@ -49,7 +49,7 @@ def manage_inputs():
             player.y -= 1
 
     # Shooting
-    if pyxel.btn(SHOOT_KEY) and player.fireRateCooldown <= 0:
+    if pyxel.btn(SHOOT_KEY) and player.fire_rate_cooldown <= 0:
         player.shoot()
 
     # Bomb

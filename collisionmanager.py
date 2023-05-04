@@ -7,7 +7,7 @@ from constants import (CROSSHAIR_HITBOX_CORRECTION, CROSSHAIR_SPEED,
                        MAGNET_RANGE, MAGNET_UPGRADE_BOOST,
                        MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT)
 from miniboss import miniboss
-from particles import ExplodingBulletsImpact, particle_list
+from particles import ExplodingImpact, particle_list
 from pickups import pickup_list
 from player import player
 
@@ -34,7 +34,7 @@ def check_collisions():
             if asteroid not in bullet.things_hit and round_collision(asteroid.x, asteroid.y, bullet.x, bullet.y, asteroid.parameters.radius, bullet.radius):
                 bullet.collide(asteroid)
         
-        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact and asteroid not in explosion.things_hit]:
+        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingImpact and asteroid not in explosion.things_hit]:
             if round_collision(asteroid.x, asteroid.y, explosion.x, explosion.y, asteroid.parameters.radius, explosion.radius, custom_sprite2= False):
                 asteroid.take_damage(explosion.damage)
                 explosion.things_hit.append(asteroid)
@@ -53,7 +53,7 @@ def check_collisions():
             if round_collision(miniboss.x, miniboss.y, bullet.x, bullet.y, miniboss.radius, bullet.radius):
                 bullet.collide(miniboss)
         
-        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingBulletsImpact and miniboss not in explosion.things_hit]:
+        for explosion in [explosion for explosion in particle_list if type(explosion) == ExplodingImpact and miniboss not in explosion.things_hit]:
                 if round_collision(miniboss.x, miniboss.y, explosion.x, explosion.y, miniboss.radius, explosion.radius, custom_sprite2= False):
                     miniboss.take_damage(explosion.damage)
                     explosion.things_hit.append(miniboss)
@@ -79,7 +79,7 @@ def check_collisions():
 
         if miniboss.crosshair is not None and round_collision(miniboss.crosshair.x, miniboss.crosshair.y, bomb.x, bomb.y, miniboss.crosshair.radius, bomb.radius, custom_sprite2= False):
             miniboss.crosshair = None
-            miniboss.shoot_cooldown = MINIBOSS_FIRE_COOLDOWN
+            miniboss.crosshair_cooldown = MINIBOSS_FIRE_COOLDOWN
 
         for projectile in list(miniboss.projectiles_list):
             if round_collision(projectile.x, projectile.y, bomb.x, bomb.y,projectile.radius, bomb.radius, custom_sprite2= False):
