@@ -12,21 +12,24 @@ class ScoreManager:
         self.reset()
 
     def update(self):
-        if pyxel.btnp(SHOOT_KEY) and self.cursor_position == 2:
-            player_name = ''.join([chr(65 + id) for id in self.letter_ids]) # Unicode uppercase letters start at 65
-            self.update_json(player_name)
+        if self.player_score > self.data[2][1]:
+            if pyxel.btnp(SHOOT_KEY) and self.cursor_position == 2:
+                player_name = ''.join([chr(65 + id) for id in self.letter_ids]) # Unicode uppercase letters start at 65
+                self.update_json(player_name)
 
+                set_game_state("RESET")
+
+            elif pyxel.btnp(DOWN_KEY):
+                self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] + 1) % 26
+            elif pyxel.btnp(UP_KEY):
+                self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] - 1) % 26
+
+            elif pyxel.btnp(LEFT_KEY) and self.cursor_position >= 1:
+                self.cursor_position -= 1
+            elif (pyxel.btnp(RIGHT_KEY) or pyxel.btnp(SHOOT_KEY)) and self.cursor_position <= 1:
+                self.cursor_position += 1
+        else:
             set_game_state("RESET")
-
-        elif pyxel.btnp(DOWN_KEY):
-            self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] + 1) % 26
-        elif pyxel.btnp(UP_KEY):
-            self.letter_ids[self.cursor_position] = (self.letter_ids[self.cursor_position] - 1) % 26
-
-        elif pyxel.btnp(LEFT_KEY) and self.cursor_position >= 1:
-            self.cursor_position -= 1
-        elif (pyxel.btnp(RIGHT_KEY) or pyxel.btnp(SHOOT_KEY)) and self.cursor_position <= 1:
-            self.cursor_position += 1
 
     def update_json(self, player_name):
         if len(self.player_score) < 6:
