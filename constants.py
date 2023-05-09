@@ -50,9 +50,9 @@ MAXIMUM_HEALTH = len(HEALTH_UPGRADE_WEIGHT)
 # Asteroids
 ASTEROID_OFFSET_FROM_BORDERS = 2 # How far an asteroid can spawn from the border of the screen, in pixels
 ASTEROIDS = [
-    {"size": 8, "coords": [8, 0], "hp": 6, "xp": 1, "score": 100, "cooldown": 30, "weight": 90},
-    {"size": 16, "coords" :[48, 16], "hp": 12, "xp": 8, "score": 500, "cooldown": 60, "weight": 8},
-    {"size": 32, "coords": [0, 32], "hp": 24, "xp": 16, "score": 1000, "cooldown": 90, "weight": 2}
+    {"size": 8, "coords": [0, 128], "hp": 6, "xp": 1, "score": 100, "cooldown": 30, "weight": 90, "damaged_sprites" : 4},
+    {"size": 16, "coords" :[0, 136], "hp": 12, "xp": 8, "score": 500, "cooldown": 60, "weight": 8, "damaged_sprites" : 4},
+    {"size": 32, "coords": [0, 152], "hp": 24, "xp": 16, "score": 1000, "cooldown": 90, "weight": 2, "damaged_sprites" : 5}
 ]
 
 # Miniboss

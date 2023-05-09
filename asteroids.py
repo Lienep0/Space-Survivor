@@ -17,6 +17,7 @@ class Asteroid:
         self.x = randint(ASTEROID_OFFSET_FROM_BORDERS, GAME_WIDTH - self.parameters.size - ASTEROID_OFFSET_FROM_BORDERS)
         self.y = -self.parameters.size
         self.speed = speed
+        self.maxhp = self.parameters.hp
 
     def take_damage(self, damage):
         self.parameters.hp -= damage
@@ -33,7 +34,8 @@ class Asteroid:
             if self in asteroid_list: asteroid_list.remove(self)
             
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, self.parameters.spritexcoord, self.parameters.spriteycoord, self.parameters.size, self.parameters.size, 0)
+        pyxel.blt(self.x, self.y, 0, self.parameters.spritexcoord + self.parameters.size * ((self.maxhp - self.parameters.hp) // (self.maxhp/self.parameters.damaged_sprites)), 
+                  self.parameters.spriteycoord, self.parameters.size, self.parameters.size, 0)
 
 
 class AsteroidParameters:
@@ -45,3 +47,4 @@ class AsteroidParameters:
         self.hp = parameters["hp"]
         self.xp = parameters["xp"]
         self.score = parameters["score"]
+        self.damaged_sprites = parameters["damaged_sprites"]

@@ -56,20 +56,20 @@ class GameManager:
                 if self.time_of_death == 0: set_game_state("GAMEOVER")
 
     def spawn_asteroids(self):
-        if get_asteroid_toggle():
-            if self.asteroid_cooldown <= 0:
-                cumulative_probs = []
-                total_prob = 0
-                for i in range(len(ASTEROIDS)):
-                    total_prob += ASTEROIDS[i]["weight"]
-                    cumulative_probs.append((i, total_prob))
+        # asteroid_list.append(Asteroid(0,1))
+        # self.asteroid_cooldown = ASTEROIDS[0]["cooldown"]
+            cumulative_probs = []
+            total_prob = 0
+            for i in range(len(ASTEROIDS)):
+                total_prob += ASTEROIDS[i]["weight"]
+                cumulative_probs.append((i, total_prob))
 
-                rand_num = uniform(0, total_prob)
-                for variety, cum_prob in cumulative_probs:
-                    if rand_num < cum_prob:
-                        asteroid_list.append(Asteroid(variety, 1))
-                        self.asteroid_cooldown = ASTEROIDS[variety]["cooldown"]
-                        return
+            rand_num = uniform(0, total_prob)
+            for variety, cum_prob in cumulative_probs:
+                if rand_num < cum_prob:
+                    asteroid_list.append(Asteroid(variety, 1))
+                    self.asteroid_cooldown = ASTEROIDS[variety]["cooldown"]
+                    return
 
     def update(self):
         pause_input()
@@ -77,14 +77,15 @@ class GameManager:
         if not get_paused_state():
             if get_framecount() in BOSS_WAVES:
                 self.asteroid_cooldown = 0
-                update_framecount()
 
                 miniboss.reset()
                 miniboss.active = True
 
             if not miniboss.active:
-                update_framecount()
-                self.spawn_asteroids()
+                if get_asteroid_toggle():
+                    update_framecount()
+                    if self.asteroid_cooldown <= 0:
+                        self.spawn_asteroids()
                 self.asteroid_cooldown -= 1
 
             self.check_upgrade(player)

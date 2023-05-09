@@ -8,7 +8,7 @@ from scoremanager import scoreManager
 class GameOverMenu:
     def update(self):
         if pyxel.btnp(pyxel.KEY_SPACE):
-            if player.score < int(scoreManager.data[2][1]):
+            if player.score <= int(scoreManager.data[2][1]):
                 set_game_state("RESET")
             else:
                 scoreManager.player_score = str(player.score)
