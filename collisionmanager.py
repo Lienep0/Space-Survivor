@@ -73,7 +73,7 @@ def check_collisions():
                 asteroid.take_damage(bomb.damage)
                 bomb.things_hit.append(asteroid)
 
-        if miniboss.active and miniboss not in bomb.things_hit and round_collision(miniboss.x, miniboss.y, bomb.x, bomb.y, miniboss.radius, bomb.radius, custom_sprite2= False):
+        if not miniboss.y <= MINIBOSS_HEIGHT and miniboss not in bomb.things_hit and round_collision(miniboss.x, miniboss.y, bomb.x, bomb.y, miniboss.radius, bomb.radius, custom_sprite2= False):
             miniboss.take_damage(bomb.bossdamage)
             bomb.things_hit.append(miniboss)
 
