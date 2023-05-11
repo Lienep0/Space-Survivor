@@ -6,7 +6,7 @@ GAME_HEIGHT = 149
 FPS = 30
 TITLE = "Space Survivor"
 
-BOSS_WAVES = [900, 1800, 2700] # After how many frames a miniboss spawns
+BOSS_WAVES = [900, 2700, 4500] # After how many frames a miniboss spawns
 
 # Player
 PLAYER_STARTING_X = 48
