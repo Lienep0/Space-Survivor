@@ -75,16 +75,17 @@ class GameManager:
         pause_input()
 
         if not get_paused_state():
-            if get_asteroid_toggle():
-                update_framecount()
-            if get_framecount() in BOSS_WAVES:
-                self.asteroid_cooldown = 0
 
+            if get_framecount() % BOSS_WAVES == 0:
+                update_framecount()
+                self.asteroid_cooldown = 0
                 miniboss.reset()
                 miniboss.active = True
 
             if not miniboss.active:
-                if get_asteroid_toggle() and self.asteroid_cooldown <= 0:
+                if get_asteroid_toggle():
+                    update_framecount()
+                    if self.asteroid_cooldown <= 0:
                         self.spawn_asteroids()
                 self.asteroid_cooldown -= 1
 

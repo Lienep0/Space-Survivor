@@ -17,8 +17,9 @@ class Miniboss:
 
     def update(self):
         self.timer +=1
-
-        if self.entrance_animation.timer < MINIBOSS_ENTRANCE_TIMER: self.entrance_animation.update()
+        
+        if self.entrance_animation.timer < MINIBOSS_ENTRANCE_TIMER: 
+            self.entrance_animation.update()
         else:
             if self.y <= MINIBOSS_HEIGHT: self.y += 1
             else:
@@ -51,7 +52,8 @@ class Miniboss:
         self.hp -= damage
 
     def draw(self):
-        if self.entrance_animation.timer < MINIBOSS_ENTRANCE_TIMER: self.entrance_animation.draw()
+        if self.entrance_animation.timer < MINIBOSS_ENTRANCE_TIMER: 
+            self.entrance_animation.draw()
 
         if player.x < self.x - 16: self.sprite_offset = -16
         elif player.x > self.x + 16: self.sprite_offset = 16
