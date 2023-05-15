@@ -69,6 +69,10 @@ CROSSHAIR_HITBOX_CORRECTION = 3 # How generous the crosshair hitbox is. The high
 XP_REQUIREMENTS = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 75] # Number of xp required to level up per level
 MAX_LEVEL = len(XP_REQUIREMENTS)
 
+# Didier
+DIDIER_HP = 12
+DIDIER_WAVE = 300
+
 # Ui
 BOTTOM_UI_BAR_SIZE = 10
 

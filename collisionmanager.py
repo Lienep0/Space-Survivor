@@ -10,6 +10,7 @@ from miniboss import miniboss
 from particles import ExplodingImpact, particle_list
 from pickups import pickup_list
 from player import player
+from didier import didier
 
 
 def check_collisions():
@@ -84,6 +85,25 @@ def check_collisions():
         for projectile in list(miniboss.projectiles_list):
             if round_collision(projectile.x, projectile.y, bomb.x, bomb.y,projectile.radius, bomb.radius, custom_sprite2= False):
                 miniboss.projectiles_list.remove(projectile)
+
+        if didier.active and round_collision(didier.x, didier.y, bomb.x, bomb.y, didier.radius, bomb.radius, custom_sprite2= False):
+            didier.take_damage(bomb.damage)
+
+        for projectile in list(didier.projectiles_list):
+            if round_collision(projectile.x, projectile.y, bomb.x, bomb.y,projectile.radius, bomb.radius, custom_sprite2= False):
+                miniboss.projectiles_list.remove(projectile)
+
+    # Didier collisions
+    if didier.active:
+        if round_collision(didier.x, didier.y, player.x, player.y, didier.radius, player.radius):
+            player.take_damage()
+        
+        for projectile in list(didier.projectiles_list):
+            if round_collision(projectile.x, projectile.y, player.x, player.y, projectile.radius, player.radius):
+                player.take_damage()
+                didier.projectiles_list.remove(projectile)
+
+        
 
 def round_collision(sprite1_x, sprite1_y, sprite2_x, sprite2_y, radius1, radius2, custom_sprite1= True, custom_sprite2 = True):
     if custom_sprite1: 

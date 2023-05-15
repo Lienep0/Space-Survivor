@@ -9,7 +9,7 @@ from collisionmanager import check_collisions
 from constants import (ASTEROIDS, BOSS_WAVES, LEVEL_UP_SOUND, MAX_LEVEL,
                        MINIBOSS_DEATH_SOUND, MINIBOSS_SCORE,
                        PLAYER_DEATH_SOUND, PLAYER_DEATHFREEZE_DURATION,
-                       XP_REQUIREMENTS)
+                       XP_REQUIREMENTS, DIDIER_WAVE)
 from gameinputmanager import manage_inputs, pause_input
 from globals import (get_asteroid_toggle, get_framecount, get_paused_state,
                      set_game_state, update_framecount)
@@ -20,6 +20,7 @@ from pickups import pickup_list
 from player import player
 from ui import ui
 from upgrademenu import upgradeMenu
+from didier import didier
 
 
 class GameManager:
@@ -82,6 +83,10 @@ class GameManager:
                 miniboss.reset()
                 miniboss.active = True
 
+            elif get_framecount() % DIDIER_WAVES == 0:
+                didier.reset()
+                didier.active = True
+
             if not miniboss.active:
                 if get_asteroid_toggle():
                     update_framecount()
@@ -96,6 +101,7 @@ class GameManager:
                 player.update()
 
             if miniboss.active: miniboss.update()
+            if didier.active: didier.update()
 
             for element in asteroid_list + particle_list + bullet_list + pickup_list + bombs_list:
                 element.update()

@@ -1,4 +1,4 @@
-framecount = 0 # The number of frames since game start
+framecount = 1 # The number of frames since game start
 game_state = "MENU" # The current state of the game, written in all caps
 score = 0 
 game_paused = False
