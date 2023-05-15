@@ -83,7 +83,7 @@ class GameManager:
                 miniboss.reset()
                 miniboss.active = True
 
-            elif get_framecount() % DIDIER_WAVES == 0:
+            elif get_framecount() % DIDIER_WAVE == 0:
                 didier.reset()
                 didier.active = True
 
