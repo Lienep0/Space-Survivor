@@ -119,6 +119,7 @@ class GameManager:
             player.draw()
 
         if miniboss.active: miniboss.draw()
+        if didier.active: didier.draw()
 
         for particle in particle_list:
             particle.draw()

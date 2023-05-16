@@ -10,12 +10,16 @@ class Didier:
         self.timer += 1
         self.x += self.direction[0]
         self.y += self.direction[1]
+        for projectile in self.projectiles_list:
+            projectile.update()
 
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, 32 + (8 * self.timer % 3), 0, self.size, self.size, 0)
+        pyxel.blt(self.x, self.y, 0, 0, 32 + 8 * self.timer % 4, self.size, self.size, 0)
+        for projectile in self.projectiles_list:
+            projectile.draw()
     
     def shoot_projectiles(self):
-        if self.timer % 30 == 0:
+        if self.timer % 5 == 0:
             self.projectiles_list.append(DidierProjectile(self.x + self.radius - 2, self.y))
             
     def take_damage(self, damage):
