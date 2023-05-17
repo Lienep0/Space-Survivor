@@ -19,12 +19,12 @@
 # TODO : Upgrades that increases size but also doubles damage
 # TODO : Add exploding Miniboss sfx
 # TODO : Add exploding bullet sfx
+# TODO : Better Game Over UI
 
 # Imperative
+# TODO : merge all ennemy projectiles (subclasses)
 # TODO : Empty json file on GitHub
 # TODO : Better Score UI
-# TODO : Better Game Over UI
-# TODO : Wave Counter UI/Behavior
 # TODO : GAMEMANAGER
 
 # Optionnal

@@ -91,18 +91,21 @@ def check_collisions():
 
         for projectile in list(didier.projectiles_list):
             if round_collision(projectile.x, projectile.y, bomb.x, bomb.y,projectile.radius, bomb.radius, custom_sprite2= False):
-                miniboss.projectiles_list.remove(projectile)
+                didier.projectiles_list.remove(projectile)
 
     # Didier collisions
     if didier.active:
         if round_collision(didier.x, didier.y, player.x, player.y, didier.radius, player.radius):
             player.take_damage()
+
+        for bullet in list(bullet_list):
+            if didier not in bullet.things_hit and round_collision(didier.x, didier.y, bullet.x, bullet.y, didier.radius, bullet.radius):
+                bullet.collide(didier)
         
         for projectile in list(didier.projectiles_list):
             if round_collision(projectile.x, projectile.y, player.x, player.y, projectile.radius, player.radius):
                 player.take_damage()
                 didier.projectiles_list.remove(projectile)
-
         
 
 def round_collision(sprite1_x, sprite1_y, sprite2_x, sprite2_y, radius1, radius2, custom_sprite1= True, custom_sprite2 = True):
