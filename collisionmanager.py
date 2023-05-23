@@ -11,6 +11,7 @@ from particles import ExplodingImpact, particle_list
 from pickups import pickup_list
 from player import player
 from didier import didier
+from projectiles import projectile_list
 
 
 def check_collisions():
@@ -42,11 +43,6 @@ def check_collisions():
 
     # Miniboss Collisions
     if not miniboss.y <= MINIBOSS_HEIGHT:
-        for projectile in list(miniboss.projectiles_list):
-            if round_collision(projectile.x, projectile.y, player.x, player.y, projectile.radius, player.radius):
-                player.take_damage()
-                miniboss.projectiles_list.remove(projectile)
-
         if round_collision(miniboss.x, miniboss.y, player.x, player.y, miniboss.radius, player.radius):
             player.take_damage()
 
@@ -82,16 +78,12 @@ def check_collisions():
             miniboss.crosshair = None
             miniboss.crosshair_cooldown = MINIBOSS_FIRE_COOLDOWN
 
-        for projectile in list(miniboss.projectiles_list):
+        for projectile in projectile_list:
             if round_collision(projectile.x, projectile.y, bomb.x, bomb.y,projectile.radius, bomb.radius, custom_sprite2= False):
-                miniboss.projectiles_list.remove(projectile)
+                projectile_list.remove(projectile)
 
         if didier.active and round_collision(didier.x, didier.y, bomb.x, bomb.y, didier.radius, bomb.radius, custom_sprite2= False):
             didier.take_damage(bomb.damage)
-
-        for projectile in list(didier.projectiles_list):
-            if round_collision(projectile.x, projectile.y, bomb.x, bomb.y,projectile.radius, bomb.radius, custom_sprite2= False):
-                didier.projectiles_list.remove(projectile)
 
     # Didier collisions
     if didier.active:
@@ -101,11 +93,12 @@ def check_collisions():
         for bullet in list(bullet_list):
             if didier not in bullet.things_hit and round_collision(didier.x, didier.y, bullet.x, bullet.y, didier.radius, bullet.radius):
                 bullet.collide(didier)
-        
-        for projectile in list(didier.projectiles_list):
-            if round_collision(projectile.x, projectile.y, player.x, player.y, projectile.radius, player.radius):
-                player.take_damage()
-                didier.projectiles_list.remove(projectile)
+
+    # Projectile collisions
+    for projectile in projectile_list:
+        if round_collision(projectile.x, projectile.y, player.x, player.y, projectile.radius, player.radius):
+            player.take_damage()
+            projectile_list.remove(projectile)
         
 
 def round_collision(sprite1_x, sprite1_y, sprite2_x, sprite2_y, radius1, radius2, custom_sprite1= True, custom_sprite2 = True):

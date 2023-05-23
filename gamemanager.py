@@ -21,6 +21,7 @@ from player import player
 from ui import ui
 from upgrademenu import upgradeMenu
 from didier import didier
+from projectiles import projectile_list
 
 
 class GameManager:
@@ -59,6 +60,7 @@ class GameManager:
     def spawn_asteroids(self):
         # asteroid_list.append(Asteroid(0,1))
         # self.asteroid_cooldown = ASTEROIDS[0]["cooldown"]
+        # return
             cumulative_probs = []
             total_prob = 0
             for i in range(len(ASTEROIDS)):
@@ -105,7 +107,7 @@ class GameManager:
             if miniboss.active: miniboss.update()
             if didier.active: didier.update()
 
-            for element in asteroid_list + particle_list + bullet_list + pickup_list + bombs_list:
+            for element in asteroid_list + particle_list + bullet_list + pickup_list + bombs_list + projectile_list:
                 element.update()
 
             check_collisions()
@@ -115,7 +117,7 @@ class GameManager:
 
     def draw(self):
         if player.active:
-            for element in asteroid_list + bullet_list + pickup_list + bombs_list:
+            for element in asteroid_list + bullet_list + pickup_list + bombs_list + projectile_list:
                 element.draw()
 
             player.draw()

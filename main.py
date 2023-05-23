@@ -15,7 +15,7 @@ from player import player
 from scoremanager import scoreManager
 from stars import generate_stars, star_list
 from upgrademenu import upgradeMenu
-
+from projectiles import projectile_list
 
 class Main:
     def __init__(self):
@@ -71,6 +71,7 @@ def reset_game():
     bullet_list.clear()
     pickup_list.clear()
     particle_list.clear()
+    projectile_list.clear()
 
     player.reset()
     miniboss.reset()

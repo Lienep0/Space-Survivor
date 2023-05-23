@@ -29,7 +29,7 @@ def update_framecount():
 
 def reset_framecount():
     global framecount
-    framecount = 0
+    framecount = 1
 
 def add_score(points):
     global score

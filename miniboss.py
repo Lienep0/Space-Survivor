@@ -4,6 +4,7 @@ from constants import (GAME_WIDTH, MINIBOSS_ENTRANCE_TIMER,
                        MINIBOSS_FIRE_COOLDOWN, MINIBOSS_HEIGHT, MINIBOSS_HP)
 from particles import MinibossShotLine, particle_list
 from player import player
+from projectiles import Projectile, projectile_list
 
 
 class Miniboss:
@@ -28,15 +29,13 @@ class Miniboss:
                 self.manage_crosshair()
 
                 self.shoot_projectiles()
-                for projectile in self.projectiles_list:
-                    projectile.update()
 
     def shoot_projectiles(self):
         if self.timer % 60 == 0:
             pattern = self.patterns[self.timer // 60 % len(self.patterns)] # Cycle through patterns
 
             for i in pattern:
-                self.projectiles_list.append(MinibossProjectile(self.x + self.radius - 2, self.y + self.size - 3, i))
+                projectile_list.append(Projectile(self.x + self.radius - 2, self.y + self.size - 3, [i, 1.5]))
 
     def shoot_crosshair(self):
         player.take_damage()
@@ -62,9 +61,6 @@ class Miniboss:
 
         if self.crosshair is not None: self.crosshair.draw()
 
-        for projectile in self.projectiles_list:
-            projectile.draw()
-
     def reset(self):
         self.active = False
         self.y = -self.size
@@ -73,24 +69,8 @@ class Miniboss:
         self.crosshair = None
         self.crosshair_cooldown = 0
         self.timer = 0
-        self.projectiles_list = []
         self.offset = self.size / 2
         self.entrance_animation = MinibossWarning()
-
-class MinibossProjectile():
-    def __init__(self,x,y,movement):
-        self.x = x
-        self.y = y
-        self.size = 4
-        self.radius = (self.size - 1) / 2
-        self.movement = movement
-
-    def update(self):
-        self.x += self.movement
-        self.y += 1.5
-    
-    def draw(self):
-        pyxel.blt(self.x, self.y, 0, 3, 4, 4, 4, 0)
 
 class Crosshair:
     def __init__(self,x,y):
