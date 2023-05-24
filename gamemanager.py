@@ -77,6 +77,7 @@ class GameManager:
     def update(self):
         if pyxel.btnp(pyxel.KEY_D):
             didier.reset()
+            didier.active = True
 
         pause_input()
 
@@ -90,6 +91,7 @@ class GameManager:
 
             elif get_framecount() % DIDIER_WAVE == 0:
                 didier.reset()
+                didier.active = True
 
             if not miniboss.active:
                 if get_asteroid_toggle():

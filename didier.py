@@ -7,7 +7,6 @@ from projectiles import projectile_list, Projectile
 class Didier:
     def __init__(self):
         self.reset()
-        self.active = False
         self.projectile_speed = 2
 
     def update(self):
@@ -33,7 +32,7 @@ class Didier:
             self.active = False
 
     def reset(self):
-        self.active = True
+        self.active = False
         self.direction = (choice([-1, 1]),choice([-0.1, 0 , 0.1]))
         self.size = 8
         self.x = -self.size if self.direction[0] == 1 else GAME_WIDTH + self.size

@@ -16,6 +16,7 @@ from scoremanager import scoreManager
 from stars import generate_stars, star_list
 from upgrademenu import upgradeMenu
 from projectiles import projectile_list
+from didier import didier
 
 class Main:
     def __init__(self):
@@ -77,6 +78,7 @@ def reset_game():
     miniboss.reset()
     gameManager.reset()
     scoreManager.reset()
+    didier.reset()
     
 if __name__ == "__main__":
     game = Main()
